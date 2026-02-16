@@ -48,10 +48,7 @@ class ApiClient {
   }
 
   private async mockRequest<T>(endpoint: string, method: string, body?: unknown): Promise<T> {
-    // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
-
-    // Mock responses for authentication
     if (endpoint === '/auth/login' && method === 'POST') {
       return mockAuthResponse as T;
     }
@@ -65,7 +62,6 @@ class ApiClient {
       return {} as T;
     }
 
-    // Mock responses for patients
     if (endpoint === '/patients' && method === 'GET') {
       return mockPatients as T;
     }
@@ -88,7 +84,6 @@ class ApiClient {
       return mockTimeline as T;
     }
 
-    // Mock responses for predictions
     if (endpoint.includes('/predictions') && method === 'GET') {
       return mockPredictions as T;
     }
@@ -99,7 +94,6 @@ class ApiClient {
       return {} as T;
     }
 
-    // Mock responses for simulations
     if (endpoint.includes('/simulations') && method === 'GET') {
       return mockSimulations as T;
     }
@@ -125,7 +119,6 @@ class ApiClient {
   ): Promise<T> {
     const { requireAuth = true, ...fetchConfig } = config;
 
-    // Use mock data if enabled
     if (USE_MOCK_DATA) {
       const bodyData = fetchConfig.body ? JSON.parse(fetchConfig.body as string) : undefined;
       return this.mockRequest<T>(endpoint, fetchConfig.method || 'GET', bodyData);

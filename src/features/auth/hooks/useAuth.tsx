@@ -16,7 +16,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const tokens = apiClient.getTokens();
       if (tokens?.accessToken) {
         try {
-          // Decode token to check expiration
           const decoded = jwtDecode(tokens.accessToken);
           const isExpired = decoded.exp ? decoded.exp * 1000 < Date.now() : true;
           
