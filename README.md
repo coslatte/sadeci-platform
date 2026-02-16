@@ -14,14 +14,14 @@ Web client for SADECI, clinical decision support in the ICU, Hospital Arnaldo Mi
 
 ## Features
 
-- 🔐 **JWT Authentication** - Secure login and token management
-- 👥 **Patient Management** - View and manage ICU patients
-- 📊 **Vital Signs Monitoring** - Real-time patient vitals with auto-refresh
-- ⏱️ **Patient Timeline** - Track events, medications, and procedures
-- 🤖 **AI Predictions** - View clinical outcome predictions
-- 🧪 **Clinical Simulations** - Run scenario simulations
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- 🎨 **Modern UI** - Clean, professional interface with sidebar navigation
+- **JWT Authentication** - Secure login and token management
+- **Patient Management** - View and manage ICU patients
+- **Vital Signs Monitoring** - Real-time patient vitals with auto-refresh
+- **Patient Timeline** - Track events, medications, and procedures
+- **AI Predictions** - View clinical outcome predictions
+- **Clinical Simulations** - Run scenario simulations
+- **Responsive Design** - Works on desktop, tablet, and mobile
+- **Modern UI** - Clean, professional interface with sidebar navigation
 
 ## Project Structure
 
