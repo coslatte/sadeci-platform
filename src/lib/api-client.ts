@@ -42,6 +42,11 @@ class ApiClient {
     return this.tokens;
   }
 
+  private generateMockId(): string {
+    this.mockIdCounter += 1;
+    return String(this.mockIdCounter);
+  }
+
   private async mockRequest<T>(endpoint: string, method: string, body?: unknown): Promise<T> {
     // Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));
@@ -65,7 +70,7 @@ class ApiClient {
       return mockPatients as T;
     }
     if (endpoint === '/patients' && method === 'POST') {
-      return { ...(body as Record<string, unknown>), id: String(++this.mockIdCounter) } as T;
+      return { ...(body as Record<string, unknown>), id: this.generateMockId() } as T;
     }
     if (endpoint.match(/\/patients\/\d+$/) && method === 'GET') {
       return mockPatients[0] as T;
@@ -88,7 +93,7 @@ class ApiClient {
       return mockPredictions as T;
     }
     if (endpoint === '/predictions' && method === 'POST') {
-      return { ...(body as Record<string, unknown>), id: String(++this.mockIdCounter), timestamp: new Date().toISOString() } as T;
+      return { ...(body as Record<string, unknown>), id: this.generateMockId(), timestamp: new Date().toISOString() } as T;
     }
     if (endpoint.match(/\/predictions\/\d+$/) && method === 'DELETE') {
       return {} as T;
@@ -99,7 +104,7 @@ class ApiClient {
       return mockSimulations as T;
     }
     if (endpoint === '/simulations' && method === 'POST') {
-      return { ...(body as Record<string, unknown>), id: String(++this.mockIdCounter), createdAt: new Date().toISOString() } as T;
+      return { ...(body as Record<string, unknown>), id: this.generateMockId(), createdAt: new Date().toISOString() } as T;
     }
     if (endpoint.match(/\/simulations\/\d+$/) && method === 'PUT') {
       return { ...mockSimulations[0], ...(body as Record<string, unknown>) } as T;
