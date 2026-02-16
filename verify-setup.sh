@@ -20,6 +20,12 @@ echo "📦 Checking Node.js version..."
 NODE_VERSION=$(node --version)
 NODE_MAJOR=$(echo $NODE_VERSION | cut -d'.' -f1 | sed 's/v//')
 
+# Validate NODE_MAJOR is numeric
+if ! [[ "$NODE_MAJOR" =~ ^[0-9]+$ ]]; then
+    echo -e "${RED}✗${NC} Unable to parse Node.js version: $NODE_VERSION"
+    exit 1
+fi
+
 if [ "$NODE_MAJOR" -ge 18 ]; then
     echo -e "${GREEN}✓${NC} Node.js version: $NODE_VERSION (>= v18.0.0)"
 else
@@ -57,20 +63,30 @@ fi
 # Run linter
 echo ""
 echo "🔍 Running linter..."
-if npm run lint > /dev/null 2>&1; then
+LINT_OUTPUT=$(npm run lint 2>&1)
+LINT_EXIT=$?
+
+if [ $LINT_EXIT -eq 0 ]; then
     echo -e "${GREEN}✓${NC} ESLint passed - no issues found"
 else
     echo -e "${RED}✗${NC} ESLint failed - please fix linting errors"
+    echo ""
+    echo "$LINT_OUTPUT"
     exit 1
 fi
 
 # Build project
 echo ""
 echo "🏗️  Building project..."
-if npm run build > /dev/null 2>&1; then
+BUILD_OUTPUT=$(npm run build 2>&1)
+BUILD_EXIT=$?
+
+if [ $BUILD_EXIT -eq 0 ]; then
     echo -e "${GREEN}✓${NC} Build successful - dist/ directory created"
 else
     echo -e "${RED}✗${NC} Build failed - please check for errors"
+    echo ""
+    echo "$BUILD_OUTPUT"
     exit 1
 fi
 
