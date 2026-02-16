@@ -11,6 +11,7 @@ interface RequestConfig extends RequestInit {
 class ApiClient {
   private baseUrl: string;
   private tokens: AuthTokens | null = null;
+  private mockIdCounter = 1000; // Start from 1000 to avoid conflicts with existing mock data
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -64,7 +65,7 @@ class ApiClient {
       return mockPatients as T;
     }
     if (endpoint === '/patients' && method === 'POST') {
-      return { ...(body as Record<string, unknown>), id: String(mockPatients.length + 1) } as T;
+      return { ...(body as Record<string, unknown>), id: String(++this.mockIdCounter) } as T;
     }
     if (endpoint.match(/\/patients\/\d+$/) && method === 'GET') {
       return mockPatients[0] as T;
@@ -87,7 +88,7 @@ class ApiClient {
       return mockPredictions as T;
     }
     if (endpoint === '/predictions' && method === 'POST') {
-      return { ...(body as Record<string, unknown>), id: String(mockPredictions.length + 1), timestamp: new Date().toISOString() } as T;
+      return { ...(body as Record<string, unknown>), id: String(++this.mockIdCounter), timestamp: new Date().toISOString() } as T;
     }
     if (endpoint.match(/\/predictions\/\d+$/) && method === 'DELETE') {
       return {} as T;
@@ -98,7 +99,7 @@ class ApiClient {
       return mockSimulations as T;
     }
     if (endpoint === '/simulations' && method === 'POST') {
-      return { ...(body as Record<string, unknown>), id: String(mockSimulations.length + 1), createdAt: new Date().toISOString() } as T;
+      return { ...(body as Record<string, unknown>), id: String(++this.mockIdCounter), createdAt: new Date().toISOString() } as T;
     }
     if (endpoint.match(/\/simulations\/\d+$/) && method === 'PUT') {
       return { ...mockSimulations[0], ...(body as Record<string, unknown>) } as T;
