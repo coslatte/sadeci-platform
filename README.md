@@ -2,6 +2,8 @@
 
 Web client for SADECI, clinical decision support in the ICU, Hospital Arnaldo Milián Castro.
 
+> 📖 [Versión en español](LÉAME.md)
+
 ## Tech Stack
 
 - **React 19** - Modern React with latest features
@@ -155,7 +157,7 @@ The application expects a REST API with the following endpoints:
 - `DELETE /api/simulations/:id` - Delete simulation
 - `POST /api/simulations/:id/run` - Run simulation
 
-See [API_SPEC.md](API_SPEC.md) for complete API documentation with request/response schemas.
+See [API_SPEC.md](docs/API_SPEC.md) for complete API documentation with request/response schemas.
 
 ## Troubleshooting
 
@@ -189,7 +191,7 @@ npm install
 
 ## Contributing
 
-We welcome contributions! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for:
+We welcome contributions! Please read [CONTRIBUTING.md](docs/CONTRIBUTING.md) for:
 - Development setup guide
 - Code standards and conventions
 - Commit message guidelines

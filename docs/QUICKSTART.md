@@ -37,7 +37,7 @@ npm run dev
 | `src/lib/` | Core libraries (API client) |
 | `dist/` | Production build output |
 | `.env` | Environment configuration |
-| `README.md` | Project overview |
+| `../README.md` | Project overview |
 | `CONTRIBUTING.md` | Development guide |
 | `API_SPEC.md` | API documentation |
 
