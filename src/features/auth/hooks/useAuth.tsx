@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect, type ReactNode } from "react";
-import { useNavigate } from "react-router";
+import { useRouter } from "next/navigation";
 import type { User, LoginCredentials } from "../types";
 import { authService } from "../services/auth.service";
 import { apiClient } from "../../../lib/api-client";
@@ -9,7 +11,7 @@ import { AuthContext } from "./AuthContext";
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     const initAuth = async () => {
@@ -40,13 +42,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (credentials: LoginCredentials) => {
     const response = await authService.login(credentials);
     setUser(response.user);
-    navigate("/patients");
+    router.push("/patients");
   };
 
   const logout = async () => {
     await authService.logout();
     setUser(null);
-    navigate("/login");
+    router.push("/login");
   };
 
   return (

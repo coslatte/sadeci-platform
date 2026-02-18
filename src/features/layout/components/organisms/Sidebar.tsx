@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import { Link, useLocation } from "react-router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAuth } from "../../../auth/hooks/useAuthHook";
 
 interface NavItem {
@@ -16,7 +19,7 @@ const navItems: NavItem[] = [
 
 export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const location = useLocation();
+  const pathname = usePathname();
   const { user, logout } = useAuth();
 
   return (
@@ -62,11 +65,11 @@ export const Sidebar = () => {
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             {navItems.map((item) => {
-              const isActive = location.pathname.startsWith(item.path);
+              const isActive = pathname.startsWith(item.path);
               return (
                 <Link
                   key={item.path}
-                  to={item.path}
+                  href={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
                       ? "bg-primary-600 text-white"

@@ -1,4 +1,6 @@
-import { Link } from "react-router";
+"use client";
+
+import Link from "next/link";
 import type { Patient } from "../../types";
 import { formatDate, calculateAge, cn } from "../../../../shared/utils/helpers";
 
@@ -18,7 +20,7 @@ export const PatientCard = ({ patient }: PatientCardProps) => {
 
   return (
     <Link
-      to={`/patients/${patient.id}`}
+      href={`/patients/${patient.id}`}
       className="block p-6 transition-shadow bg-white rounded-lg shadow-md hover:shadow-lg"
     >
       <div className="flex items-start justify-between">

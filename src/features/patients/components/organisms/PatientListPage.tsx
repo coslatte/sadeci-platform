@@ -1,3 +1,5 @@
+"use client";
+
 import { usePatients } from "../../hooks/usePatients";
 import { PatientCard } from "../molecules";
 import { LoadingSpinner } from "../../../../shared/components";

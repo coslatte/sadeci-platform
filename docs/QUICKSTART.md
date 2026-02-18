@@ -3,26 +3,27 @@
 ```bash
 git clone https://github.com/coslatte/sadeci-platform.git
 cd sadeci-platform
-npm install
-cp .env.example .env        # set VITE_API_BASE_URL
-npm run dev                  # http://localhost:5173
+bun install
+cp .env.example .env        # set NEXT_PUBLIC_API_BASE_URL
+bun run dev                  # http://localhost:3000
 ```
 
 ## Commands
 
-| Command           | Description              |
-| ----------------- | ------------------------ |
-| `npm run dev`     | Start dev server         |
-| `npm run build`   | Production build         |
-| `npm run lint`    | Lint code                |
-| `npm run verify`  | Verify setup             |
+| Command          | Description             |
+| ---------------- | ----------------------- |
+| `bun run dev`    | Start dev server        |
+| `bun run build`  | Production build        |
+| `bun run start`  | Start production server |
+| `bun run lint`   | Lint code               |
+| `bun run verify` | Verify setup            |
 
 ## Workflow
 
 ```bash
 git checkout -b feature/my-feature
 # make changes
-npm run lint && npm run build
+bun run lint && bun run build
 git commit -m "feat: description"
 git push origin feature/my-feature
 ```

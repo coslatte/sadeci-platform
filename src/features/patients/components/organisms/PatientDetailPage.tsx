@@ -1,4 +1,7 @@
-import { useParams, Link } from "react-router";
+"use client";
+
+import { useParams } from "next/navigation";
+import Link from "next/link";
 import {
   usePatient,
   usePatientVitals,
@@ -11,7 +14,8 @@ import { Layout } from "../../../layout";
 import { formatDate, calculateAge } from "../../../../shared/utils/helpers";
 
 export const PatientDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams<{ id: string }>();
+  const id = params.id;
   const { data: patient, isLoading: patientLoading } = usePatient(id!);
   const { data: vitals, isLoading: vitalsLoading } = usePatientVitals(id!);
   const { data: timeline, isLoading: timelineLoading } = usePatientTimeline(
@@ -34,7 +38,7 @@ export const PatientDetailPage = () => {
         <div className="py-12 text-center">
           <p className="text-gray-600">Patient not found</p>
           <Link
-            to="/patients"
+            href="/patients"
             className="inline-block mt-4 text-primary-600 hover:underline"
           >
             Back to patient list
@@ -53,7 +57,7 @@ export const PatientDetailPage = () => {
         <div className="flex items-center justify-between">
           <div>
             <Link
-              to="/patients"
+              href="/patients"
               className="inline-block mb-2 text-sm text-primary-600 hover:underline"
             >
               ← Back to patients
@@ -68,13 +72,13 @@ export const PatientDetailPage = () => {
           </div>
           <div className="text-right">
             <Link
-              to={`/predictions?patientId=${patient.id}`}
+              href={`/predictions?patientId=${patient.id}`}
               className="inline-block px-4 py-2 mr-2 text-white rounded-md bg-primary-600 hover:bg-primary-700"
             >
               View Predictions
             </Link>
             <Link
-              to={`/simulations?patientId=${patient.id}`}
+              href={`/simulations?patientId=${patient.id}`}
               className="inline-block px-4 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700"
             >
               Run Simulation

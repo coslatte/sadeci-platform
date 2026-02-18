@@ -4,12 +4,17 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
+bun-debug.log*
+bun-error.log*
 lerna-debug.log*
 
+# Other package manager lockfiles (project uses bun)
+package-lock.json
+yarn.lock
+
 node_modules
-dist
-dist-ssr
+.next
+out
 *.local
 
 # Environment variables

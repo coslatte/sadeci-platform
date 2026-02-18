@@ -8,9 +8,8 @@ Web client for SADECI, clinical decision support in the ICU, Hospital Arnaldo Mi
 
 - **React 19** - Modern React with latest features
 - **TypeScript** - Strict type checking
-- **Vite** - Fast build tool and dev server
+- **Next.js 15** - App Router, SSR/SSG, and file-based routing
 - **TailwindCSS 3** - Utility-first CSS framework
-- **React Router 7** - Client-side routing
 - **Tanstack Query** - Data fetching and caching
 - **JWT Authentication** - Secure REST API authentication
 
@@ -62,7 +61,7 @@ cd sadeci-platform
 2. Install dependencies:
 
 ```bash
-npm install
+bun install
 ```
 
 3. Configure environment variables:
@@ -76,30 +75,30 @@ Edit `.env` and set your API base URL.
 4. Verify setup (optional but recommended):
 
 ```bash
-npm run verify
+bun run verify
 # or
 ./verify-setup.sh
 ```
 
-This script checks Node.js version, dependencies, linting, and build process.
+This script checks bun version, dependencies, linting, and build process.
 
 5. Start the development server:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
-The app will be available at `http://localhost:5173`
+The app will be available at `http://localhost:3000`
 
 ## Development
 
 ### Available Scripts
 
-- `npm run dev` - Start development server (http://localhost:5173)
-- `npm run build` - Build for production (outputs to `dist/`)
-- `npm run preview` - Preview production build (http://localhost:4173)
-- `npm run lint` - Run ESLint for code quality checks
-- `npm run verify` - Verify development environment setup
+- `bun run dev` - Start development server (http://localhost:3000)
+- `bun run build` - Build for production (outputs to `.next/`)
+- `bun run start` - Serve the production build
+- `bun run lint` - Run ESLint for code quality checks
+- `bun run verify` - Verify development environment setup
 
 ### Verification Checklist
 
@@ -110,13 +109,13 @@ After cloning and setting up the repository, verify everything is working:
 npm install
 
 # 2. Run linter (should pass with no errors)
-npm run lint
+bun run lint
 
 # 3. Build the project (should complete successfully)
-npm run build
+bun run build
 
 # 4. Start development server
-npm run dev
+bun run dev
 ```
 
 ✅ All commands should complete successfully with no errors.
@@ -198,7 +197,7 @@ npm install
 
 **API connection issues:**
 
-- Check `.env` file has correct `VITE_API_BASE_URL`
+- Check `.env` file has correct `NEXT_PUBLIC_API_BASE_URL`
 - Verify backend server is running
 - Check browser console for CORS errors
 

@@ -33,11 +33,11 @@ else
     exit 1
 fi
 
-# Check npm version
+# Check bun version
 echo ""
-echo "📦 Checking npm version..."
-NPM_VERSION=$(npm --version)
-echo -e "${GREEN}✓${NC} npm version: $NPM_VERSION"
+echo "📦 Checking bun version..."
+BUN_VERSION=$(bun --version)
+echo -e "${GREEN}✓${NC} bun version: $BUN_VERSION"
 
 # Check if node_modules exists
 echo ""
@@ -45,8 +45,8 @@ echo "📁 Checking dependencies..."
 if [ -d "node_modules" ]; then
     echo -e "${GREEN}✓${NC} node_modules directory exists"
 else
-    echo -e "${YELLOW}⚠${NC} node_modules not found. Running npm install..."
-    npm install
+    echo -e "${YELLOW}⚠${NC} node_modules not found. Running bun install..."
+    bun install
 fi
 
 # Check if .env file exists
@@ -63,7 +63,7 @@ fi
 # Run linter
 echo ""
 echo "🔍 Running linter..."
-LINT_OUTPUT=$(npm run lint 2>&1)
+LINT_OUTPUT=$(bun run lint 2>&1)
 LINT_EXIT=$?
 
 if [ $LINT_EXIT -eq 0 ]; then
@@ -78,7 +78,7 @@ fi
 # Build project
 echo ""
 echo "🏗️  Building project..."
-BUILD_OUTPUT=$(npm run build 2>&1)
+BUILD_OUTPUT=$(bun run build 2>&1)
 BUILD_EXIT=$?
 
 if [ $BUILD_EXIT -eq 0 ]; then
@@ -91,10 +91,10 @@ else
 fi
 
 # Check dist directory
-if [ -d "dist" ]; then
+if [ -d ".next" ]; then
     echo -e "${GREEN}✓${NC} Build artifacts generated"
 else
-    echo -e "${RED}✗${NC} dist/ directory not found after build"
+    echo -e "${RED}✗${NC} .next/ directory not found after build"
     exit 1
 fi
 
@@ -107,8 +107,8 @@ echo "Your development environment is ready."
 echo ""
 echo "Next steps:"
 echo "  1. Update .env with your API base URL if not already done"
-echo "  2. Start the development server: npm run dev"
-echo "  3. Open http://localhost:5173 in your browser"
+echo "  2. Start the development server: bun run dev"
+echo "  3. Open http://localhost:3000 in your browser"
 echo ""
 echo "For more information, see:"
 echo "  - README.md - Project overview and quick start"

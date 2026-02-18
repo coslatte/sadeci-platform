@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, type FormEvent } from "react";
 import { useAuth } from "../../hooks/useAuthHook";
 import { Button, Input } from "../../../../shared/components";

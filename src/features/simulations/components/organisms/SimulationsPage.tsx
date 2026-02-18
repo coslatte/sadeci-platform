@@ -1,11 +1,13 @@
-import { useSearchParams } from "react-router";
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import { useSimulations, useRunSimulation } from "../../hooks/useSimulations";
 import { SimulationCard } from "../molecules";
 import { LoadingSpinner } from "../../../../shared/components";
 import { Layout } from "../../../layout";
 
 export const SimulationsPage = () => {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const patientId = searchParams.get("patientId") || undefined;
   const { data: simulations, isLoading, error } = useSimulations(patientId);
   const { mutate: runSimulation } = useRunSimulation();

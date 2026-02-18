@@ -1,11 +1,13 @@
-import { useSearchParams } from "react-router";
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import { usePredictions } from "../../hooks/usePredictions";
 import { PredictionCard } from "../molecules";
 import { LoadingSpinner } from "../../../../shared/components";
 import { Layout } from "../../../layout";
 
 export const PredictionsPage = () => {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const patientId = searchParams.get("patientId") || undefined;
   const { data: predictions, isLoading, error } = usePredictions(patientId);
 

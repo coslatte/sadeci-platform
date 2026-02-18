@@ -6,12 +6,12 @@ SADECI Platform is a React/TypeScript web application for clinical decision supp
 
 ## Tech Stack
 
-- **React 19** with TypeScript (strict mode enabled)
-- **Vite** for build tooling
-- **TailwindCSS 3** for styling
-- **React Router 7** for routing
-- **TanStack Query** for data fetching
+- **React 19.2** with TypeScript
+- **Next.js 16** (App Router) for framework and routing
+- **TailwindCSS 4** for styling
+- **TanStack Query v5** for data fetching
 - **JWT** for authentication
+- **Bun 1.3.9** as runtime and package manager
 
 ## Coding Standards
 
@@ -58,10 +58,11 @@ src/features/[feature]/
 
 ### Styling
 
-- Use TailwindCSS utility classes
+- Use TailwindCSS v4 utility classes
+- Theme variables are defined in `src/app/globals.css` inside `@theme {}` (CSS-native, no tailwind.config.js)
+- Custom colors use CSS variables: `--color-primary-*`
 - Follow mobile-first responsive design
 - Maintain consistent spacing and colors
-- Use CSS custom properties for theme variables
 
 ## API Integration
 
@@ -87,10 +88,10 @@ All API calls use `/api` prefix with JWT Bearer authentication.
 
 ### Scripts
 
-- `npm run dev` - Development server
-- `npm run build` - Production build
-- `npm run lint` - Code quality checks
-- `npm run verify` - Full environment verification
+- `bun run dev` - Development server (Turbopack, default in Next.js 16)
+- `bun run build` - Production build
+- `bun run lint` - Code quality checks
+- `bun add <pkg>` - Add a dependency
 
 ### Git Workflow
 

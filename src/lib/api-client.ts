@@ -9,8 +9,8 @@ import {
 } from "./mock-data";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:3000/api";
-const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === "true" || true; // Default to true for demo
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api";
+const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
 
 interface RequestConfig extends RequestInit {
   requireAuth?: boolean;
@@ -27,6 +27,7 @@ class ApiClient {
   }
 
   private loadTokens(): void {
+    if (typeof localStorage === "undefined") return;
     const stored = localStorage.getItem("auth_tokens");
     if (stored) {
       try {
@@ -39,6 +40,7 @@ class ApiClient {
 
   public setTokens(tokens: AuthTokens | null): void {
     this.tokens = tokens;
+    if (typeof localStorage === "undefined") return;
     if (tokens) {
       localStorage.setItem("auth_tokens", JSON.stringify(tokens));
     } else {
@@ -173,7 +175,9 @@ class ApiClient {
     if (!response.ok) {
       if (response.status === 401 && requireAuth) {
         this.setTokens(null);
-        window.location.href = "/login";
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
       }
       const error = await response
         .json()
