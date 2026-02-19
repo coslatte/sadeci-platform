@@ -1,0 +1,53 @@
+"use client";
+
+import { cn } from "@/lib/utils";
+import { NavItem } from "@/components/molecules/NavItem";
+import type { NavItemType } from "@/lib/types";
+
+interface SidebarSection {
+  title?: string;
+  items: NavItemType[];
+}
+
+interface SidebarProps {
+  sections: SidebarSection[];
+  collapsed?: boolean;
+  className?: string;
+}
+
+export function Sidebar({ sections, collapsed = false, className }: SidebarProps) {
+  return (
+    <aside
+      className={cn(
+        "flex flex-col gap-6 border-r border-zinc-200 bg-white px-3 py-5",
+        "dark:border-zinc-800 dark:bg-zinc-900",
+        collapsed ? "w-16" : "w-60",
+        "transition-all duration-200",
+        className,
+      )}
+    >
+      {sections.map((section, idx) => (
+        <nav key={idx} aria-label={section.title}>
+          {section.title && !collapsed && (
+            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+              {section.title}
+            </p>
+          )}
+          <ul className="flex flex-col gap-0.5">
+            {section.items.map((item) => (
+              <li key={item.href}>
+                <NavItem
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  active={item.active}
+                  collapsed={collapsed}
+                />
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </aside>
+  );
+}

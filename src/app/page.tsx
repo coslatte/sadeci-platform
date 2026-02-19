@@ -1,65 +1,217 @@
-import Image from "next/image";
+import { Button } from "@/components/atoms/Button";
+import { Badge } from "@/components/atoms/Badge";
+import { Avatar } from "@/components/atoms/Avatar";
+import { Spinner } from "@/components/atoms/Spinner";
+import { Card } from "@/components/molecules/Card";
+import { FormField } from "@/components/molecules/FormField";
+import { Navbar } from "@/components/organisms/Navbar";
+import { Sidebar } from "@/components/organisms/Sidebar";
+import { Footer } from "@/components/organisms/Footer";
+
+const sidebarSections = [
+  {
+    title: "Principal",
+    items: [
+      {
+        label: "Dashboard",
+        href: "/",
+        active: true,
+        icon: (
+          <svg xmlns="http://www.w3.org/2000/svg" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+        ),
+      },
+      {
+        label: "Reportes",
+        href: "/reportes",
+        icon: (
+          <svg xmlns="http://www.w3.org/2000/svg" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    title: "Configuración",
+    items: [
+      {
+        label: "Usuarios",
+        href: "/usuarios",
+        icon: (
+          <svg xmlns="http://www.w3.org/2000/svg" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        ),
+      },
+      {
+        label: "Ajustes",
+        href: "/ajustes",
+        icon: (
+          <svg xmlns="http://www.w3.org/2000/svg" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex min-h-screen flex-col bg-zinc-50 dark:bg-zinc-950">
+      <Navbar userName="Ana García" userRole="Administrador" />
+
+      <div className="flex flex-1">
+        <div className="hidden md:flex">
+          <Sidebar sections={sidebarSections} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-39.5"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        <main className="flex-1 overflow-auto p-6">
+          <div className="mb-6">
+            <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
+              Dashboard
+            </h1>
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              Bienvenido a Sadeci Platform
+            </p>
+          </div>
+
+          {/* Stats row */}
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { label: "Usuarios activos", value: "1,284", status: "success" as const },
+              { label: "Solicitudes pendientes", value: "42", status: "warning" as const },
+              { label: "Reportes generados", value: "318", status: "info" as const },
+              { label: "Alertas críticas", value: "3", status: "danger" as const },
+            ].map((stat) => (
+              <Card key={stat.label}>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm text-zinc-500 dark:text-zinc-400">{stat.label}</p>
+                  <Badge status={stat.status}>{stat.status}</Badge>
+                </div>
+                <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-zinc-100">
+                  {stat.value}
+                </p>
+              </Card>
+            ))}
+          </div>
+
+          {/* Content row */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Team card */}
+            <Card
+              header={
+                <div className="flex items-center justify-between">
+                  <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                    Equipo
+                  </h2>
+                  <Button variant="outline" size="sm">
+                    Ver todos
+                  </Button>
+                </div>
+              }
+            >
+              <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                {[
+                  { name: "Ana García", role: "Administrador", status: "success" as const },
+                  { name: "Carlos López", role: "Analista", status: "info" as const },
+                  { name: "María Torres", role: "Editor", status: "warning" as const },
+                ].map((member) => (
+                  <li key={member.name} className="flex items-center gap-3 py-3">
+                    <Avatar name={member.name} size="sm" />
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                        {member.name}
+                      </p>
+                      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                        {member.role}
+                      </p>
+                    </div>
+                    <Badge status={member.status}>{member.role}</Badge>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+
+            {/* Form card */}
+            <Card
+              header={
+                <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                  Nueva solicitud
+                </h2>
+              }
+              footer={
+                <div className="flex justify-end gap-3">
+                  <Button variant="outline" size="sm">
+                    Cancelar
+                  </Button>
+                  <Button size="sm">Guardar</Button>
+                </div>
+              }
+            >
+              <div className="flex flex-col gap-4">
+                <FormField
+                  id="nombre"
+                  label="Nombre completo"
+                  required
+                  inputProps={{ placeholder: "Ej. Juan Pérez", type: "text" }}
+                />
+                <FormField
+                  id="email"
+                  label="Correo electrónico"
+                  required
+                  inputProps={{ placeholder: "correo@ejemplo.com", type: "email" }}
+                />
+                <FormField
+                  id="descripcion"
+                  label="Descripción"
+                  hint="Máximo 500 caracteres."
+                  inputProps={{ placeholder: "Describe la solicitud..." }}
+                />
+              </div>
+            </Card>
+          </div>
+
+          {/* Button showcase */}
+          <Card className="mt-6" header={<h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Componentes — Atoms</h2>}>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="primary">Primary</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="outline">Outline</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="danger">Danger</Button>
+              <Button variant="primary" loading>
+                Cargando
+              </Button>
+              <Button variant="primary" disabled>
+                Desactivado
+              </Button>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Badge status="default">Default</Badge>
+              <Badge status="info">Info</Badge>
+              <Badge status="success">Success</Badge>
+              <Badge status="warning">Warning</Badge>
+              <Badge status="danger">Danger</Badge>
+            </div>
+            <div className="mt-4 flex items-center gap-4">
+              <Spinner size="xs" />
+              <Spinner size="sm" />
+              <Spinner size="md" />
+              <Spinner size="lg" />
+              <Avatar name="Juan Pérez" size="xs" />
+              <Avatar name="Ana García" size="sm" />
+              <Avatar name="Carlos López" size="md" />
+              <Avatar name="María Torres" size="lg" />
+            </div>
+          </Card>
+        </main>
+      </div>
+
+      <Footer />
     </div>
   );
 }
