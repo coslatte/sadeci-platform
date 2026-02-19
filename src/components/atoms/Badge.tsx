@@ -8,13 +8,11 @@ interface BadgeProps {
 }
 
 const statusClasses: Record<Status, string> = {
-  default: "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300",
-  info: "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-  success:
-    "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
-  warning:
-    "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
-  danger: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+  default: "bg-zinc-100 text-zinc-700",
+  info: "bg-secondary-50 text-secondary-700",
+  success: "bg-primary-50 text-primary-700",
+  warning: "bg-amber-50 text-amber-700",
+  danger: "bg-red-50 text-red-700",
 };
 
 export function Badge({ status = "default", className, children }: BadgeProps) {

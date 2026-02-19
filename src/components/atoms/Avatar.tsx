@@ -40,7 +40,7 @@ export function Avatar({
     return (
       <div
         className={cn(
-          "relative overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700",
+          "relative overflow-hidden rounded-full bg-zinc-200",
           sizeClass,
           className,
         )}
@@ -54,8 +54,7 @@ export function Avatar({
     <div
       className={cn(
         "inline-flex items-center justify-center rounded-full",
-        "bg-indigo-100 font-semibold text-indigo-700",
-        "dark:bg-indigo-900/40 dark:text-indigo-300",
+        "bg-primary-100 font-semibold text-primary-700",
         sizeClass,
         className,
       )}

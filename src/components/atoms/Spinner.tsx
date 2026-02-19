@@ -14,10 +14,18 @@ const sizeClasses: Record<string, string> = {
   lg: "size-8",
 };
 
-export function Spinner({ size = "md", className, label = "Loading..." }: SpinnerProps) {
+export function Spinner({
+  size = "md",
+  className,
+  label = "Loading...",
+}: SpinnerProps) {
   return (
     <svg
-      className={cn("animate-spin text-indigo-600", sizeClasses[size], className)}
+      className={cn(
+        "animate-spin text-primary-600",
+        sizeClasses[size],
+        className,
+      )}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

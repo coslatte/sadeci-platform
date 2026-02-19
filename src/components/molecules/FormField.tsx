@@ -36,12 +36,12 @@ export function FormField({
         {...inputProps}
       />
       {hint && !error && (
-        <p id={`${id}-hint`} className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p id={`${id}-hint`} className="text-xs text-zinc-500">
           {hint}
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} role="alert" className="text-xs text-red-600 dark:text-red-400">
+        <p id={`${id}-error`} role="alert" className="text-xs text-red-600">
           {error}
         </p>
       )}

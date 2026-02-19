@@ -25,8 +25,8 @@ export function NavItem({
         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium",
         "transition-colors duration-150",
         active
-          ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-          : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+          ? "bg-primary-50 text-primary-700"
+          : "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900",
         collapsed && "justify-center px-2",
         className,
       )}
@@ -34,7 +34,10 @@ export function NavItem({
       title={collapsed ? label : undefined}
     >
       {icon && (
-        <span className="shrink-0 size-5 flex items-center justify-center" aria-hidden="true">
+        <span
+          className="shrink-0 size-5 flex items-center justify-center"
+          aria-hidden="true"
+        >
           {icon}
         </span>
       )}

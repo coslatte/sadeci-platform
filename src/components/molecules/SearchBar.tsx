@@ -26,7 +26,10 @@ export function SearchBar({
 
   return (
     <div className={cn("relative flex items-center", className)}>
-      <span className="pointer-events-none absolute left-3 text-zinc-400" aria-hidden="true">
+      <span
+        className="pointer-events-none absolute left-3 text-zinc-400"
+        aria-hidden="true"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="size-4"

@@ -15,12 +15,15 @@ interface SidebarProps {
   className?: string;
 }
 
-export function Sidebar({ sections, collapsed = false, className }: SidebarProps) {
+export function Sidebar({
+  sections,
+  collapsed = false,
+  className,
+}: SidebarProps) {
   return (
     <aside
       className={cn(
         "flex flex-col gap-6 border-r border-zinc-200 bg-white px-3 py-5",
-        "dark:border-zinc-800 dark:bg-zinc-900",
         collapsed ? "w-16" : "w-60",
         "transition-all duration-200",
         className,
@@ -29,7 +32,7 @@ export function Sidebar({ sections, collapsed = false, className }: SidebarProps
       {sections.map((section, idx) => (
         <nav key={idx} aria-label={section.title}>
           {section.title && !collapsed && (
-            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+            <p className="mb-1 px-3 text-xs font-semibold uppercase tracking-widest text-zinc-400">
               {section.title}
             </p>
           )}

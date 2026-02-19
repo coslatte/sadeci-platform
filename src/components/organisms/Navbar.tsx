@@ -20,15 +20,14 @@ export function Navbar({
     <header
       className={cn(
         "sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-zinc-200 bg-white px-6",
-        "dark:border-zinc-800 dark:bg-zinc-900",
         className,
       )}
     >
       <Link
         href="/"
-        className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-zinc-100"
+        className="flex items-center gap-2 font-semibold text-zinc-900"
       >
-        <span className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-xs font-bold text-white">
+        <span className="flex size-7 items-center justify-center rounded-lg bg-primary-600 text-xs font-bold text-white">
           S
         </span>
         <span className="text-base">Sadeci</span>
@@ -41,7 +40,7 @@ export function Navbar({
 
         <button
           type="button"
-          className="relative rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+          className="relative rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900"
           aria-label="Notificaciones"
         >
           <svg
@@ -63,12 +62,10 @@ export function Navbar({
         <div className="flex items-center gap-2.5">
           <Avatar src={userAvatar} name={userName} size="sm" />
           <div className="hidden sm:flex flex-col leading-none">
-            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+            <span className="text-sm font-medium text-zinc-900">
               {userName}
             </span>
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
-              {userRole}
-            </span>
+            <span className="text-xs text-zinc-500">{userRole}</span>
           </div>
         </div>
       </div>

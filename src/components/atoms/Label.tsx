@@ -8,10 +8,7 @@ interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
 export function Label({ required, className, children, ...props }: LabelProps) {
   return (
     <label
-      className={cn(
-        "text-sm font-medium text-zinc-700 dark:text-zinc-300",
-        className,
-      )}
+      className={cn("text-sm font-medium text-zinc-700", className)}
       {...props}
     >
       {children}
