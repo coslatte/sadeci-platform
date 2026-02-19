@@ -23,9 +23,9 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "flex flex-col gap-6 border-r border-zinc-200 bg-white px-3 py-5",
+        "sticky top-16 flex h-[calc(100vh-4rem)] flex-col gap-6 overflow-y-auto border-r border-zinc-200 bg-white px-3 py-5",
         collapsed ? "w-16" : "w-60",
-        "transition-all duration-200",
+        "transition-[width] duration-200",
         className,
       )}
     >

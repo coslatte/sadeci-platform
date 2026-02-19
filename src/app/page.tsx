@@ -1,12 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/atoms/Button";
 import { Badge } from "@/components/atoms/Badge";
 import { Avatar } from "@/components/atoms/Avatar";
 import { Spinner } from "@/components/atoms/Spinner";
 import { Card } from "@/components/molecules/Card";
 import { FormField } from "@/components/molecules/FormField";
+import { IconButton } from "@/components/atoms/Button";
 import { Navbar } from "@/components/organisms/Navbar";
 import { Sidebar } from "@/components/organisms/Sidebar";
 import { Footer } from "@/components/organisms/Footer";
+import { FiSend, FiRefreshCw, FiPlus, FiTrash2 } from "react-icons/fi";
 
 const sidebarSections = [
   {
@@ -108,13 +113,26 @@ const sidebarSections = [
 ];
 
 export default function Home() {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [loadingDemo, setLoadingDemo] = useState(false);
+
+  function triggerLoadingDemo() {
+    setLoadingDemo(true);
+    setTimeout(() => setLoadingDemo(false), 2000);
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50">
-      <Navbar userName="Ana García" userRole="Administrador" />
+      <Navbar
+        userName="Ana García"
+        userRole="Administrador"
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
+      />
 
       <div className="flex flex-1">
         <div className="hidden md:flex">
-          <Sidebar sections={sidebarSections} />
+          <Sidebar sections={sidebarSections} collapsed={sidebarCollapsed} />
         </div>
 
         <main className="flex-1 overflow-auto p-6">
@@ -270,8 +288,12 @@ export default function Home() {
               <Button variant="outline">Outline</Button>
               <Button variant="ghost">Ghost</Button>
               <Button variant="danger">Danger</Button>
-              <Button variant="primary" loading>
-                Cargando
+              <Button
+                variant="primary"
+                loading={loadingDemo}
+                onClick={triggerLoadingDemo}
+              >
+                Enviar
               </Button>
               <Button variant="primary" disabled>
                 Desactivado
@@ -293,6 +315,75 @@ export default function Home() {
               <Avatar name="Ana García" size="sm" />
               <Avatar name="Carlos López" size="md" />
               <Avatar name="María Torres" size="lg" />
+            </div>
+
+            {/* IconButton showcase */}
+            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-widest text-zinc-400">
+              IconButton — variants &amp; sizes
+            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <IconButton
+                variant="primary"
+                size="md"
+                icon={<FiPlus />}
+                aria-label="Agregar"
+              />
+              <IconButton
+                variant="secondary"
+                size="md"
+                icon={<FiRefreshCw />}
+                aria-label="Actualizar"
+              />
+              <IconButton
+                variant="outline"
+                size="md"
+                icon={<FiSend />}
+                aria-label="Enviar"
+              />
+              <IconButton
+                variant="ghost"
+                size="md"
+                icon={<FiSend />}
+                aria-label="Enviar (ghost)"
+              />
+              <IconButton
+                variant="danger"
+                size="md"
+                icon={<FiTrash2 />}
+                aria-label="Eliminar"
+              />
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <IconButton
+                variant="primary"
+                size="xs"
+                icon={<FiPlus />}
+                aria-label="xs"
+              />
+              <IconButton
+                variant="primary"
+                size="sm"
+                icon={<FiPlus />}
+                aria-label="sm"
+              />
+              <IconButton
+                variant="primary"
+                size="md"
+                icon={<FiPlus />}
+                aria-label="md"
+              />
+              <IconButton
+                variant="primary"
+                size="lg"
+                icon={<FiPlus />}
+                aria-label="lg"
+              />
+              <IconButton
+                variant="primary"
+                size="xl"
+                icon={<FiPlus />}
+                aria-label="xl"
+              />
             </div>
           </Card>
         </main>
