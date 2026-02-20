@@ -17,9 +17,13 @@ export function TestingBoard({
   className = "",
 }: TestingBoardProps) {
   const flexDir = direction === "vertical" ? "flex-col" : "flex-row";
+  // default section styles match the examples used in the test page
+  const sectionClasses =
+    "space-y-4 rounded-xl border border-zinc-200 bg-white p-6 shadow-sm";
+
   return (
-    <div className={`flex flex-wrap gap-4 ${flexDir} ${className}`.trim()}>
-      {children}
-    </div>
+    <section className={`${sectionClasses} ${className}`.trim()}>
+      <div className={`flex flex-wrap gap-4 ${flexDir}`.trim()}>{children}</div>
+    </section>
   );
 }
