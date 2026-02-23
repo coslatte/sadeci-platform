@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/components/molecules/NavItem";
 import type { NavItemType } from "@/lib/types";
+import { FiCode } from "react-icons/fi";
 
 interface SidebarSection {
   title?: string;
@@ -51,6 +52,14 @@ export function Sidebar({
           </ul>
         </nav>
       ))}
+      <div className="mt-auto">
+        <NavItem
+          href="/test"
+          label="Página de pruebas"
+          icon={<FiCode className="size-5" />}
+          collapsed={collapsed}
+        />
+      </div>
     </aside>
   );
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { render } from "@testing-library/react";
-import { TestingBoard } from "../components/TestingBoard";
+import { TestingBoard } from "@/test/components/TestingBoard";
 
 describe("TestingBoard", () => {
   it("defaults to horizontal layout", () => {
