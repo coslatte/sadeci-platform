@@ -38,6 +38,12 @@ Ejecuta siempre, en este orden:
 2. `bun run test`
 3. `bun run build`
 
+Se corren de la siguiente forma:
+
+```bash
+bun run lint ; bun run test ; bun run build
+```
+
 No des por finalizado un trabajo si esos comandos no pasan.
 
 ## Arquitectura del repo
