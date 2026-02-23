@@ -34,6 +34,7 @@ Deben usarse componentes ya existentes siempre que cumplan el propósito, inclus
 ## Verificación antes de cerrar cambios
 
 Ejecuta siempre, en este orden:
+
 1. `bun run lint`
 2. `bun run test`
 3. `bun run build`

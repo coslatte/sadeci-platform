@@ -5,7 +5,11 @@ interface DividerProps extends HTMLAttributes<HTMLHRElement | HTMLDivElement> {
   orientation?: "horizontal" | "vertical";
 }
 
-export function Divider({ className, orientation = "horizontal", ...props }: DividerProps) {
+export function Divider({
+  className,
+  orientation = "horizontal",
+  ...props
+}: DividerProps) {
   if (orientation === "vertical") {
     return (
       <div

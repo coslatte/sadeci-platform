@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Button, IconButton, Badge, Spinner, Divider, Skeleton } from "@/components/atoms";
+import {
+  Button,
+  IconButton,
+  Badge,
+  Spinner,
+  Divider,
+  Skeleton,
+} from "@/components/atoms";
 import { Alert } from "@/components/molecules";
 import { Container, Flex, Grid, Stack } from "@/components/layout";
 import { FiPlus } from "react-icons/fi";
@@ -150,18 +157,28 @@ export default function TestIndexPage() {
         </TestingBoard>
 
         {/* Layout & Generic Components */}
-        <h2 className="text-xl font-semibold text-zinc-900 mt-12 mb-4">Layout & Generics</h2>
-        
+        <h2 className="text-xl font-semibold text-zinc-900 mt-12 mb-4">
+          Layout & Generics
+        </h2>
+
         <h3 className="text-lg font-medium text-zinc-900">Container</h3>
         <div className="bg-zinc-200 py-4 rounded-md">
-          <Container size="sm" className="bg-white p-4 rounded shadow-sm text-center">
+          <Container
+            size="sm"
+            className="bg-white p-4 rounded shadow-sm text-center"
+          >
             Container (sm)
           </Container>
         </div>
 
         <h3 className="text-lg font-medium text-zinc-900 mt-6">Flex</h3>
         <TestingBoard>
-          <Flex gap="4" align="center" justify="between" className="w-full bg-white p-4 rounded shadow-sm">
+          <Flex
+            gap="4"
+            align="center"
+            justify="between"
+            className="w-full bg-white p-4 rounded shadow-sm"
+          >
             <div className="bg-blue-100 p-2 rounded">Item 1</div>
             <div className="bg-blue-100 p-2 rounded">Item 2</div>
             <div className="bg-blue-100 p-2 rounded">Item 3</div>

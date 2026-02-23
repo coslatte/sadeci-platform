@@ -46,9 +46,7 @@ describe("simulation lib — constants", () => {
   it("TIME_VARIABLE_LABELS has labels for all simulation fields", () => {
     const expected = ["pre_vam", "vam", "post_vam", "uci", "post_uci"];
     expected.forEach((k) => {
-      expect(
-        (TIME_VARIABLE_LABELS as Record<string, string>)[k],
-      ).toBeTruthy();
+      expect((TIME_VARIABLE_LABELS as Record<string, string>)[k]).toBeTruthy();
     });
   });
 });
@@ -174,8 +172,8 @@ describe("runSimulation — API client", () => {
   });
 
   it("returns parsed simulation response on success", async () => {
-    globalThis.fetch = mock(async () =>
-      new Response(JSON.stringify(mockResponse), { status: 200 }),
+    globalThis.fetch = mock(
+      async () => new Response(JSON.stringify(mockResponse), { status: 200 }),
     ) as unknown as typeof fetch;
 
     const result = await runSimulation(mockRequest);
@@ -186,8 +184,12 @@ describe("runSimulation — API client", () => {
   });
 
   it("throws an error when response is not ok", async () => {
-    globalThis.fetch = mock(async () =>
-      new Response("Internal Server Error", { status: 500, statusText: "Internal Server Error" }),
+    globalThis.fetch = mock(
+      async () =>
+        new Response("Internal Server Error", {
+          status: 500,
+          statusText: "Internal Server Error",
+        }),
     ) as unknown as typeof fetch;
 
     let threw = false;

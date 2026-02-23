@@ -44,7 +44,7 @@ export function Flex({
         wrap === "nowrap" && "flex-nowrap",
         wrap === "wrap" && "flex-wrap",
         gapClass,
-        className
+        className,
       )}
       {...props}
     />

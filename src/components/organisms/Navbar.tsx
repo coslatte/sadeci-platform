@@ -26,7 +26,7 @@ export function Navbar({
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-zinc-200 bg-white px-6",
+        "fixed top-0 z-30 flex h-16 items-center gap-4 border-b border-zinc-200 bg-white px-6",
         className,
       )}
     >

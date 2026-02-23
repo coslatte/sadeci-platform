@@ -22,7 +22,9 @@ describe("Container", () => {
     ];
 
     mappings.forEach(({ size, className }) => {
-      const { container, unmount } = render(<Container size={size}>X</Container>);
+      const { container, unmount } = render(
+        <Container size={size}>X</Container>,
+      );
       const node = container.firstElementChild as HTMLElement | null;
 
       expect(node).toBeTruthy();

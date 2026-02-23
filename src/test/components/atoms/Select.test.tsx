@@ -47,7 +47,11 @@ describe("Select", () => {
   it("calls onChange when value changes", () => {
     let changed = false;
     const { container } = render(
-      <Select onChange={() => { changed = true; }}>
+      <Select
+        onChange={() => {
+          changed = true;
+        }}
+      >
         <option value="0">Vacío</option>
         <option value="1">Opción 1</option>
       </Select>,

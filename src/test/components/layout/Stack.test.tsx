@@ -40,7 +40,9 @@ describe("Stack", () => {
       </Stack>,
     );
 
-    const node = container.querySelector("[data-testid='stack-root']") as HTMLElement | null;
+    const node = container.querySelector(
+      "[data-testid='stack-root']",
+    ) as HTMLElement | null;
     expect(node).toBeTruthy();
     if (!node) return;
     expect(node.className.includes("bg-white")).toBe(true);

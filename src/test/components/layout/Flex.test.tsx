@@ -39,9 +39,15 @@ describe("Flex", () => {
       </>,
     );
 
-    const numberNode = container.querySelector("[data-testid='gap-number']") as HTMLElement | null;
-    const prefixedNode = container.querySelector("[data-testid='gap-prefixed']") as HTMLElement | null;
-    const plainNode = container.querySelector("[data-testid='gap-plain']") as HTMLElement | null;
+    const numberNode = container.querySelector(
+      "[data-testid='gap-number']",
+    ) as HTMLElement | null;
+    const prefixedNode = container.querySelector(
+      "[data-testid='gap-prefixed']",
+    ) as HTMLElement | null;
+    const plainNode = container.querySelector(
+      "[data-testid='gap-plain']",
+    ) as HTMLElement | null;
 
     expect(numberNode).toBeTruthy();
     expect(prefixedNode).toBeTruthy();

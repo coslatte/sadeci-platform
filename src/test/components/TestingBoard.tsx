@@ -11,7 +11,8 @@ export const TestingBoard = ({
   direction = "horizontal",
   className = "",
 }: TestingBoardProps) => {
-  const base = `flex flex-wrap ${direction === "vertical" ? "flex-col" : "flex-row"} ${className}`.trim();
+  const base =
+    `flex flex-wrap ${direction === "vertical" ? "flex-col" : "flex-row"} ${className}`.trim();
   return <div className={base}>{children}</div>;
 };
 

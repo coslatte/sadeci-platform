@@ -34,14 +34,20 @@ export function Alert({
       className={cn(
         "rounded-lg border p-4 flex gap-3",
         variantClasses[variant],
-        className
+        className,
       )}
       role="alert"
       {...props}
     >
-      {icon && <div className={cn("shrink-0 mt-0.5", iconColors[variant])}>{icon}</div>}
+      {icon && (
+        <div className={cn("shrink-0 mt-0.5", iconColors[variant])}>{icon}</div>
+      )}
       <div className="flex-1">
-        {title && <h5 className="mb-1 font-medium leading-none tracking-tight">{title}</h5>}
+        {title && (
+          <h5 className="mb-1 font-medium leading-none tracking-tight">
+            {title}
+          </h5>
+        )}
         <div className="text-sm opacity-90">{children}</div>
       </div>
     </div>

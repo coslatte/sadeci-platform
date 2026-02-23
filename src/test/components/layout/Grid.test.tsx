@@ -28,7 +28,9 @@ describe("Grid", () => {
 
   it("does not inject grid-cols class when cols is undefined", () => {
     const { container } = render(<Grid data-testid="grid-no-cols">Item</Grid>);
-    const node = container.querySelector("[data-testid='grid-no-cols']") as HTMLElement | null;
+    const node = container.querySelector(
+      "[data-testid='grid-no-cols']",
+    ) as HTMLElement | null;
 
     expect(node).toBeTruthy();
     if (!node) return;
@@ -42,7 +44,9 @@ describe("Grid", () => {
       </Grid>,
     );
 
-    const node = container.querySelector("[aria-label='grid-root']") as HTMLElement | null;
+    const node = container.querySelector(
+      "[aria-label='grid-root']",
+    ) as HTMLElement | null;
     expect(node).toBeTruthy();
     if (!node) return;
     expect(node.className.includes("gap-4")).toBe(true);

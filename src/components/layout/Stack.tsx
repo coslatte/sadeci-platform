@@ -14,7 +14,7 @@ export function Stack({ className, space = "md", ...props }: StackProps) {
         space === "md" && "gap-4",
         space === "lg" && "gap-6",
         space === "xl" && "gap-8",
-        className
+        className,
       )}
       {...props}
     />

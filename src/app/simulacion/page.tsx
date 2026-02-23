@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import {
   FiHome,
   FiBarChart2,
@@ -157,12 +158,18 @@ export default function SimulacionPage() {
   // Patient fields
   const [patientId, setPatientId] = useState(() => generatePatientId());
   const [age, setAge] = useState<number>(SIMULATION_LIMITS.age.default);
-  const [apache, setApache] = useState<number>(SIMULATION_LIMITS.apache.default);
+  const [apache, setApache] = useState<number>(
+    SIMULATION_LIMITS.apache.default,
+  );
   const [preutiStay, setPreutiStay] = useState<number>(
     SIMULATION_LIMITS.preutiStay.default,
   );
-  const [vamTime, setVamTime] = useState<number>(SIMULATION_LIMITS.vamTime.default);
-  const [utiStay, setUtiStay] = useState<number>(SIMULATION_LIMITS.utiStay.default);
+  const [vamTime, setVamTime] = useState<number>(
+    SIMULATION_LIMITS.vamTime.default,
+  );
+  const [utiStay, setUtiStay] = useState<number>(
+    SIMULATION_LIMITS.utiStay.default,
+  );
   const [simPercent, setSimPercent] = useState<number>(
     SIMULATION_LIMITS.simPercent.default,
   );
@@ -175,7 +182,9 @@ export default function SimulacionPage() {
   const [ventType, setVentType] = useState<number>(0);
 
   // Simulation config
-  const [simRuns, setSimRuns] = useState<number>(SIMULATION_LIMITS.simRuns.default);
+  const [simRuns, setSimRuns] = useState<number>(
+    SIMULATION_LIMITS.simRuns.default,
+  );
 
   // Async state
   const [loading, setLoading] = useState(false);
@@ -267,7 +276,7 @@ export default function SimulacionPage() {
   // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50">
+    <div className="bg-zinc-50">
       <Navbar
         userName="Ana García"
         userRole="Administrador"
@@ -275,315 +284,318 @@ export default function SimulacionPage() {
         onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
       />
 
-      <div className="flex flex-1">
-        <div className="hidden md:flex">
-          <Sidebar sections={sidebarSections} collapsed={sidebarCollapsed} />
+      <div className="hidden md:flex">
+        <Sidebar sections={sidebarSections} collapsed={sidebarCollapsed} />
+      </div>
+
+      <main
+        className={cn(
+          "pt-16 pb-16 overflow-auto p-6",
+          sidebarCollapsed ? "md:pl-16" : "md:pl-60",
+        )}
+      >
+        {/* ── Page header ── */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold text-zinc-900">
+            Simulación de Paciente UCI
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">
+            Ingrese los datos clínicos del paciente para simular su evolución en
+            la Unidad de Cuidados Intensivos.
+          </p>
         </div>
 
-        <main className="flex-1 overflow-auto p-6">
-          {/* ── Page header ── */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-semibold text-zinc-900">
-              Simulación de Paciente UCI
-            </h1>
-            <p className="mt-1 text-sm text-zinc-500">
-              Ingrese los datos clínicos del paciente para simular su evolución
-              en la Unidad de Cuidados Intensivos.
-            </p>
-          </div>
+        <div className="flex flex-col gap-6">
+          {/* ── Patient data ── */}
+          <Card
+            header={
+              <div className="flex items-center justify-between">
+                <h2 className="text-base font-semibold text-zinc-900">
+                  Datos del Paciente
+                </h2>
+                <Badge status="info">ID: {patientId}</Badge>
+              </div>
+            }
+          >
+            {/* ID row */}
+            <div className="mb-4 flex items-end gap-3">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="patient-id">ID Paciente</Label>
+                <Input
+                  id="patient-id"
+                  value={patientId}
+                  maxLength={10}
+                  onChange={(e) => setPatientId(e.target.value)}
+                  className="w-40"
+                  aria-label="ID del paciente"
+                />
+              </div>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleNewPatient}
+                aria-label="Generar nuevo ID de paciente"
+              >
+                <FiRefreshCw className="size-4" />
+                Nuevo paciente
+              </Button>
+            </div>
 
-          <div className="flex flex-col gap-6">
-            {/* ── Patient data ── */}
+            {/* Numeric row */}
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="age">Edad</Label>
+                <Input
+                  id="age"
+                  type="number"
+                  min={SIMULATION_LIMITS.age.min}
+                  max={SIMULATION_LIMITS.age.max}
+                  value={age}
+                  onChange={(e) => setAge(Number(e.target.value))}
+                  fullWidth
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="sim-percent">% Tiempo UCI</Label>
+                <Input
+                  id="sim-percent"
+                  type="number"
+                  min={SIMULATION_LIMITS.simPercent.min}
+                  max={SIMULATION_LIMITS.simPercent.max}
+                  value={simPercent}
+                  onChange={(e) => setSimPercent(Number(e.target.value))}
+                  fullWidth
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="apache">Apache</Label>
+                <Input
+                  id="apache"
+                  type="number"
+                  min={SIMULATION_LIMITS.apache.min}
+                  max={SIMULATION_LIMITS.apache.max}
+                  value={apache}
+                  onChange={(e) => setApache(Number(e.target.value))}
+                  fullWidth
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="preuti-stay">Tiempo Pre-UCI (h)</Label>
+                <Input
+                  id="preuti-stay"
+                  type="number"
+                  min={SIMULATION_LIMITS.preutiStay.min}
+                  max={SIMULATION_LIMITS.preutiStay.max}
+                  value={preutiStay}
+                  onChange={(e) => setPreutiStay(Number(e.target.value))}
+                  fullWidth
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="vam-time">Tiempo VA (h)</Label>
+                <Input
+                  id="vam-time"
+                  type="number"
+                  min={SIMULATION_LIMITS.vamTime.min}
+                  max={SIMULATION_LIMITS.vamTime.max}
+                  value={vamTime}
+                  onChange={(e) => setVamTime(Number(e.target.value))}
+                  fullWidth
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="uti-stay">Tiempo UCI (h)</Label>
+                <Input
+                  id="uti-stay"
+                  type="number"
+                  min={SIMULATION_LIMITS.utiStay.min}
+                  max={SIMULATION_LIMITS.utiStay.max}
+                  value={utiStay}
+                  onChange={(e) => setUtiStay(Number(e.target.value))}
+                  fullWidth
+                />
+              </div>
+            </div>
+
+            {/* Select row: diagnoses, resp insuf, vent type */}
+            <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="diag-ing-1">Diag. Ingreso 1</Label>
+                <Select
+                  id="diag-ing-1"
+                  value={diagIng1}
+                  onChange={(e) => setDiagIng1(Number(e.target.value))}
+                  fullWidth
+                >
+                  {diagOptions()}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="diag-ing-2">Diag. Ingreso 2</Label>
+                <Select
+                  id="diag-ing-2"
+                  value={diagIng2}
+                  onChange={(e) => setDiagIng2(Number(e.target.value))}
+                  fullWidth
+                >
+                  {diagOptions()}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="diag-ing-3">Diag. Ingreso 3</Label>
+                <Select
+                  id="diag-ing-3"
+                  value={diagIng3}
+                  onChange={(e) => setDiagIng3(Number(e.target.value))}
+                  fullWidth
+                >
+                  {diagOptions()}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="diag-ing-4">Diag. Ingreso 4</Label>
+                <Select
+                  id="diag-ing-4"
+                  value={diagIng4}
+                  onChange={(e) => setDiagIng4(Number(e.target.value))}
+                  fullWidth
+                >
+                  {diagOptions()}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="resp-insuf">Insuf. Respiratoria</Label>
+                <Select
+                  id="resp-insuf"
+                  value={respInsuf}
+                  onChange={(e) => setRespInsuf(Number(e.target.value))}
+                  fullWidth
+                >
+                  {respInsufOptions()}
+                </Select>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor="vent-type">Ventilación Artificial</Label>
+                <Select
+                  id="vent-type"
+                  value={ventType}
+                  onChange={(e) => setVentType(Number(e.target.value))}
+                  fullWidth
+                >
+                  {ventTypeOptions()}
+                </Select>
+              </div>
+            </div>
+
+            {/* Discharge diagnosis */}
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              <div className="flex flex-col gap-1.5 lg:col-span-2">
+                <Label htmlFor="diag-egreso-2">Diagnóstico Egreso 2</Label>
+                <Select
+                  id="diag-egreso-2"
+                  value={diagEgreso2}
+                  onChange={(e) => setDiagEgreso2(Number(e.target.value))}
+                  fullWidth
+                >
+                  {diagOptions()}
+                </Select>
+              </div>
+            </div>
+          </Card>
+
+          {/* ── Simulation config ── */}
+          <Card
+            header={
+              <h2 className="text-base font-semibold text-zinc-900">
+                Configuración de Simulación
+              </h2>
+            }
+            footer={
+              <div className="flex justify-end">
+                <Button
+                  onClick={handleSimulate}
+                  loading={loading}
+                  size="md"
+                  aria-label="Realizar simulación"
+                >
+                  Realizar Simulación
+                </Button>
+              </div>
+            }
+          >
+            <div className="flex flex-col gap-1.5 max-w-xs">
+              <Label htmlFor="sim-runs">Corridas de la Simulación</Label>
+              <Input
+                id="sim-runs"
+                type="number"
+                min={SIMULATION_LIMITS.simRuns.min}
+                max={SIMULATION_LIMITS.simRuns.max}
+                step={SIMULATION_LIMITS.simRuns.step}
+                value={simRuns}
+                onChange={(e) => setSimRuns(Number(e.target.value))}
+              />
+              <p className="text-xs text-zinc-500">
+                Mínimo {SIMULATION_LIMITS.simRuns.min} — máximo{" "}
+                {SIMULATION_LIMITS.simRuns.max.toLocaleString()}
+              </p>
+            </div>
+          </Card>
+
+          {/* ── Validation errors ── */}
+          {error && (
+            <Alert variant="danger" title="Error en la simulación">
+              {error}
+            </Alert>
+          )}
+
+          {/* ── Results ── */}
+          {result && (
             <Card
               header={
                 <div className="flex items-center justify-between">
                   <h2 className="text-base font-semibold text-zinc-900">
-                    Datos del Paciente
+                    Resultados de la Simulación
                   </h2>
-                  <Badge status="info">ID: {patientId}</Badge>
-                </div>
-              }
-            >
-              {/* ID row */}
-              <div className="mb-4 flex items-end gap-3">
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="patient-id">ID Paciente</Label>
-                  <Input
-                    id="patient-id"
-                    value={patientId}
-                    maxLength={10}
-                    onChange={(e) => setPatientId(e.target.value)}
-                    className="w-40"
-                    aria-label="ID del paciente"
-                  />
-                </div>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={handleNewPatient}
-                  aria-label="Generar nuevo ID de paciente"
-                >
-                  <FiRefreshCw className="size-4" />
-                  Nuevo paciente
-                </Button>
-              </div>
-
-              {/* Numeric row */}
-              <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="age">Edad</Label>
-                  <Input
-                    id="age"
-                    type="number"
-                    min={SIMULATION_LIMITS.age.min}
-                    max={SIMULATION_LIMITS.age.max}
-                    value={age}
-                    onChange={(e) => setAge(Number(e.target.value))}
-                    fullWidth
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="sim-percent">% Tiempo UCI</Label>
-                  <Input
-                    id="sim-percent"
-                    type="number"
-                    min={SIMULATION_LIMITS.simPercent.min}
-                    max={SIMULATION_LIMITS.simPercent.max}
-                    value={simPercent}
-                    onChange={(e) => setSimPercent(Number(e.target.value))}
-                    fullWidth
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="apache">Apache</Label>
-                  <Input
-                    id="apache"
-                    type="number"
-                    min={SIMULATION_LIMITS.apache.min}
-                    max={SIMULATION_LIMITS.apache.max}
-                    value={apache}
-                    onChange={(e) => setApache(Number(e.target.value))}
-                    fullWidth
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="preuti-stay">Tiempo Pre-UCI (h)</Label>
-                  <Input
-                    id="preuti-stay"
-                    type="number"
-                    min={SIMULATION_LIMITS.preutiStay.min}
-                    max={SIMULATION_LIMITS.preutiStay.max}
-                    value={preutiStay}
-                    onChange={(e) => setPreutiStay(Number(e.target.value))}
-                    fullWidth
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="vam-time">Tiempo VA (h)</Label>
-                  <Input
-                    id="vam-time"
-                    type="number"
-                    min={SIMULATION_LIMITS.vamTime.min}
-                    max={SIMULATION_LIMITS.vamTime.max}
-                    value={vamTime}
-                    onChange={(e) => setVamTime(Number(e.target.value))}
-                    fullWidth
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="uti-stay">Tiempo UCI (h)</Label>
-                  <Input
-                    id="uti-stay"
-                    type="number"
-                    min={SIMULATION_LIMITS.utiStay.min}
-                    max={SIMULATION_LIMITS.utiStay.max}
-                    value={utiStay}
-                    onChange={(e) => setUtiStay(Number(e.target.value))}
-                    fullWidth
-                  />
-                </div>
-              </div>
-
-              {/* Select row: diagnoses, resp insuf, vent type */}
-              <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="diag-ing-1">Diag. Ingreso 1</Label>
-                  <Select
-                    id="diag-ing-1"
-                    value={diagIng1}
-                    onChange={(e) => setDiagIng1(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {diagOptions()}
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="diag-ing-2">Diag. Ingreso 2</Label>
-                  <Select
-                    id="diag-ing-2"
-                    value={diagIng2}
-                    onChange={(e) => setDiagIng2(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {diagOptions()}
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="diag-ing-3">Diag. Ingreso 3</Label>
-                  <Select
-                    id="diag-ing-3"
-                    value={diagIng3}
-                    onChange={(e) => setDiagIng3(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {diagOptions()}
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="diag-ing-4">Diag. Ingreso 4</Label>
-                  <Select
-                    id="diag-ing-4"
-                    value={diagIng4}
-                    onChange={(e) => setDiagIng4(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {diagOptions()}
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="resp-insuf">Insuf. Respiratoria</Label>
-                  <Select
-                    id="resp-insuf"
-                    value={respInsuf}
-                    onChange={(e) => setRespInsuf(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {respInsufOptions()}
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="vent-type">Ventilación Artificial</Label>
-                  <Select
-                    id="vent-type"
-                    value={ventType}
-                    onChange={(e) => setVentType(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {ventTypeOptions()}
-                  </Select>
-                </div>
-              </div>
-
-              {/* Discharge diagnosis */}
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                <div className="flex flex-col gap-1.5 lg:col-span-2">
-                  <Label htmlFor="diag-egreso-2">Diagnóstico Egreso 2</Label>
-                  <Select
-                    id="diag-egreso-2"
-                    value={diagEgreso2}
-                    onChange={(e) => setDiagEgreso2(Number(e.target.value))}
-                    fullWidth
-                  >
-                    {diagOptions()}
-                  </Select>
-                </div>
-              </div>
-            </Card>
-
-            {/* ── Simulation config ── */}
-            <Card
-              header={
-                <h2 className="text-base font-semibold text-zinc-900">
-                  Configuración de Simulación
-                </h2>
-              }
-              footer={
-                <div className="flex justify-end">
                   <Button
-                    onClick={handleSimulate}
-                    loading={loading}
-                    size="md"
-                    aria-label="Realizar simulación"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleDownload}
+                    aria-label="Descargar resultados en CSV"
                   >
-                    Realizar Simulación
+                    <FiDownload className="size-4" />
+                    Descargar CSV
                   </Button>
                 </div>
               }
             >
-              <div className="flex flex-col gap-1.5 max-w-xs">
-                <Label htmlFor="sim-runs">Corridas de la Simulación</Label>
-                <Input
-                  id="sim-runs"
-                  type="number"
-                  min={SIMULATION_LIMITS.simRuns.min}
-                  max={SIMULATION_LIMITS.simRuns.max}
-                  step={SIMULATION_LIMITS.simRuns.step}
-                  value={simRuns}
-                  onChange={(e) => setSimRuns(Number(e.target.value))}
-                />
-                <p className="text-xs text-zinc-500">
-                  Mínimo {SIMULATION_LIMITS.simRuns.min} — máximo{" "}
-                  {SIMULATION_LIMITS.simRuns.max.toLocaleString()}
+              <SimulationResultTable result={result.simulation} />
+
+              {/* Prediction metric */}
+              <div className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+                <p className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500">
+                  Predicción del modelo
                 </p>
+                <div className="flex items-center gap-3">
+                  <Badge
+                    status={patientSurvives ? "success" : "danger"}
+                    className="text-sm px-3 py-1"
+                  >
+                    {patientSurvives
+                      ? "Paciente no fallece"
+                      : "Paciente fallece"}
+                  </Badge>
+                  <span className="text-sm text-zinc-600">
+                    Probabilidad de fallecer:{" "}
+                    <strong>
+                      {(result.prediction.probability * 100).toFixed(0)}%
+                    </strong>
+                  </span>
+                </div>
               </div>
             </Card>
-
-            {/* ── Validation errors ── */}
-            {error && (
-              <Alert variant="danger" title="Error en la simulación">
-                {error}
-              </Alert>
-            )}
-
-            {/* ── Results ── */}
-            {result && (
-              <Card
-                header={
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-base font-semibold text-zinc-900">
-                      Resultados de la Simulación
-                    </h2>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleDownload}
-                      aria-label="Descargar resultados en CSV"
-                    >
-                      <FiDownload className="size-4" />
-                      Descargar CSV
-                    </Button>
-                  </div>
-                }
-              >
-                <SimulationResultTable result={result.simulation} />
-
-                {/* Prediction metric */}
-                <div className="mt-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
-                  <p className="mb-1 text-xs font-medium uppercase tracking-wide text-zinc-500">
-                    Predicción del modelo
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <Badge
-                      status={patientSurvives ? "success" : "danger"}
-                      className="text-sm px-3 py-1"
-                    >
-                      {patientSurvives
-                        ? "Paciente no fallece"
-                        : "Paciente fallece"}
-                    </Badge>
-                    <span className="text-sm text-zinc-600">
-                      Probabilidad de fallecer:{" "}
-                      <strong>
-                        {(result.prediction.probability * 100).toFixed(0)}%
-                      </strong>
-                    </span>
-                  </div>
-                </div>
-              </Card>
-            )}
-          </div>
-        </main>
-      </div>
+          )}
+        </div>
+      </main>
 
       <Footer />
     </div>

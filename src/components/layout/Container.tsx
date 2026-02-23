@@ -5,7 +5,11 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg" | "xl" | "full";
 }
 
-export function Container({ className, size = "lg", ...props }: ContainerProps) {
+export function Container({
+  className,
+  size = "lg",
+  ...props
+}: ContainerProps) {
   const sizeClasses = {
     sm: "max-w-3xl",
     md: "max-w-5xl",
@@ -16,7 +20,11 @@ export function Container({ className, size = "lg", ...props }: ContainerProps) 
 
   return (
     <div
-      className={cn("mx-auto w-full px-4 sm:px-6 lg:px-8", sizeClasses[size], className)}
+      className={cn(
+        "mx-auto w-full px-4 sm:px-6 lg:px-8",
+        sizeClasses[size],
+        className,
+      )}
       {...props}
     />
   );

@@ -20,7 +20,10 @@ export function Footer({ links = defaultLinks, className }: FooterProps) {
 
   return (
     <footer
-      className={cn("border-t border-zinc-200 bg-white px-6 py-4", className)}
+      className={cn(
+        "fixed bottom-0 z-10 border-t border-zinc-200 bg-white px-6 py-4",
+        className,
+      )}
     >
       <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
         <p className="text-xs text-zinc-500">© {year} Sadeci Platform.</p>

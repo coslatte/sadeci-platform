@@ -17,7 +17,7 @@ export function Grid({ className, cols, ...props }: GridProps) {
         cols === 5 && "grid-cols-5",
         cols === 6 && "grid-cols-6",
         cols === 12 && "grid-cols-12",
-        className
+        className,
       )}
       {...props}
     />
