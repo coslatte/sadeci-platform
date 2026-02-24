@@ -1,13 +1,21 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 
 interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
   children: React.ReactNode;
+  disabled?: boolean;
 }
 
-export function Label({ required, className, children, ...props }: LabelProps) {
+export function Label({
+  required,
+  className,
+  children,
+  disabled,
+  ...props
+}: LabelProps) {
   return (
     <label
+      {...dataDisabledProps(disabled)}
       className={cn("text-sm font-medium text-zinc-700", className)}
       {...props}
     >

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AppShell } from "@/components/layout";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sadeci Platform",
@@ -13,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased bg-zinc-50 text-zinc-900">{children}</body>
+      <body
+        className={`${inter.className} antialiased bg-zinc-50 text-zinc-900`}
+      >
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }

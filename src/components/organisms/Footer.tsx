@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 
 interface FooterLink {
   label: string;
@@ -9,19 +9,25 @@ interface FooterLink {
 interface FooterProps {
   links?: FooterLink[];
   className?: string;
+  disabled?: boolean;
 }
 
 const defaultLinks: FooterLink[] = [
   { label: "GitHub", href: "https://github.com/coslatte/sadeci-platform" },
 ];
 
-export function Footer({ links = defaultLinks, className }: FooterProps) {
+export function Footer({
+  links = defaultLinks,
+  className,
+  disabled,
+}: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
     <footer
+      {...dataDisabledProps(disabled)}
       className={cn(
-        "fixed bottom-0 z-10 border-t border-zinc-200 bg-white px-6 py-4",
+        "shrink-0 border-t border-slate-200 bg-white px-6 py-3",
         className,
       )}
     >

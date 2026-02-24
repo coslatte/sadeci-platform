@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import type { Size } from "@/lib/types";
 
 interface SpinnerProps {
@@ -6,6 +6,7 @@ interface SpinnerProps {
   size?: Extract<Size, "xs" | "sm" | "md" | "lg" | "xl">;
   className?: string;
   label?: string;
+  disabled?: boolean;
 }
 
 const sizeClasses: Record<string, string> = {
@@ -20,9 +21,11 @@ export function Spinner({
   size = "md",
   className,
   label = "Loading...",
+  disabled,
 }: SpinnerProps) {
   return (
     <svg
+      {...dataDisabledProps(disabled)}
       className={cn(
         "animate-spin text-primary-600",
         sizeClasses[size],

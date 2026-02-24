@@ -1,6 +1,6 @@
 import { Spinner } from "../Spinner";
 import type { Size } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { spinnerSizeMap } from "./constants";
 import React from "react";
 
@@ -11,7 +11,7 @@ export interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 }
 
 export const baseButtonStyles =
-  "relative inline-flex items-center justify-center overflow-hidden font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  "relative inline-flex items-center justify-center overflow-hidden font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-0";
 
 export function BaseButton({
   loading = false,
@@ -24,6 +24,7 @@ export function BaseButton({
 }: BaseButtonProps) {
   return (
     <button
+      {...dataDisabledProps(disabled)}
       disabled={disabled || loading}
       className={cn(baseButtonStyles, className)}
       {...props}

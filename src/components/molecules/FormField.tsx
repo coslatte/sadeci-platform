@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { Label } from "@/components/atoms/Label";
 import { Input } from "@/components/atoms/Input";
 
@@ -10,6 +10,7 @@ interface FormFieldProps {
   hint?: string;
   className?: string;
   inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, "id">;
+  disabled?: boolean;
 }
 
 export function FormField({
@@ -20,10 +21,14 @@ export function FormField({
   hint,
   className,
   inputProps,
+  disabled,
 }: FormFieldProps) {
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
-      <Label htmlFor={id} required={required}>
+    <div
+      {...dataDisabledProps(disabled)}
+      className={cn("flex flex-col gap-1.5", className)}
+    >
+      <Label htmlFor={id} required={required} disabled={disabled}>
         {label}
       </Label>
       <Input
@@ -33,6 +38,7 @@ export function FormField({
           error ? `${id}-error` : hint ? `${id}-hint` : undefined
         }
         aria-invalid={!!error}
+        disabled={disabled}
         {...inputProps}
       />
       {hint && !error && (

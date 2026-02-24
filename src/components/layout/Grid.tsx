@@ -1,13 +1,19 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 
 interface GridProps extends HTMLAttributes<HTMLDivElement> {
   cols?: 1 | 2 | 3 | 4 | 5 | 6 | 12;
 }
 
-export function Grid({ className, cols, ...props }: GridProps) {
+export function Grid({
+  className,
+  cols,
+  disabled,
+  ...props
+}: GridProps & { disabled?: boolean }) {
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "grid",
         cols === 1 && "grid-cols-1",

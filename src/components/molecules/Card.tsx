@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 
 interface CardProps {
   header?: React.ReactNode;
@@ -6,6 +6,7 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   padded?: boolean;
+  disabled?: boolean;
 }
 
 export function Card({
@@ -14,9 +15,11 @@ export function Card({
   children,
   className,
   padded = true,
+  disabled,
 }: CardProps) {
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "rounded-xl border border-zinc-200 bg-white shadow-sm",
         className,

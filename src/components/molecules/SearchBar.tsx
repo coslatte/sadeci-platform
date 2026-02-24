@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { Input } from "@/components/atoms/Input";
 
 interface SearchBarProps {
@@ -9,6 +9,7 @@ interface SearchBarProps {
   onSearch?: (value: string) => void;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 export function SearchBar({
@@ -17,6 +18,7 @@ export function SearchBar({
   onSearch,
   placeholder = "Search...",
   className,
+  disabled,
 }: SearchBarProps) {
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
@@ -25,7 +27,10 @@ export function SearchBar({
   }
 
   return (
-    <div className={cn("relative flex items-center", className)}>
+    <div
+      {...dataDisabledProps(disabled)}
+      className={cn("relative flex items-center", className)}
+    >
       <span
         className="pointer-events-none absolute left-3 text-zinc-400"
         aria-hidden="true"
@@ -53,6 +58,7 @@ export function SearchBar({
         placeholder={placeholder}
         className="pl-9"
         fullWidth
+        disabled={disabled}
       />
     </div>
   );

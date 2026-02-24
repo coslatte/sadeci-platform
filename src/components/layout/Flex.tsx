@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 
 interface FlexProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,8 +16,9 @@ export function Flex({
   justify,
   wrap = "nowrap",
   gap,
+  disabled,
   ...props
-}: FlexProps) {
+}: FlexProps & { disabled?: boolean }) {
   const gapClass =
     gap === undefined
       ? undefined
@@ -29,6 +30,7 @@ export function Flex({
 
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "flex",
         direction === "row" && "flex-row",

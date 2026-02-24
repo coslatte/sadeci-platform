@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 
 interface NavItemProps {
   href: string;
@@ -8,6 +8,7 @@ interface NavItemProps {
   active?: boolean;
   collapsed?: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
 export function NavItem({
@@ -17,10 +18,12 @@ export function NavItem({
   active = false,
   collapsed = false,
   className,
+  disabled,
 }: NavItemProps) {
   return (
     <Link
       href={href}
+      {...dataDisabledProps(disabled)}
       className={cn(
         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium",
         "transition-colors duration-150",

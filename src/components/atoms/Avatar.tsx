@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import type { Size } from "@/lib/types";
 import Image from "next/image";
 
@@ -8,6 +8,7 @@ interface AvatarProps {
   name?: string;
   size?: Extract<Size, "xs" | "sm" | "md" | "lg" | "xl">;
   className?: string;
+  disabled?: boolean;
 }
 
 const sizeClasses: Record<string, string> = {
@@ -33,12 +34,14 @@ export function Avatar({
   name,
   size = "md",
   className,
+  disabled,
 }: AvatarProps) {
   const sizeClass = sizeClasses[size];
 
   if (src) {
     return (
       <div
+        {...dataDisabledProps(disabled)}
         className={cn(
           "relative overflow-hidden rounded-full bg-zinc-200",
           sizeClass,
@@ -52,6 +55,7 @@ export function Avatar({
 
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "inline-flex items-center justify-center rounded-full",
         "bg-primary-100 font-semibold text-primary-700",

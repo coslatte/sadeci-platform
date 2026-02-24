@@ -1,13 +1,19 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 
 interface StackProps extends HTMLAttributes<HTMLDivElement> {
   space?: "sm" | "md" | "lg" | "xl";
 }
 
-export function Stack({ className, space = "md", ...props }: StackProps) {
+export function Stack({
+  className,
+  space = "md",
+  disabled,
+  ...props
+}: StackProps & { disabled?: boolean }) {
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "flex flex-col",
         space === "sm" && "gap-2",

@@ -1,10 +1,11 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import type { Status } from "@/lib/types";
 
 interface BadgeProps {
   status?: Status;
   children: React.ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 const statusClasses: Record<Status, string> = {
@@ -15,9 +16,15 @@ const statusClasses: Record<Status, string> = {
   danger: "bg-red-50 text-red-700",
 };
 
-export function Badge({ status = "default", className, children }: BadgeProps) {
+export function Badge({
+  status = "default",
+  className,
+  children,
+  disabled,
+}: BadgeProps) {
   return (
     <span
+      {...dataDisabledProps(disabled)}
       className={cn(
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         statusClasses[status],

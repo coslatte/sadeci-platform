@@ -1,10 +1,11 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes, ReactNode } from "react";
 
 interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   variant?: "info" | "success" | "warning" | "danger";
   title?: string;
   icon?: ReactNode;
+  disabled?: boolean;
 }
 
 export function Alert({
@@ -13,6 +14,7 @@ export function Alert({
   title,
   icon,
   children,
+  disabled,
   ...props
 }: AlertProps) {
   const variantClasses = {
@@ -31,6 +33,7 @@ export function Alert({
 
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "rounded-lg border p-4 flex gap-3",
         variantClasses[variant],

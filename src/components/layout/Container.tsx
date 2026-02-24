@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 
 interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
@@ -8,8 +8,9 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
 export function Container({
   className,
   size = "lg",
+  disabled,
   ...props
-}: ContainerProps) {
+}: ContainerProps & { disabled?: boolean }) {
   const sizeClasses = {
     sm: "max-w-3xl",
     md: "max-w-5xl",
@@ -20,6 +21,7 @@ export function Container({
 
   return (
     <div
+      {...dataDisabledProps(disabled)}
       className={cn(
         "mx-auto w-full px-4 sm:px-6 lg:px-8",
         sizeClasses[size],
