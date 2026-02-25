@@ -116,19 +116,38 @@ export interface SimulationResponse {
 export async function runSimulation(
   data: SimulationRequest,
 ): Promise<SimulationResponse> {
-  const response = await fetch("/api/simulation", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
+  // Add a timeout to detect when the API does not respond
+  const controller = new AbortController();
+  const timeoutMs = 15_000; // 15 seconds
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  if (!response.ok) {
-    throw new Error(
-      `Error al ejecutar la simulación: ${response.status} ${response.statusText}`,
-    );
+  try {
+    const response = await fetch("/api/simulation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Error al ejecutar la simulación: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    return response.json() as Promise<SimulationResponse>;
+  } catch (err) {
+    // Normalize abort / timeout errors
+    const name = (err as any)?.name;
+    if (name === "AbortError") {
+      throw new Error(
+        "La solicitud de simulación ha excedido el tiempo de espera.",
+      );
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  return response.json() as Promise<SimulationResponse>;
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────

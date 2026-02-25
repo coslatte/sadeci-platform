@@ -6,6 +6,30 @@ describe("AppShell", () => {
   it("renders global chrome and marks active route", async () => {
     mock.module("next/navigation", () => ({
       usePathname: () => "/simulacion",
+      useRouter: () => ({
+        replace: () => {},
+        push: () => {},
+        prefetch: () => {},
+      }),
+    }));
+
+    // Mock sileo toaster to avoid rendering issues during tests
+    mock.module("sileo", () => ({
+      Toaster: () => null as any,
+      sileo: {
+        success: () => {},
+        error: () => {},
+      },
+    }));
+
+    // Provide a mocked authenticated user so AppShell renders normally
+    mock.module("@/lib/auth", () => ({
+      useAuth: () => ({
+        user: { id: "1", name: "Test", email: "t@test", role: "Admin" },
+        isAuthenticated: true,
+        login: async () => {},
+        logout: () => {},
+      }),
     }));
 
     const { AppShell } = await import("@/components/layout/AppShell");
@@ -22,7 +46,8 @@ describe("AppShell", () => {
     // "Simulación" appears in both sidebar nav and navbar breadcrumb
     expect(getAllByText("Simulación").length).toBeGreaterThanOrEqual(1);
     expect(getByText("Contenido de prueba")).toBeTruthy();
-    expect(getByRole("navigation", { name: "Footer" })).toBeTruthy();
+    // Footer is rendered as a <footer> element (role=contentinfo)
+    expect(getByRole("contentinfo")).toBeTruthy();
 
     // The sidebar nav link should have aria-current="page"
     const activeLink = getAllByText("Simulación").find(

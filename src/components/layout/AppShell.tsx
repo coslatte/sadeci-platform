@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { sileo, Toaster } from "sileo";
 import { usePathname, useRouter } from "next/navigation";
 import {
   FiHome,
@@ -83,6 +84,8 @@ export function AppShell({ children }: AppShellProps) {
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
       />
+      {/* Global Toaster for notifications */}
+      <Toaster position="bottom-right" />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Navbar
           userName={user?.name ?? "Usuario"}

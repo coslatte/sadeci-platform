@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FiGithub, FiBox, FiActivity, FiBookOpen } from "react-icons/fi";
 import { Card } from "@/components/molecules/Card";
 import { useAuth } from "@/lib/auth";
+import { Container } from "@/components/layout/Container";
 
 const PROJECT_LINKS = [
   {
@@ -25,7 +26,7 @@ export default function Home() {
   const greeting = user ? `Hola, ${user.name.split(" ")[0]}` : "Bienvenido";
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8 py-6">
+    <Container size="full" className="space-y-8 py-6">
       {/* Welcome header */}
       <div>
         <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900 md:text-[length:var(--font-size-3xl)]">
@@ -91,6 +92,6 @@ export default function Home() {
           </Link>
         ))}
       </div>
-    </div>
+    </Container>
   );
 }

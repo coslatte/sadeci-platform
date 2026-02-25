@@ -220,4 +220,68 @@ describe("runSimulation — API client", () => {
     expect(parsedBody.resp_insuf).toBe(1);
     expect(parsedBody.n_runs).toBe(200);
   });
+
+  it("shows a toast when the simulation request times out", async () => {
+    const { fireEvent } = await import("@testing-library/react");
+
+    let toastCalled = false;
+
+    // Mock sileo
+    mock.module("sileo", () => ({
+      Toaster: () => null as any,
+      sileo: {
+        error: (_opts: any) => {
+          toastCalled = true;
+        },
+      },
+    }));
+
+    // Mock simulation module exports minimally for the page
+    mock.module("@/lib/simulation", () => ({
+      SIMULATION_LIMITS: {
+        age: { min: 14, max: 100, default: 22 },
+        apache: { min: 0, max: 36, default: 12 },
+        vamTime: { min: 24, max: 700, default: 24 },
+        utiStay: { min: 0, max: 200, default: 24 },
+        preutiStay: { min: 0, max: 34, default: 10 },
+        simRuns: { min: 100, max: 10000, default: 200, step: 100 },
+        simPercent: { min: 0, max: 10, default: 3 },
+      },
+      PREUCI_DIAG: { 0: "Vacío", 1: "X" },
+      RESP_INSUF: { 0: "Vacío", 1: "Respiratorias" },
+      VENTILATION_TYPE: { 0: "Tubo" },
+      TIME_VARIABLE_LABELS: {
+        pre_vam: "pre",
+        vam: "vam",
+        post_vam: "post_vam",
+        uci: "uci",
+        post_uci: "post_uci",
+      },
+      generatePatientId: () => "TESTID",
+      runSimulation: async () => {
+        throw new Error(
+          "La solicitud de simulación ha excedido el tiempo de espera.",
+        );
+      },
+    }));
+
+    const { default: SimulacionPage } = await import("@/app/simulacion/page");
+
+    const { getByLabelText, getByRole } = render(<SimulacionPage />);
+
+    // Fill required fields so validation passes
+    fireEvent.change(getByLabelText(/Diag. Ingreso 1/), {
+      target: { value: "1" },
+    });
+    fireEvent.change(getByLabelText(/Insuf. Respiratoria/), {
+      target: { value: "1" },
+    });
+
+    fireEvent.click(getByRole("button", { name: /Realizar simulaci[oó]n/i }));
+
+    // Allow promise microtasks to run
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(toastCalled).toBe(true);
+  });
 });

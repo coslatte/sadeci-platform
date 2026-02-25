@@ -21,6 +21,7 @@ import {
   type SimulationRequest,
   type SimulationResponse,
 } from "@/lib/simulation";
+import { sileo } from "sileo";
 
 function diagOptions() {
   return Object.entries(PREUCI_DIAG).map(([k, v]) => (
@@ -51,7 +52,6 @@ export default function SimulacionPage() {
 
   useEffect(() => {
     if (!patientId) setPatientId(generatePatientId());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [age, setAge] = useState<number>(SIMULATION_LIMITS.age.default);
   const [apache, setApache] = useState<number>(
@@ -77,17 +77,13 @@ export default function SimulacionPage() {
   const [respInsuf, setRespInsuf] = useState<number>(0);
   const [ventType, setVentType] = useState<number>(0);
 
-  // Simulation config
   const [simRuns, setSimRuns] = useState<number>(
     SIMULATION_LIMITS.simRuns.default,
   );
 
-  // Async state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<SimulationResponse | null>(null);
-
-  // ── Handlers ────────────────────────────────────────────────────────────────
 
   function handleNewPatient() {
     setPatientId(generatePatientId());
@@ -131,11 +127,18 @@ export default function SimulacionPage() {
       const data = await runSimulation(payload);
       setResult(data);
     } catch (err) {
-      setError(
+      const message =
         err instanceof Error
           ? err.message
-          : "No se pudo ejecutar la simulación.",
-      );
+          : "No se pudo ejecutar la simulación.";
+      // Always set local error state so the Alert component displays
+      setError(message);
+      // Try to display the error via sileo if available
+      try {
+        sileo.error({ title: "Error en la simulación", description: message });
+      } catch {
+        // ignore if sileo is not available or fails
+      }
     } finally {
       setLoading(false);
     }
@@ -164,20 +167,16 @@ export default function SimulacionPage() {
     URL.revokeObjectURL(url);
   }
 
-  // ── Prediction display helpers ───────────────────────────────────────────────
-
   const prediction = result?.prediction;
   const patientSurvives = prediction?.class === 0;
-
-  // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900 md:text-[length:var(--font-size-3xl)]">
+        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
           Simulación de Paciente UCI
         </h1>
-        <p className="mt-2 text-[length:var(--font-size-sm)] text-slate-500">
+        <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
           Ingrese los datos clínicos del paciente para simular su evolución en
           la Unidad de Cuidados Intensivos.
         </p>
@@ -188,10 +187,10 @@ export default function SimulacionPage() {
         <Card
           header={
             <div className="flex items-center justify-between">
-              <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
+              <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
                 Datos del Paciente
               </h2>
-              <span className="font-mono text-[length:var(--font-size-xs)] uppercase text-slate-400">
+              <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-400">
                 ID: {patientId}
               </span>
             </div>
@@ -224,7 +223,7 @@ export default function SimulacionPage() {
           {/* Numeric inputs grouped by clinical section */}
           <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col gap-4">
-              <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+              <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
                 Demográficos &amp; Tiempos
               </p>
               <div className="flex flex-col gap-1.5">
@@ -254,7 +253,7 @@ export default function SimulacionPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+              <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
                 Puntajes Clínicos
               </p>
               <div className="flex flex-col gap-1.5">
@@ -284,7 +283,7 @@ export default function SimulacionPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+              <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
                 Ventilación Mecánica
               </p>
               <div className="flex flex-col gap-1.5">
@@ -318,7 +317,7 @@ export default function SimulacionPage() {
 
           {/* Diagnoses */}
           <div>
-            <p className="mb-4 text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+            <p className="mb-4 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
               Diagnósticos de Ingreso y Egreso
             </p>
             <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -423,7 +422,7 @@ export default function SimulacionPage() {
         <Card
           className="border-l-4 border-l-primary-600"
           header={
-            <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
+            <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
               Configuración de Simulación
             </h2>
           }
@@ -443,7 +442,7 @@ export default function SimulacionPage() {
                 onChange={(e) => setSimRuns(Number(e.target.value))}
                 fullWidth
               />
-              <p className="text-[length:var(--font-size-xs)] text-slate-500 text-center md:text-left">
+              <p className="text-(length:--font-size-xs) text-slate-500 text-center md:text-left">
                 Mínimo {SIMULATION_LIMITS.simRuns.min} — máximo{" "}
                 {SIMULATION_LIMITS.simRuns.max.toLocaleString()} iteraciones
               </p>
