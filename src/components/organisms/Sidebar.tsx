@@ -2,21 +2,14 @@
 
 import Link from "next/link";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { cn, dataDisabledProps } from "@/lib/utils";
-import { NavItem } from "@/components/molecules/NavItem";
+import { cn } from "@/lib/utils";
 import type { NavItemType } from "@/lib/types";
 
-interface SidebarSection {
-  title?: string;
-  items: NavItemType[];
-}
-
 interface SidebarProps {
-  sections: SidebarSection[];
+  sections: Array<{ title: string; items: NavItemType[] }>;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
   className?: string;
-  disabled?: boolean;
 }
 
 export function Sidebar({
@@ -24,79 +17,69 @@ export function Sidebar({
   collapsed = false,
   onToggleCollapse,
   className,
-  disabled,
 }: SidebarProps) {
   return (
     <aside
-      {...dataDisabledProps(disabled)}
       className={cn(
-        "relative flex shrink-0 flex-col border-r border-slate-200 bg-white",
-        collapsed ? "w-16" : "w-64",
-        "transition-[width] duration-200",
+        "relative flex h-full flex-col border-r border-slate-200 bg-white transition-all duration-300 ease-in-out",
+        collapsed ? "w-20" : "w-64",
         className,
       )}
     >
-      {/* ── Collapse tab — sits at the right edge of the sidebar ── */}
-      <button
-        type="button"
-        onClick={onToggleCollapse}
-        disabled={disabled}
-        className={cn(
-          "absolute -right-3.5 top-1/2 z-20 hidden md:flex",
-          "-translate-y-1/2",
-          "h-8 w-3.5 items-center justify-center",
-          "rounded-r-md border border-l-0 border-slate-200 bg-white",
-          "text-slate-400 shadow-sm",
-          "transition-colors hover:bg-slate-50 hover:text-slate-700",
-        )}
-        aria-label={collapsed ? "Expandir sidebar" : "Colapsar sidebar"}
-      >
-        {collapsed ? (
-          <FiChevronRight className="size-3" />
-        ) : (
-          <FiChevronLeft className="size-3" />
-        )}
-      </button>
-
-      {/* ── Logo header ── */}
-      <div
-        className={cn(
-          "flex h-16 shrink-0 items-center gap-2 border-b border-slate-200",
-          collapsed ? "justify-center px-4" : "px-6",
-        )}
-      >
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-700 text-lg font-bold text-white shadow-sm">
-            S
+      {/* Brand area */}
+      <div className="flex h-16 shrink-0 items-center border-b border-slate-100 px-6">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm">
+            <span className="font-bold">S</span>
           </div>
           {!collapsed && (
-            <span className="text-xl font-bold tracking-tight text-slate-900">
-              Sadeci
+            <span className="truncate font-semibold tracking-tight text-slate-900">
+              Sadeci Platform
             </span>
           )}
-        </Link>
+        </div>
       </div>
 
-      {/* ── Navigation ── */}
-      <nav className="flex-1 overflow-y-auto px-3 py-6">
+      {/* Nav sections */}
+      <nav className="flex-1 overflow-y-auto overflow-x-hidden p-4">
         <div className="flex flex-col gap-8">
           {sections.map((section, idx) => (
-            <div key={idx}>
-              {section.title && !collapsed && (
-                <p className="mb-2 px-3 text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wider text-slate-400">
+            <div key={idx} className="flex flex-col gap-2">
+              {!collapsed && (
+                <p className="px-2 text-[length:var(--font-size-xs)] font-bold uppercase tracking-widest text-slate-400">
                   {section.title}
                 </p>
               )}
-              <ul className="flex flex-col gap-0.5">
-                {section.items.map((item) => (
-                  <li key={item.href}>
-                    <NavItem
+              <ul className="flex flex-col gap-1">
+                {section.items.map((item, itemIdx) => (
+                  <li key={itemIdx}>
+                    <Link
                       href={item.href}
-                      label={item.label}
-                      icon={item.icon}
-                      active={item.active}
-                      collapsed={collapsed}
-                    />
+                      className={cn(
+                        "group flex items-center gap-3 rounded-lg px-2.5 py-2 transition-all duration-200",
+                        item.active
+                          ? "bg-primary-50 text-primary-700 shadow-sm ring-1 ring-primary-100"
+                          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
+                        collapsed && "justify-center px-0",
+                      )}
+                      title={collapsed ? item.label : undefined}
+                    >
+                      <div
+                        className={cn(
+                          "flex size-5 shrink-0 items-center justify-center transition-colors",
+                          item.active
+                            ? "text-primary-600"
+                            : "text-slate-400 group-hover:text-slate-600",
+                        )}
+                      >
+                        {item.icon}
+                      </div>
+                      {!collapsed && (
+                        <span className="truncate text-[length:var(--font-size-sm)] font-medium">
+                          {item.label}
+                        </span>
+                      )}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -104,6 +87,25 @@ export function Sidebar({
           ))}
         </div>
       </nav>
+
+      {/* "Tab-like" collapse button - positioned on the right edge border */}
+      <button
+        type="button"
+        onClick={onToggleCollapse}
+        className={cn(
+          "absolute -right-4 top-1/2 z-50 flex h-8 w-4 -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:border-primary-300 hover:text-primary-600 focus:outline-none",
+          collapsed && "ring-2 ring-primary-50",
+        )}
+        aria-label={
+          collapsed ? "Expandir barra lateral" : "Contraer barra lateral"
+        }
+      >
+        {collapsed ? (
+          <FiChevronRight className="size-3" />
+        ) : (
+          <FiChevronLeft className="size-3" />
+        )}
+      </button>
     </aside>
   );
 }

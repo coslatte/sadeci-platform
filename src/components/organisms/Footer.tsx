@@ -1,70 +1,60 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Spinner } from "@/components/atoms/Spinner";
 
-type StatusBarStatus = "idle" | "loading" | "simulating" | "success" | "error";
-
-interface StatusBarProps {
-  status?: StatusBarStatus;
-  message?: string;
+interface FooterProps {
   className?: string;
+  disabled?: boolean;
 }
 
-const STATUS_LABELS: Record<StatusBarStatus, string> = {
-  idle: "Listo",
-  loading: "Cargando…",
-  simulating: "Simulando…",
-  success: "Completado",
-  error: "Error",
-};
+export function Footer({ className, disabled }: FooterProps) {
+  const currentYear = new Date().getFullYear();
 
-const STATUS_COLORS: Record<StatusBarStatus, string> = {
-  idle: "text-slate-400",
-  loading: "text-secondary-600",
-  simulating: "text-primary-600",
-  success: "text-emerald-600",
-  error: "text-red-500",
-};
-
-export function Footer({
-  status = "idle",
-  message,
-  className,
-}: StatusBarProps) {
-  const showSpinner = status === "loading" || status === "simulating";
+  const utilityLinks = [
+    { label: "Soporte", href: "/soporte" },
+    { label: "Privacidad", href: "/privacidad" },
+    { label: "Términos", href: "/terminos" },
+    { label: "Documentación", href: "/docs" },
+  ];
 
   return (
     <footer
       className={cn(
-        "flex h-8 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-4",
+        "flex h-12 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-8 transition-colors",
+        disabled && "opacity-50 grayscale pointer-events-none",
         className,
       )}
     >
-      {/* Left — status indicator */}
-      <div className="flex items-center gap-2">
-        {showSpinner && <Spinner size="xs" />}
-        <span
-          className={cn(
-            "text-[length:var(--font-size-xs)] font-medium",
-            STATUS_COLORS[status],
-          )}
-        >
-          {STATUS_LABELS[status]}
-        </span>
+      <div className="flex items-center gap-6">
+        <p className="text-[length:var(--font-size-xs)] font-medium text-slate-400">
+          &copy; {currentYear} Sadeci Platform
+        </p>
+        <div className="h-4 w-px bg-slate-100" />
+        <nav>
+          <ul className="flex items-center gap-4">
+            {utilityLinks.map((link, idx) => (
+              <li key={idx}>
+                <Link
+                  href={link.href}
+                  className="text-[length:var(--font-size-xs)] font-medium text-slate-500 transition-colors hover:text-primary-600"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
-      {/* Center — optional message */}
-      {message && (
-        <span className="hidden text-[length:var(--font-size-xs)] text-slate-500 sm:inline">
-          {message}
-        </span>
-      )}
-
-      {/* Right — version tag */}
-      <span className="text-[length:var(--font-size-xs)] font-mono text-slate-300">
-        v0.1.0
-      </span>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[length:var(--font-size-xs)] font-medium text-slate-500">
+            Sistema Operativo
+          </span>
+        </div>
+      </div>
     </footer>
   );
 }

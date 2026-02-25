@@ -22,8 +22,6 @@ import {
   type SimulationResponse,
 } from "@/lib/simulation";
 
-// ─── Select options helpers ────────────────────────────────────────────────────
-
 function diagOptions() {
   return Object.entries(PREUCI_DIAG).map(([k, v]) => (
     <option key={k} value={k}>
@@ -48,14 +46,7 @@ function ventTypeOptions() {
   ));
 }
 
-// ─── Result table ──────────────────────────────────────────────────────────────
-
-// ─── Page ──────────────────────────────────────────────────────────────────────
-
 export default function SimulacionPage() {
-  // Patient fields
-  // Avoid generating a random ID during server render (causes hydration
-  // mismatches). Initialize empty and generate on the client in an effect.
   const [patientId, setPatientId] = useState<string>("");
 
   useEffect(() => {
@@ -233,7 +224,7 @@ export default function SimulacionPage() {
           {/* Numeric inputs grouped by clinical section */}
           <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col gap-4">
-              <p className="text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
                 Demográficos &amp; Tiempos
               </p>
               <div className="flex flex-col gap-1.5">
@@ -263,7 +254,7 @@ export default function SimulacionPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <p className="text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
                 Puntajes Clínicos
               </p>
               <div className="flex flex-col gap-1.5">
@@ -293,7 +284,7 @@ export default function SimulacionPage() {
             </div>
 
             <div className="flex flex-col gap-4">
-              <p className="text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
+              <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
                 Ventilación Mecánica
               </p>
               <div className="flex flex-col gap-1.5">
@@ -327,15 +318,12 @@ export default function SimulacionPage() {
 
           {/* Diagnoses */}
           <div>
-            <p className="mb-4 text-[length:var(--font-size-xs)] font-semibold uppercase tracking-wide text-slate-500">
+            <p className="mb-4 text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
               Diagnósticos de Ingreso y Egreso
             </p>
             <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="diag-ing-1"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="diag-ing-1" className="text-slate-500">
                   Diag. Ingreso 1
                 </Label>
                 <Select
@@ -348,10 +336,7 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="diag-ing-2"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="diag-ing-2" className="text-slate-500">
                   Diag. Ingreso 2
                 </Label>
                 <Select
@@ -364,10 +349,7 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="diag-ing-3"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="diag-ing-3" className="text-slate-500">
                   Diag. Ingreso 3
                 </Label>
                 <Select
@@ -380,10 +362,7 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="diag-ing-4"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="diag-ing-4" className="text-slate-500">
                   Diag. Ingreso 4
                 </Label>
                 <Select
@@ -398,10 +377,7 @@ export default function SimulacionPage() {
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="resp-insuf"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="resp-insuf" className="text-slate-500">
                   Insuf. Respiratoria
                 </Label>
                 <Select
@@ -414,10 +390,7 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="vent-type"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="vent-type" className="text-slate-500">
                   Ventilación Artificial
                 </Label>
                 <Select
@@ -430,10 +403,7 @@ export default function SimulacionPage() {
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label
-                  htmlFor="diag-egreso-2"
-                  className="text-[length:var(--font-size-xs)] text-slate-500"
-                >
+                <Label htmlFor="diag-egreso-2" className="text-slate-500">
                   Diagnóstico Egreso 2
                 </Label>
                 <Select
@@ -458,9 +428,11 @@ export default function SimulacionPage() {
             </h2>
           }
         >
-          <div className="flex flex-col items-end justify-between gap-6 md:flex-row">
+          <div className="flex flex-col items-center justify-between gap-6">
             <div className="w-full md:w-1/2 lg:w-1/3 flex flex-col gap-1.5">
-              <Label htmlFor="sim-runs">Corridas de la Simulación</Label>
+              <Label htmlFor="sim-runs" className="text-center md:text-left">
+                Corridas de la Simulación
+              </Label>
               <Input
                 id="sim-runs"
                 type="number"
@@ -471,7 +443,7 @@ export default function SimulacionPage() {
                 onChange={(e) => setSimRuns(Number(e.target.value))}
                 fullWidth
               />
-              <p className="text-[length:var(--font-size-xs)] text-slate-500">
+              <p className="text-[length:var(--font-size-xs)] text-slate-500 text-center md:text-left">
                 Mínimo {SIMULATION_LIMITS.simRuns.min} — máximo{" "}
                 {SIMULATION_LIMITS.simRuns.max.toLocaleString()} iteraciones
               </p>
@@ -481,6 +453,7 @@ export default function SimulacionPage() {
               loading={loading}
               size="lg"
               aria-label="Realizar simulación"
+              className="w-full md:w-auto"
             >
               <FiPlay className="size-4" />
               Realizar Simulación
@@ -515,7 +488,7 @@ export default function SimulacionPage() {
           >
             <SimulationResultTable result={result.simulation} />
             <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <p className="mb-2 text-[length:var(--font-size-xs)] font-medium uppercase tracking-wide text-slate-500">
+              <p className="mb-2 text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400">
                 Predicción del modelo
               </p>
               <div className="flex items-center gap-3">

@@ -8,7 +8,6 @@ import {
   FiUsers,
   FiSettings,
   FiActivity,
-  FiLogOut,
 } from "react-icons/fi";
 import { useAuth } from "@/lib/auth";
 import { SIDEBAR_SECTIONS } from "@/lib/mockData";
@@ -91,8 +90,8 @@ export function AppShell({ children }: AppShellProps) {
           pathname={pathname}
           onLogout={handleLogout}
         />
-        <main className="flex-1 overflow-y-auto bg-slate-50 p-1 sm:p-2 lg:p-4">
-          <div className="w-full h-full">{children}</div>
+        <main className="flex-1 overflow-y-auto bg-slate-50 px-12 py-6">
+          {children}
         </main>
         <Footer />
       </div>

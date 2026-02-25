@@ -23,7 +23,7 @@ export function Container({
     <div
       {...dataDisabledProps(disabled)}
       className={cn(
-        "mx-auto w-full px-4 sm:px-6 lg:px-8",
+        "mx-auto w-full px-8 sm:px-12 lg:px-16",
         sizeClasses[size],
         className,
       )}
