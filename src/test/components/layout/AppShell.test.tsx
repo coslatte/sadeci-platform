@@ -5,7 +5,7 @@ import { describe, expect, it, mock } from "bun:test";
 describe("AppShell", () => {
   it("renders global chrome and marks active route", async () => {
     mock.module("next/navigation", () => ({
-      usePathname: () => "/simulacion",
+      usePathname: () => "/simulation",
       useRouter: () => ({
         replace: () => {},
         push: () => {},
@@ -15,7 +15,7 @@ describe("AppShell", () => {
 
     // Mock sileo toaster to avoid rendering issues during tests
     mock.module("sileo", () => ({
-      Toaster: () => null as any,
+      Toaster: () => null,
       sileo: {
         success: () => {},
         error: () => {},
@@ -40,8 +40,10 @@ describe("AppShell", () => {
       </AppShell>,
     );
 
-    // "Sadeci" appears in both sidebar logo and navbar breadcrumb
-    expect(getAllByText("Sadeci").length).toBeGreaterThanOrEqual(1);
+    // Navbar shows brand short and sidebar shows full brand
+    expect(getByText("Sadeci")).toBeTruthy();
+    expect(getByText("Sadeci Platform")).toBeTruthy();
+    // Sidebar contains Dashboard link
     expect(getByText("Dashboard")).toBeTruthy();
     // "Simulación" appears in both sidebar nav and navbar breadcrumb
     expect(getAllByText("Simulación").length).toBeGreaterThanOrEqual(1);

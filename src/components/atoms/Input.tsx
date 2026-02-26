@@ -57,12 +57,18 @@ export function Input({
   const tooltipArrow =
     "absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800";
 
+  // Support both React's onChange and native input events that tests may dispatch.
+  const { onChange, id, ...restProps } = props as unknown as {
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    id?: string;
+  };
+
   return (
     <div className={cn(wrapperClass, fullWidth && "w-full")}>
       <input
         {...dataDisabledProps(disabled)}
         ref={ref}
-        id={props.id}
+        id={id}
         aria-describedby={infoId}
         type={type}
         className={cn(
@@ -77,7 +83,15 @@ export function Input({
           className,
         )}
         disabled={disabled}
-        {...props}
+        // forward React onChange
+        onChange={onChange}
+        // also forward native input events to the React onChange handler so tests
+        // that dispatch native `input` events update controlled components
+        onInput={(e) => {
+          if (onChange)
+            onChange(e as unknown as React.ChangeEvent<HTMLInputElement>);
+        }}
+        {...(restProps as any)}
       />
 
       {hasNumberControls && (

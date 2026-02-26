@@ -49,24 +49,7 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
       },
       {
         label: "Simulación",
-        href: "/simulacion",
-      },
-      {
-        label: "Reportes",
-        href: "/reportes",
-      },
-    ],
-  },
-  {
-    title: "Configuración",
-    items: [
-      {
-        label: "Usuarios",
-        href: "/usuarios",
-      },
-      {
-        label: "Ajustes",
-        href: "/ajustes",
+        href: "/simulation",
       },
     ],
   },

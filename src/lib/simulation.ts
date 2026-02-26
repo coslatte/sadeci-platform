@@ -136,15 +136,16 @@ export async function runSimulation(
     }
 
     return response.json() as Promise<SimulationResponse>;
-  } catch (err) {
+  } catch (err: unknown) {
     // Normalize abort / timeout errors
-    const name = (err as any)?.name;
-    if (name === "AbortError") {
+    if (err instanceof Error && err.name === "AbortError") {
       throw new Error(
         "La solicitud de simulación ha excedido el tiempo de espera.",
       );
     }
-    throw err;
+    // Re-throw preserving original error when possible
+    if (err instanceof Error) throw err;
+    throw new Error(String(err));
   } finally {
     clearTimeout(timeoutId);
   }

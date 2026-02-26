@@ -111,14 +111,6 @@ Evitar comentarios que sobreexpliquen el código. Siempre que se pueda, evitarlo
 
 - Tipado y handlers: cuando uses `onChange` en inputs/selects, añade tipos explícitos (ej. `React.ChangeEvent<HTMLInputElement>` / `HTMLSelectElement`) para evitar `any` implícitos y ayudar a la revisión.
 
-- Tests y verificación: tras cualquier cambio importante ejecutar:
-
-```bash
-bun run lint ; bun run test ; bun run build
-```
-
-Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado debe incluir/actualizar tests en `src/test/components/**`.
-
 - Import paths y alias: mantén los imports con el alias `@/` cuando sea posible (evita rutas relativas profundas).
 
 - Mensajes y commits: al crear PRs, en la descripción indica:
@@ -126,4 +118,13 @@ Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado
   - Las constantes nuevas añadidas a `src/constants`.
   - Que se ejecutaron los checks (`lint/test/build`) y el resultado.
 
-Seguir estas pautas ayuda a mantener el código legible, consistente y listo para internacionalización y mantenimiento a largo plazo.
+## Política de Tests
+
+Tras cualquier cambio importante ejecutar:
+
+```bash
+bun run lint ; bun run test ; bun run build
+```
+
+- Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado debe incluir/actualizar tests en `src/test/components/**`.
+- Siempre que se corra un test y este de error, no quedarse atascado y buscar la fuente del componente que tiene el error. Buscar soluciones inteligentes.

@@ -44,8 +44,7 @@ export const SEARCH_PLACEHOLDER = "Buscar...";
 
 export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/": "Dashboard",
-  "/simulacion": "Simulación",
-  "/reportes": "Reportes",
+  "/simulation": "Simulación",
   "/usuarios": "Usuarios",
   "/ajustes": "Ajustes",
 };

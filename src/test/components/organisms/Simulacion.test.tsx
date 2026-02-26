@@ -228,9 +228,9 @@ describe("runSimulation — API client", () => {
 
     // Mock sileo
     mock.module("sileo", () => ({
-      Toaster: () => null as any,
+      Toaster: () => null,
       sileo: {
-        error: (_opts: any) => {
+        error: (_opts: unknown) => {
           toastCalled = true;
         },
       },
@@ -265,7 +265,7 @@ describe("runSimulation — API client", () => {
       },
     }));
 
-    const { default: SimulacionPage } = await import("@/app/simulacion/page");
+    const { default: SimulacionPage } = await import("@/app/simulation/page");
 
     const { getByLabelText, getByRole } = render(<SimulacionPage />);
 

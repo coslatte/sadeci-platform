@@ -6,10 +6,7 @@ import { Sidebar } from "@/components/organisms/Sidebar";
 const sections = [
   {
     title: "Principal",
-    items: [
-      { label: "Dashboard", href: "/", active: true },
-      { label: "Reportes", href: "/reportes" },
-    ],
+    items: [{ label: "Dashboard", href: "/", active: true }],
   },
 ];
 
@@ -17,7 +14,6 @@ describe("Sidebar", () => {
   it("renders section items", () => {
     const { getByText } = render(<Sidebar sections={sections} />);
     expect(getByText("Dashboard")).toBeTruthy();
-    expect(getByText("Reportes")).toBeTruthy();
   });
 
   it("hides labels when collapsed", () => {

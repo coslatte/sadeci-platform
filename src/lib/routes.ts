@@ -1,6 +1,5 @@
 export const routes = {
   home: "/",
-  reportes: "/reportes",
   usuarios: "/usuarios",
   ajustes: "/ajustes",
 } as const;

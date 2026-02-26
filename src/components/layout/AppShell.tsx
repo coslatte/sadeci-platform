@@ -1,15 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { sileo, Toaster } from "sileo";
+import { Toaster } from "sileo";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  FiHome,
-  FiBarChart2,
-  FiUsers,
-  FiSettings,
-  FiActivity,
-} from "react-icons/fi";
+import { FiHome, FiUsers, FiSettings, FiActivity } from "react-icons/fi";
 import { useAuth } from "@/lib/auth";
 import { SIDEBAR_SECTIONS } from "@/lib/mockData";
 import type { NavItemType } from "@/lib/types";
@@ -29,8 +23,7 @@ function mapSidebarWithIcons(
 ): Array<{ title: string; items: NavItemType[] }> {
   const iconMap: Record<string, string> = {
     "/": "home",
-    "/simulacion": "activity",
-    "/reportes": "chart",
+    "/simulation": "activity",
     "/usuarios": "users",
     "/ajustes": "settings",
   };
@@ -38,7 +31,6 @@ function mapSidebarWithIcons(
   const icons = {
     home: <FiHome className="size-5" />,
     activity: <FiActivity className="size-5" />,
-    chart: <FiBarChart2 className="size-5" />,
     users: <FiUsers className="size-5" />,
     settings: <FiSettings className="size-5" />,
   };
