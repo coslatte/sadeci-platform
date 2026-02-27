@@ -59,4 +59,29 @@ describe("Alert", () => {
       unmount();
     });
   });
+
+  it("applies correct text color for warning variant", () => {
+    const { getByRole } = render(<Alert variant="warning">Aviso</Alert>);
+    const alert = getByRole("alert");
+    expect(alert.className.includes("text-yellow-900")).toBe(true);
+    expect(alert.className.includes("border-yellow-200")).toBe(true);
+  });
+
+  it("applies correct text color for danger variant", () => {
+    const { getByRole } = render(<Alert variant="danger">Error</Alert>);
+    const alert = getByRole("alert");
+    expect(alert.className.includes("text-red-900")).toBe(true);
+    expect(alert.className.includes("border-red-200")).toBe(true);
+  });
+
+  it("does not render title element when title prop is absent", () => {
+    const { queryByRole } = render(<Alert>Sin título</Alert>);
+    expect(queryByRole("heading")).toBeNull();
+  });
+
+  it("sets data-disabled when disabled", () => {
+    const { getByRole } = render(<Alert disabled>Bloqueado</Alert>);
+    const alert = getByRole("alert");
+    expect(alert.getAttribute("data-disabled")).toBe("true");
+  });
 });

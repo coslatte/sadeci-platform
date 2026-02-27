@@ -76,4 +76,30 @@ describe("Select", () => {
     expect(getByText("Sepsis grave")).toBeTruthy();
     expect(getByText("Coma")).toBeTruthy();
   });
+
+  it("sets data-disabled and disabled attribute when disabled", () => {
+    const { container } = render(
+      <Select disabled>
+        <option value="0">Vacío</option>
+      </Select>,
+    );
+    const select = container.querySelector("select");
+    expect(select).toBeTruthy();
+    if (!select) return;
+    expect(select.hasAttribute("disabled")).toBe(true);
+    expect(select.getAttribute("data-disabled")).toBe("true");
+  });
+
+  it("does not apply error classes when error prop is absent", () => {
+    const { container } = render(
+      <Select>
+        <option value="0">Vacío</option>
+      </Select>,
+    );
+    const select = container.querySelector("select");
+    expect(select).toBeTruthy();
+    if (!select) return;
+    expect(select.className.includes("border-zinc-300")).toBe(true);
+    expect(select.className.includes("border-red-400")).toBe(false);
+  });
 });

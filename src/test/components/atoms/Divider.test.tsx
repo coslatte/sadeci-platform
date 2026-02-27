@@ -28,4 +28,17 @@ describe("Divider", () => {
     expect(separator.className.includes("w-px")).toBe(true);
     expect(separator.className.includes("custom-v")).toBe(true);
   });
+
+  it("merges custom className on horizontal variant", () => {
+    const { getByRole } = render(<Divider className="my-4" />);
+    const separator = getByRole("separator");
+    expect(separator.className.includes("my-4")).toBe(true);
+    expect(separator.className.includes("w-full")).toBe(true);
+  });
+
+  it("sets data-disabled attribute when disabled", () => {
+    const { getByRole } = render(<Divider disabled />);
+    const separator = getByRole("separator");
+    expect(separator.getAttribute("data-disabled")).toBe("true");
+  });
 });

@@ -60,4 +60,40 @@ describe("IconButton", () => {
     expect(button.hasAttribute("disabled")).toBe(true);
     expect(getByLabelText("Cargando...")).toBeTruthy();
   });
+
+  it("fires onClick when clicked", () => {
+    let clicked = false;
+    const { container } = render(
+      <IconButton
+        aria-label="Acción"
+        icon={<svg />}
+        onClick={() => { clicked = true; }}
+      />,
+    );
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    button.click();
+    expect(clicked).toBe(true);
+  });
+
+  it("applies primary variant classes", () => {
+    const { container } = render(
+      <IconButton aria-label="Guardar" icon={<svg />} variant="primary" />,
+    );
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.className.includes("bg-primary-600")).toBe(true);
+  });
+
+  it("renders as a round button", () => {
+    const { container } = render(
+      <IconButton aria-label="Opción" icon={<svg data-testid="i" />} />,
+    );
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.className.includes("rounded-full")).toBe(true);
+  });
 });

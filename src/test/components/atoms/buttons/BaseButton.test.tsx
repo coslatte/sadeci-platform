@@ -33,4 +33,27 @@ describe("BaseButton", () => {
 
     expect(getByTestId("custom-spinner")).toBeTruthy();
   });
+
+  it("fires onClick when clicked", () => {
+    let clicked = false;
+    const { getByRole } = render(
+      <BaseButton onClick={() => { clicked = true; }}>Guardar</BaseButton>,
+    );
+    getByRole("button").click();
+    expect(clicked).toBe(true);
+  });
+
+  it("does not fire onClick when disabled", () => {
+    let clicked = false;
+    const { getByRole } = render(
+      <BaseButton disabled onClick={() => { clicked = true; }}>Guardar</BaseButton>,
+    );
+    getByRole("button").click();
+    expect(clicked).toBe(false);
+  });
+
+  it("disables button when disabled prop is true", () => {
+    const { getByRole } = render(<BaseButton disabled>Guardar</BaseButton>);
+    expect(getByRole("button").hasAttribute("disabled")).toBe(true);
+  });
 });

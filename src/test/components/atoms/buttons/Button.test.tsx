@@ -45,4 +45,30 @@ describe("Button", () => {
     if (!button) return;
     expect(button.hasAttribute("disabled")).toBe(true);
   });
+
+  it("applies primary (default) variant classes", () => {
+    const { container } = render(<Button>Confirmar</Button>);
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.className.includes("bg-primary-600")).toBe(true);
+  });
+
+  it("fires onClick when clicked", () => {
+    let clicked = false;
+    const { getByRole } = render(
+      <Button onClick={() => { clicked = true; }}>Aceptar</Button>,
+    );
+    getByRole("button").click();
+    expect(clicked).toBe(true);
+  });
+
+  it("applies outline variant classes", () => {
+    const { container } = render(<Button variant="outline">Cancelar</Button>);
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.className.includes("border")).toBe(true);
+    expect(button.className.includes("border-zinc-300")).toBe(true);
+  });
 });

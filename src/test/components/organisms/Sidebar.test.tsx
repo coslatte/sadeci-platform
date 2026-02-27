@@ -34,4 +34,33 @@ describe("Sidebar", () => {
     );
     expect(queryByText("Principal")).toBeNull();
   });
+
+  it("renders brand full name when not collapsed", () => {
+    const { getByText } = render(<Sidebar sections={sections} />);
+    expect(getByText("Sadeci Platform")).toBeTruthy();
+  });
+
+  it("marks the active route link with aria-current", () => {
+    const { container } = render(<Sidebar sections={sections} />);
+    const activeLink = container.querySelector("a[aria-current='page']");
+    expect(activeLink).toBeTruthy();
+  });
+
+  it("applies narrow width when collapsed", () => {
+    const { container } = render(
+      <Sidebar sections={sections} collapsed={true} />,
+    );
+    const aside = container.querySelector("aside");
+    expect(aside).toBeTruthy();
+    if (!aside) return;
+    expect(aside.className.includes("w-20")).toBe(true);
+  });
+
+  it("applies full width when not collapsed", () => {
+    const { container } = render(<Sidebar sections={sections} />);
+    const aside = container.querySelector("aside");
+    expect(aside).toBeTruthy();
+    if (!aside) return;
+    expect(aside.className.includes("w-64")).toBe(true);
+  });
 });

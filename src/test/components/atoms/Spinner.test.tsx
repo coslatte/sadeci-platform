@@ -43,4 +43,16 @@ describe("Spinner component", () => {
     expect(svg.className.includes("text-red-500")).toBe(true);
     expect(svg.getAttribute("aria-label")).toBe("Cargando");
   });
+
+  it("uses Loading... as default aria-label", () => {
+    const { getByRole } = render(<Spinner />);
+    const svg = getByRole("status");
+    expect(svg.getAttribute("aria-label")).toBe("Loading...");
+  });
+
+  it("applies animate-spin class", () => {
+    const { getByRole } = render(<Spinner />);
+    const svg = getByRole("status");
+    expect(svg.className.includes("animate-spin")).toBe(true);
+  });
 });
