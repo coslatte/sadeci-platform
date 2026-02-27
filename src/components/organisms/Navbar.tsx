@@ -2,16 +2,10 @@
 
 import React from "react";
 
-import { FiLogOut } from "react-icons/fi";
 import Link from "next/link";
 import { cn, dataDisabledProps } from "@/lib/utils";
-import {
-  NAV_BRAND_SHORT,
-  SEARCH_PLACEHOLDER,
-  ROUTE_NAMES_MAP,
-} from "@/constants/constants";
+import { NAV_BRAND_SHORT, ROUTE_NAMES_MAP } from "@/constants/constants";
 import { Avatar } from "@/components/atoms/Avatar";
-import { SearchBar } from "@/components/molecules/SearchBar";
 
 interface NavbarProps {
   className?: string;
@@ -57,15 +51,11 @@ export function Navbar({
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="hidden md:block w-64">
-          <SearchBar placeholder={SEARCH_PLACEHOLDER} disabled={disabled} />
-        </div>
-
         <div className="relative flex items-center gap-3 border-l border-slate-200 pl-4">
           <button
             type="button"
             onClick={toggleUserMenu}
-            className="flex items-center gap-3 no-underline"
+            className="flex items-center gap-3 no-underline rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-sm hover:shadow-md hover:border-slate-300 transition-shadow duration-150 focus:outline-none focus:ring-2 focus:ring-primary-100"
             aria-haspopup="true"
             aria-expanded={userMenuOpen}
             aria-label={`Usuario ${userName}`}
@@ -88,8 +78,8 @@ export function Navbar({
               <ul className="flex flex-col p-2">
                 <li>
                   <Link
-                    href="/ajustes"
-                    className="block rounded px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                      href="/settings"
+                    className="block rounded px-3 py-2 text-sm text-slate-700 border border-transparent hover:border-slate-200 hover:bg-slate-50"
                     onClick={() => setUserMenuOpen(false)}
                   >
                     Ajustes
@@ -103,7 +93,7 @@ export function Navbar({
                         setUserMenuOpen(false);
                         onLogout();
                       }}
-                      className="w-full text-left rounded px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                      className="w-full text-left rounded px-3 py-2 text-sm text-slate-700 border border-transparent hover:border-slate-200 hover:bg-slate-50"
                     >
                       Cerrar sesión
                     </button>

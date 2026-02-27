@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { FiBell } from "react-icons/fi";
 import { cn } from "@/lib/utils";
+import { Popover } from "@/components/molecules/Popover";
+import { NotificationsPanel } from "@/components/molecules/NotificationsPanel";
 
 interface FooterProps {
   className?: string;
@@ -12,7 +14,6 @@ interface FooterProps {
 export function Footer({ className, disabled }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
-  const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
   const notifications = [
@@ -32,16 +33,9 @@ export function Footer({ className, disabled }: FooterProps) {
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
+  // Footer delegates open state to Popover; keep ref for layout if needed in the future
   useEffect(() => {
-    function onDocClick(e: MouseEvent) {
-      if (!ref.current) return;
-      if (e.target instanceof Node && !ref.current.contains(e.target)) {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", onDocClick);
-    return () => document.removeEventListener("mousedown", onDocClick);
+    // noop for now - kept for parity with earlier implementation
   }, []);
 
   return (
@@ -60,63 +54,34 @@ export function Footer({ className, disabled }: FooterProps) {
 
       <div className="flex items-center gap-4" ref={ref}>
         <div className="relative">
-          <button
-            type="button"
-            aria-haspopup="true"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            className="relative rounded-md p-2 text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200"
-            title="Notificaciones"
+          <Popover
+            align="right"
+            trigger={
+              <button
+                type="button"
+                className="relative rounded-md p-2 text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                title="Notificaciones"
+                aria-label="Notificaciones"
+              >
+                <FiBell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center rounded-full bg-rose-600 text-white text-[10px] px-1.5 py-0.5">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+            }
           >
-            <FiBell className="h-5 w-5" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 inline-flex items-center justify-center rounded-full bg-rose-600 text-white text-[10px] px-1.5 py-0.5">
-                {unreadCount}
-              </span>
-            )}
-          </button>
-
-          <div
-            className={cn(
-              "absolute right-0 bottom-full mb-2 w-80 rounded-xl bg-white/60 backdrop-blur-sm border border-slate-200/30 shadow-lg z-20 transform-gpu transition duration-150 origin-bottom-right",
-              open
-                ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
-                : "opacity-0 -translate-y-1 scale-95 pointer-events-none",
-            )}
-            role="dialog"
-            aria-hidden={!open}
-          >
-            <div className="p-3 border-b border-slate-100/30">
-              <h4 className="text-sm font-semibold text-slate-800">
-                Notificaciones
-              </h4>
-            </div>
-            <div className="max-h-60 overflow-auto divide-y divide-slate-100/30">
-              {notifications.length > 0 ? (
-                notifications.map((n) => (
-                  <div
-                    key={n.id}
-                    className={cn(
-                      "px-4 py-3 hover:bg-slate-50/60",
-                      n.read ? "bg-transparent" : "bg-slate-50/60",
-                    )}
-                  >
-                    <div className="text-sm font-medium text-slate-900">
-                      {n.title}
-                    </div>
-                    <div className="text-sm text-slate-600">{n.body}</div>
-                  </div>
-                ))
-              ) : (
-                <div className="p-6 text-center text-sm text-slate-500">
-                  <div className="mx-auto mb-2 inline-flex h-8 w-8 items-center justify-center rounded-md bg-slate-100/50 text-slate-600">
-                    <FiBell className="h-4 w-4" />
-                  </div>
-                  No hay notificaciones
-                </div>
-              )}
-            </div>
-          </div>
+            <NotificationsPanel
+              notifications={notifications}
+              onMarkAsRead={(id) => {
+                // simple in-component handler not used; we rely on context in real usage
+                // placeholder: do nothing here
+                console.log("mark as read footer", id);
+              }}
+              onMarkAllAsRead={() => console.log("mark all as read from footer")}
+            />
+          </Popover>
         </div>
 
         <div className="flex items-center gap-2">

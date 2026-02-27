@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AppShell } from "@/components/layout";
 import ClientOnly from "@/components/ClientOnly/ClientOnly";
+import ShellController from "@/components/layout/ShellController";
 import { AuthProvider } from "@/lib/auth";
 import { Inter } from "next/font/google";
 
@@ -24,7 +24,7 @@ export default function RootLayout({
       >
         <AuthProvider>
           <ClientOnly fallback={<div className="min-h-screen" />}>
-            <AppShell>{children}</AppShell>
+            <ShellController>{children}</ShellController>
           </ClientOnly>
         </AuthProvider>
       </body>

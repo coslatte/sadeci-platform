@@ -1,14 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import {
+  FiChevronLeft,
+  FiChevronRight,
+  FiHome,
+  FiUsers,
+  FiSettings,
+  FiActivity,
+} from "react-icons/fi";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import type { NavItemType } from "@/lib/types";
 import {
   SIDEBAR_BRAND_FULL,
   SIDEBAR_COLLAPSE_COLLAPSE,
   SIDEBAR_COLLAPSE_EXPAND,
 } from "@/constants/constants";
+import { SIDEBAR_SECTIONS } from "@/lib/mockData";
+import type { NavItemType } from "@/lib/types";
 
 interface SidebarProps {
   sections: Array<{ title: string; items: NavItemType[] }>;
@@ -18,11 +27,43 @@ interface SidebarProps {
 }
 
 export function Sidebar({
-  sections,
   collapsed = false,
   onToggleCollapse,
   className,
 }: SidebarProps) {
+  const pathname = usePathname() ?? "/";
+
+  function isRouteActive(itemHref: string, pathnameStr: string) {
+    if (itemHref === "/") return pathnameStr === "/";
+    return pathnameStr === itemHref || pathnameStr.startsWith(`${itemHref}/`);
+  }
+
+  const iconMap: Record<string, string> = {
+    "/": "home",
+    "/simulation": "activity",
+    "/usuarios": "users",
+    "/ajustes": "settings",
+  };
+
+  const icons = {
+    home: <FiHome className="size-5" />,
+    activity: <FiActivity className="size-5" />,
+    users: <FiUsers className="size-5" />,
+    settings: <FiSettings className="size-5" />,
+  };
+
+  const sections = SIDEBAR_SECTIONS.map((section) => ({
+    title: section.title,
+    items: section.items.map(
+      (item) =>
+        ({
+          ...item,
+          active: isRouteActive(item.href, pathname) ? true : undefined,
+          icon: icons[iconMap[item.href] as keyof typeof icons],
+        }) as NavItemType,
+    ),
+  }));
+
   return (
     <aside
       className={cn(
@@ -51,7 +92,7 @@ export function Sidebar({
           {sections.map((section, idx) => (
             <div key={idx} className="flex flex-col gap-2">
               {!collapsed && (
-                <p className="px-2 text-[length:var(--font-size-xs)] font-bold uppercase tracking-widest text-slate-400">
+                <p className="px-2 text-(length:--font-size-xs) font-bold uppercase tracking-widest text-slate-400">
                   {section.title}
                 </p>
               )}
@@ -81,7 +122,7 @@ export function Sidebar({
                         {item.icon}
                       </div>
                       {!collapsed && (
-                        <span className="truncate text-[length:var(--font-size-sm)] font-medium">
+                        <span className="truncate text-(length:--font-size-sm) font-medium">
                           {item.label}
                         </span>
                       )}
