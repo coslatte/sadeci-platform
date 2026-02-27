@@ -128,3 +128,10 @@ bun run lint ; bun run test ; bun run build
 
 - Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado debe incluir/actualizar tests en `src/test/components/**`.
 - Siempre que se corra un test y este de error, no quedarse atascado y buscar la fuente del componente que tiene el error. Buscar soluciones inteligentes.
+
+## Escritura de tipado
+
+- Evitar `any` a toda costa. Si es necesario, usar `unknown` y luego refinarlo.
+- Para handlers de eventos, usar tipos explícitos: `React.ChangeEvent<HTMLInputElement>`, `HTMLSelectElement`, etc.
+- Para props de componentes, definir interfaces o tipos claros y exportarlos si se reutilizan.
+- Evitar tipos genéricos excesivos o complejos sin necesidad. Mantén el tipado lo más simple y directo posible para facilitar mantenimiento y revisión.
