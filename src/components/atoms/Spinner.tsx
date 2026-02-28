@@ -18,6 +18,14 @@ const sizeClasses: Record<string, string> = {
   xl: "size-10", // extra large spinner
 };
 
+const SPINNER_BASE = "animate-spin text-primary-600";
+
+/**
+ * Spinner
+ *
+ * Icon-based spinner used to indicate loading states. Provides a readable
+ * `aria-label` and supports a size token mapped to utility classes.
+ */
 export function Spinner({
   size = "md",
   className,
@@ -27,11 +35,7 @@ export function Spinner({
   return (
     <AiOutlineLoading3Quarters
       {...dataDisabledProps(disabled)}
-      className={cn(
-        "animate-spin text-primary-600",
-        sizeClasses[size],
-        className,
-      )}
+      className={cn(SPINNER_BASE, sizeClasses[size], className)}
       role="status"
       aria-label={label}
     />

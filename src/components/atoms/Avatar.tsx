@@ -19,6 +19,12 @@ const sizeClasses: Record<string, string> = {
   xl: "size-14 text-[length:var(--font-size-lg)]",
 };
 
+// Class name building blocks used by the component. Extracted to constants
+// to make it straightforward to centralize or reuse styles later.
+const AVATAR_IMG_BASE = "relative overflow-hidden rounded-full bg-zinc-200";
+const AVATAR_FALLBACK_BASE =
+  "inline-flex items-center justify-center rounded-full bg-primary-100 font-semibold text-primary-700";
+
 function getInitials(name: string): string {
   return name
     .split(" ")
@@ -27,6 +33,20 @@ function getInitials(name: string): string {
     .join("")
     .toUpperCase();
 }
+
+/**
+ * Avatar
+ *
+ * Small avatar UI used across the app. It supports an `src` image or a
+ * fallback that renders initials derived from `name`.
+ *
+ * @param props.src - optional image URL to render inside a rounded container
+ * @param props.alt - alt text for the image; used as accessible label when no name
+ * @param props.name - user's display name; used to compute initials when `src` is absent
+ * @param props.size - visual size token (xs, sm, md, lg, xl)
+ * @param props.className - optional className to merge with the component root
+ * @param props.disabled - when true attaches `data-disabled` for styling/testing
+ */
 
 export function Avatar({
   src,

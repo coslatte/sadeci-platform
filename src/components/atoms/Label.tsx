@@ -1,11 +1,24 @@
 import { cn, dataDisabledProps } from "@/lib/utils";
 
+/**
+ * Props for `Label`.
+ */
 interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  /** Show a required marker (*) */
   required?: boolean;
   children: React.ReactNode;
+  /** Attach data-disabled when true */
   disabled?: boolean;
 }
 
+const LABEL_BASE = "text-(length:--font-size-sm) font-medium text-zinc-700";
+
+/**
+ * Label
+ *
+ * Simple form label that can render an optional required marker. Use this
+ * component to keep label styles consistent across forms.
+ */
 export function Label({
   required,
   className,
@@ -16,10 +29,7 @@ export function Label({
   return (
     <label
       {...dataDisabledProps(disabled)}
-      className={cn(
-        "text-[length:var(--font-size-sm)] font-medium text-zinc-700",
-        className,
-      )}
+      className={cn(LABEL_BASE, className)}
       {...props}
     >
       {children}

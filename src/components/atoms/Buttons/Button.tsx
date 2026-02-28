@@ -28,6 +28,13 @@ const buttonSizeClasses: Record<Size, string> = {
   xl: "h-12 px-6 text-[length:var(--font-size-base)] gap-2.5",
 };
 
+/**
+ * Button
+ *
+ * High-level button component exposing `variant` and `size` tokens used by the
+ * design system. It composes `BaseButton` and applies variant/size utility
+ * classes.
+ */
 export function Button({
   variant = "primary",
   size = "md",
@@ -35,11 +42,13 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
+  const BUTTON_BASE = "rounded-xl";
+
   return (
     <BaseButton
       size={size}
       className={cn(
-        "rounded-xl",
+        BUTTON_BASE,
         buttonVariantClasses[variant],
         buttonSizeClasses[size],
         fullWidth && "w-full",

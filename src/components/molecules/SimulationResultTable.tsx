@@ -9,6 +9,15 @@ export interface SimulationResultTableProps {
   disabled?: boolean;
 }
 
+/**
+ * SimulationResultTable
+ *
+ * Renders a compact table of simulation statistics (mean, std, confidence
+ * intervals) for each time variable provided by the simulation result.
+ *
+ * @param result - simulation results grouped by time variable
+ * @param disabled - attach data-disabled to the wrapper for visual disabling
+ */
 export function SimulationResultTable({
   result,
   disabled,

@@ -13,6 +13,18 @@ export interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 export const baseButtonStyles =
   "relative inline-flex items-center justify-center overflow-hidden font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-0";
 
+/**
+ * BaseButton
+ *
+ * Low-level button used by other button components. It handles the loading
+ * state and renders a centered spinner overlay while keeping children in
+ * place for layout stability.
+ *
+ * @param loading - when true shows the spinner overlay and disables the button
+ * @param size - size token passed through to allow consistent spacing
+ * @param spinner - optional React node used as custom spinner
+ */
+
 export function BaseButton({
   loading = false,
   size = "md",

@@ -11,6 +11,25 @@ interface LinkCardProps {
   target?: string;
 }
 
+const LINKCARD_BASE = "group flex items-start gap-4 transition-all";
+const LINKCARD_HOVER = "hover:border-primary-200 hover:shadow-md";
+const LINKCARD_ICON =
+  "flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary-600";
+
+/**
+ * LinkCard
+ *
+ * Small card that links to an external or internal resource. Renders an icon
+ * slot, a title and optional description. By default links open in a new tab
+ * (`target="_blank"`) unless a different `target` is provided.
+ *
+ * @param label - visible title of the link card
+ * @param href - destination URL
+ * @param icon - optional icon node displayed in the left slot
+ * @param description - optional secondary text shown below the title
+ * @param className - extra classes applied to the Card root
+ * @param target - anchor target (defaults to `_blank`)
+ */
 export function LinkCard({
   label,
   href,
@@ -26,16 +45,8 @@ export function LinkCard({
       rel={target === "_blank" ? "noopener noreferrer" : undefined}
       className="group"
     >
-      <Card
-        className={cn(
-          "group flex items-start gap-4 transition-all",
-          "hover:border-primary-200 hover:shadow-md",
-          className,
-        )}
-      >
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-primary-50 group-hover:text-primary-600">
-          {icon}
-        </div>
+      <Card className={cn(LINKCARD_BASE, LINKCARD_HOVER, className)}>
+        <div className={cn(LINKCARD_ICON)}>{icon}</div>
 
         <div>
           <p className="text-(length:--font-size-sm) font-semibold text-slate-800 group-hover:text-primary-700">

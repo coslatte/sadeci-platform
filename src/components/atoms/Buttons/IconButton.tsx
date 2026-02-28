@@ -20,6 +20,12 @@ const iconButtonSizeClasses: Record<Size, { button: string; icon: string }> = {
   xl: { button: "size-12", icon: "text-[length:var(--font-size-xl)]" },
 };
 
+/**
+ * IconButton
+ *
+ * Compact round button variant intended to display a single icon. `aria-label`
+ * must be provided to ensure accessibility.
+ */
 export function IconButton({
   variant = "secondary",
   size = "md",
@@ -29,11 +35,13 @@ export function IconButton({
 }: IconButtonProps) {
   const { button: buttonSize, icon: iconSize } = iconButtonSizeClasses[size];
 
+  const ICON_BUTTON_BASE = "rounded-full shrink-0";
+
   return (
     <BaseButton
       size={size}
       className={cn(
-        "rounded-full shrink-0",
+        ICON_BUTTON_BASE,
         variantClasses[variant],
         buttonSize,
         className,

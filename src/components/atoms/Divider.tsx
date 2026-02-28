@@ -1,11 +1,26 @@
 import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 
+/**
+ * Props for `Divider`.
+ */
 interface DividerProps extends HTMLAttributes<HTMLHRElement | HTMLDivElement> {
+  /** Orientation of the divider; vertical renders as a thin column */
   orientation?: "horizontal" | "vertical";
+  /** When true attaches data-disabled attribute for styling/tests */
   disabled?: boolean;
 }
 
+const DIVIDER_HORZ = "w-full border-t border-zinc-200";
+const DIVIDER_VERT = "h-full w-px bg-zinc-200";
+
+/**
+ * Divider
+ *
+ * Simple visual separator. Renders either an <hr> for horizontal separators
+ * or a <div> for vertical separators. It sets `role="separator"` and the
+ * appropriate `aria-orientation` value.
+ */
 export function Divider({
   className,
   orientation = "horizontal",
@@ -16,7 +31,7 @@ export function Divider({
     return (
       <div
         {...dataDisabledProps(disabled)}
-        className={cn("h-full w-px bg-zinc-200", className)}
+        className={cn(DIVIDER_VERT, className)}
         role="separator"
         aria-orientation="vertical"
         {...props}
@@ -26,7 +41,7 @@ export function Divider({
   return (
     <hr
       {...dataDisabledProps(disabled)}
-      className={cn("w-full border-t border-zinc-200", className)}
+      className={cn(DIVIDER_HORZ, className)}
       role="separator"
       aria-orientation="horizontal"
       {...props}

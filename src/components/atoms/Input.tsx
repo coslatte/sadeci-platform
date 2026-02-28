@@ -19,6 +19,19 @@ export function Input({
   type,
   ...props
 }: InputProps) {
+  /**
+   * Input
+   *
+   * A controlled/uncontrolled input field with optional inline info tooltip
+   * and number increment/decrement controls. The component forwards both
+   * React's `onChange` and also handles native `input` events to support
+   * test utilities that dispatch native events.
+   *
+   * @param error - marks the input as having an error state (applies red styles)
+   * @param fullWidth - when true the input expands to fill the container
+   * @param info - optional helper text shown in a tooltip triggered by an icon
+   * @param showNumberControls - when true and type="number" shows small up/down controls
+   */
   const inputId = useId();
   const infoId = info ? `${inputId}-info` : undefined;
   const ref = useRef<HTMLInputElement | null>(null);
