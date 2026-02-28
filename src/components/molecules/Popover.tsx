@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { createPortal } from "react-dom";
 import { FiX } from "react-icons/fi";
 import { cn } from "@/lib/utils";
@@ -13,6 +19,26 @@ interface PopoverProps {
   closeOnSelect?: boolean;
 }
 
+/**
+ * Popover
+ *
+ * A lightweight portal-backed popover/dialog used for small interactive panels
+ * (notifications, menus, etc.). The popover clones native interactive triggers
+ * (button, anchor) to avoid invalid nested interactive elements; non-interactive
+ * triggers (like <span>) are wrapped in a button.
+ *
+ * Accessibility notes:
+ * - The trigger receives `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls`.
+ * - The content uses `role="dialog"` but is non-modal (aria-modal=false).
+ *
+ * @param trigger - React node used to toggle the popover. Can be a native element
+ *                  (button/a) or any other node. Native interactive triggers are
+ *                  cloned to preserve valid HTML.
+ * @param children - Content rendered inside the popover
+ * @param align - Horizontal alignment of the popover relative to the trigger
+ * @param className - Optional className applied to the wrapper
+ * @param closeOnSelect - If true, clicking a button/link inside the popover will close it
+ */
 export function Popover({
   trigger,
   children,
@@ -25,9 +51,10 @@ export function Popover({
   const [exiting, setExiting] = useState(false);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
-  const [position, setPosition] = useState<{ top: number; left: number } | null>(
-    null,
-  );
+  const [position, setPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
 
   useEffect(() => {
     function onDocDown(e: MouseEvent) {
@@ -99,10 +126,16 @@ export function Popover({
       className={cn(
         // use footer-like glassmorphism + softer border and enter/exit animation
         "rounded-xl bg-white/60 backdrop-blur-sm border border-slate-200/30 shadow-lg p-3 transform-gpu transition-all duration-150",
-        exiting ? "opacity-0 -translate-y-1 scale-95 pointer-events-none" : "opacity-100 translate-y-0 scale-100",
+        exiting
+          ? "opacity-0 -translate-y-1 scale-95 pointer-events-none"
+          : "opacity-100 translate-y-0 scale-100",
         "w-80",
       )}
-      style={position ? { position: "absolute", top: position.top, left: position.left } : undefined}
+      style={
+        position
+          ? { position: "absolute", top: position.top, left: position.left }
+          : undefined
+      }
     >
       <div className="flex justify-end mb-2">
         <button
@@ -118,21 +151,67 @@ export function Popover({
     </div>
   );
 
-  return (
-    <div className={cn("relative inline-block", className)} ref={wrapperRef}>
+  // If trigger is a native interactive element (button or anchor) we clone it and
+  // attach popover props to avoid nesting an extra <button> which would create
+  // invalid HTML and break tests / accessibility. For non-interactive triggers
+  // we wrap them in a button so the DOM and keyboard focus behavior remains
+  // predictable for consumers and tests.
+  const renderTrigger = () => {
+    const handleToggle = (e?: any) => {
+      // allow original handler to run first
+      try {
+        if (typeof trigger === "object" && React.isValidElement(trigger)) {
+          const origOnClick = (trigger.props as any).onClick;
+          if (typeof origOnClick === "function") origOnClick(e);
+        }
+      } catch (err) {
+        // ignore
+      }
+
+      if (open) setExiting(true);
+      else setOpen(true);
+    };
+
+    if (
+      React.isValidElement(trigger) &&
+      typeof trigger.type === "string" &&
+      (trigger.type === "button" || trigger.type === "a")
+    ) {
+      // native interactive element like 'button' or 'a'
+      const isButtonEl = trigger.type === "button";
+      const newProps: any = {
+        "aria-haspopup": "dialog",
+        "aria-expanded": open,
+        "aria-controls": id,
+        onClick: handleToggle,
+        className: cn(
+          "inline-flex items-center",
+          (trigger.props as any).className,
+        ),
+      };
+      if (isButtonEl) newProps.type = (trigger.props as any).type ?? "button";
+
+      return React.cloneElement(trigger, newProps);
+    }
+
+    // fallback: wrap non-native triggers in a button
+    return (
       <button
         type="button"
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={id}
-        onClick={() => {
-          if (open) setExiting(true);
-          else setOpen(true);
-        }}
+        onClick={handleToggle}
         className="inline-flex items-center"
       >
         {trigger}
       </button>
+    );
+  };
+
+  return (
+    <div className={cn("relative inline-block", className)} ref={wrapperRef}>
+      {renderTrigger()}
 
       {(open || exiting) && createPortal(content, document.body)}
     </div>

@@ -21,16 +21,32 @@ const NotificationsContext = createContext<NotificationsContextValue | null>(
   null,
 );
 
-export function NotificationsProvider({ children }: { children: React.ReactNode }) {
+export function NotificationsProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [notifications, setNotifications] = useState<NotificationItem[]>([
-    { id: 1, title: "Nueva tarea asignada", body: "Tienes una nueva tarea.", read: false },
-    { id: 2, title: "Informe listo", body: "El informe semanal está disponible.", read: true },
+    {
+      id: 1,
+      title: "Nueva tarea asignada",
+      body: "Tienes una nueva tarea.",
+      read: false,
+    },
+    {
+      id: 2,
+      title: "Informe listo",
+      body: "El informe semanal está disponible.",
+      read: true,
+    },
   ]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   function markAsRead(id: NotificationItem["id"]) {
-    setNotifications((prev) => prev.map((p) => (p.id === id ? { ...p, read: true } : p)));
+    setNotifications((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, read: true } : p)),
+    );
   }
 
   function markAllAsRead() {
@@ -39,13 +55,22 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
 
   function addNotification(n: Omit<NotificationItem, "id">) {
     setNotifications((prev) => [
-      { id: prev.length ? Math.max(...prev.map((p) => Number(p.id))) + 1 : 1, ...n },
+      {
+        id: prev.length ? Math.max(...prev.map((p) => Number(p.id))) + 1 : 1,
+        ...n,
+      },
       ...prev,
     ]);
   }
 
   const value = useMemo(
-    () => ({ notifications, unreadCount, markAsRead, markAllAsRead, addNotification }),
+    () => ({
+      notifications,
+      unreadCount,
+      markAsRead,
+      markAllAsRead,
+      addNotification,
+    }),
     [notifications, unreadCount],
   );
 
