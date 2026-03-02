@@ -5,6 +5,7 @@ import { FiBell } from "react-icons/fi";
 import { cn } from "@/lib/utils";
 import { Popover } from "@/components/molecules/Popover";
 import { NotificationsPanel } from "@/components/molecules/NotificationsPanel";
+import { useNotifications } from "@/context/notifications";
 
 interface FooterProps {
   className?: string;
@@ -27,22 +28,8 @@ export function Footer({ className, disabled }: FooterProps) {
 
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const notifications = [
-    {
-      id: 1,
-      title: "Nueva tarea asignada",
-      body: "Tienes una nueva tarea.",
-      read: false,
-    },
-    {
-      id: 2,
-      title: "Informe listo",
-      body: "El informe semanal está disponible.",
-      read: true,
-    },
-  ];
-
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const { notifications, unreadCount, markAsRead, markAllAsRead } =
+    useNotifications();
 
   // Footer delegates open state to Popover; keep ref for layout if needed in the future
   useEffect(() => {
@@ -85,12 +72,8 @@ export function Footer({ className, disabled }: FooterProps) {
           >
             <NotificationsPanel
               notifications={notifications}
-              onMarkAsRead={(id) => {
-                console.log("mark as read footer", id);
-              }}
-              onMarkAllAsRead={() =>
-                console.log("mark all as read from footer")
-              }
+              onMarkAsRead={markAsRead}
+              onMarkAllAsRead={markAllAsRead}
             />
           </Popover>
         </div>

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 // Presentational className constants to make future token extraction easier
 const PANEL_BASE =
-  "w-80 rounded-xl bg-white/60 backdrop-blur-sm border border-slate-200/30 shadow-lg z-20 transform-gpu transition duration-150 origin-top-right";
+  "w-80 rounded-xl bg-white/20 backdrop-blur-lg border border-white/10 shadow-lg z-20 transform-gpu transition duration-150 origin-top-right";
 const HEADER_BASE =
   "p-3 border-b border-slate-100/30 flex items-center justify-between";
 const MARK_ALL_BTN = "text-sm text-slate-500 hover:text-slate-700";
@@ -106,7 +106,10 @@ export function NotificationsPanel({
             <div className={EMPTY_ICON}>
               <FiBell className="w-4 h-4" />
             </div>
-            No hay notificaciones
+            <div>No hay notificaciones</div>
+            <div className="mt-2 text-[12px] text-slate-400">
+              No hay notificaciones recientes. Te avisaremos cuando haya novedades.
+            </div>
           </div>
         )}
       </div>
