@@ -22,6 +22,7 @@ import {
   STATS_UPLOAD_EXPERIMENT_1,
   STATS_UPLOAD_EXPERIMENT_2,
   STATS_UPLOAD_EXPERIMENTS,
+  STATS_TABLIST_LABEL,
 } from "@/constants/constants";
 import {
   WilcoxonSection,
@@ -165,7 +166,7 @@ export default function StatisticsPage() {
         <div
           className="flex border-b border-slate-200"
           role="tablist"
-          aria-label="Pruebas estadísticas"
+          aria-label={STATS_TABLIST_LABEL}
         >
           <button
             role="tab"

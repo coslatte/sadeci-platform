@@ -147,6 +147,14 @@ export const STATS_WARNING_SIZE_ADJUSTED =
   "Para realizar correctamente la prueba se ajustaron los tamaños de muestra. Todas las columnas quedaron con el mismo número de filas.";
 export const STATS_ERROR_PARSE = "Error al procesar los archivos CSV.";
 export const STATS_EXPERIMENT_LABEL = (n: number) => `Experimento ${n}`;
+export const STATS_CLICK_TO_SELECT_FILE =
+  "Haz clic para seleccionar un archivo CSV";
+export const STATS_CLICK_TO_SELECT_FILES =
+  "Haz clic para seleccionar archivos CSV (mínimo 3)";
+export const STATS_TABLE_METRIC_HEADER = "Métrica";
+export const STATS_TABLE_VALUE_HEADER = "Valor";
+export const STATS_LOADING = "Ejecutando...";
+export const STATS_TABLIST_LABEL = "Pruebas estadísticas";
 
 // Notifications
 export const NOTIFICATIONS_TITLE = "Notificaciones";

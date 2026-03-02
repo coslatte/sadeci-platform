@@ -17,6 +17,11 @@ import {
   STATS_RESULTS_TITLE,
   STATS_PREVIEW_LABEL,
   STATS_EXPERIMENT_LABEL,
+  STATS_CLICK_TO_SELECT_FILE,
+  STATS_CLICK_TO_SELECT_FILES,
+  STATS_TABLE_METRIC_HEADER,
+  STATS_TABLE_VALUE_HEADER,
+  STATS_LOADING,
 } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 
@@ -68,7 +73,7 @@ function FileUploader({ label, file, inputId, onChange }: FileUploaderProps) {
           </span>
         ) : (
           <span className="text-(length:--font-size-sm) text-zinc-400">
-            Haz clic para seleccionar un archivo CSV
+            {STATS_CLICK_TO_SELECT_FILE}
           </span>
         )}
       </div>
@@ -131,7 +136,7 @@ function MultiFileUploader({
           </ul>
         ) : (
           <span className="text-(length:--font-size-sm) text-zinc-400">
-            Haz clic para seleccionar archivos CSV (mínimo 3)
+            {STATS_CLICK_TO_SELECT_FILES}
           </span>
         )}
       </div>
@@ -152,14 +157,14 @@ function StatResultTable({ result }: StatResultTableProps) {
       >
         <thead>
           <tr className="border-b border-zinc-200">
-            <th className={RESULT_TABLE_HEADER}>Métrica</th>
+            <th className={RESULT_TABLE_HEADER}>{STATS_TABLE_METRIC_HEADER}</th>
             <th
               className={cn(
                 RESULT_TABLE_HEADER,
                 "pl-4 text-right text-zinc-700",
               )}
             >
-              Valor
+              {STATS_TABLE_VALUE_HEADER}
             </th>
           </tr>
         </thead>
@@ -271,7 +276,7 @@ export function WilcoxonSection({
         disabled={loading}
         aria-label={runLabel}
       >
-        {loading ? "Ejecutando..." : runLabel}
+        {loading ? STATS_LOADING : runLabel}
       </Button>
 
       {warning && <Alert variant="warning">{warning}</Alert>}
@@ -378,7 +383,7 @@ export function FriedmanSection({
         disabled={loading}
         aria-label={runLabel}
       >
-        {loading ? "Ejecutando..." : runLabel}
+        {loading ? STATS_LOADING : runLabel}
       </Button>
 
       {warning && <Alert variant="warning">{warning}</Alert>}
