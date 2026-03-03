@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { Button } from "@/components/atoms/Buttons";
-import { Select } from "@/components/atoms/Select";
+import AccessibleSelect from "@/components/atoms/AccessibleSelect";
 import { Alert } from "@/components/molecules/Alert";
 import { Label } from "@/components/atoms/Label";
 import { EXPERIMENT_VARIABLE_LABELS } from "@/lib/statistics";
@@ -238,20 +238,13 @@ export function WilcoxonSection({
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="wilcoxon-col-select">{STATS_SELECT_COLUMN}</Label>
-            <Select
+            <AccessibleSelect
               id="wilcoxon-col-select"
               value={selectedColumn}
               fullWidth
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                onColumnChange(e.target.value)
-              }
-            >
-              {EXPERIMENT_VARIABLE_LABELS.map((label) => (
-                <option key={label} value={label}>
-                  {label}
-                </option>
-              ))}
-            </Select>
+              onChange={(v) => onColumnChange(String(v))}
+              options={EXPERIMENT_VARIABLE_LABELS.map((label) => ({ value: label, label }))}
+            />
           </div>
 
           {file1 && file2 && (
@@ -339,20 +332,13 @@ export function FriedmanSection({
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="friedman-col-select">{STATS_SELECT_COLUMN}</Label>
-            <Select
+            <AccessibleSelect
               id="friedman-col-select"
               value={selectedColumn}
               fullWidth
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                onColumnChange(e.target.value)
-              }
-            >
-              {EXPERIMENT_VARIABLE_LABELS.map((label) => (
-                <option key={label} value={label}>
-                  {label}
-                </option>
-              ))}
-            </Select>
+              onChange={(v) => onColumnChange(String(v))}
+              options={EXPERIMENT_VARIABLE_LABELS.map((label) => ({ value: label, label }))}
+            />
           </div>
 
           {files.length > 0 && (

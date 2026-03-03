@@ -32,7 +32,7 @@ describe("Navbar", () => {
   });
 
   it("opens user popover and shows ajustes link when user button is clicked", () => {
-    const { container, getByText } = render(<Navbar pathname="/" />);
+    const { container, getByText, getByRole } = render(<Navbar pathname="/" />);
 
     const userBtn = container.querySelector(
       "button[aria-haspopup='dialog']",
@@ -41,7 +41,9 @@ describe("Navbar", () => {
 
     fireEvent.click(userBtn);
 
-    expect(getByText("Ajustes")).toBeTruthy();
+    // the breadcrumb also contains the word 'Ajustes' in some renders, so
+    // target the link role specifically to find the settings link inside the popover
+    expect(getByRole("link", { name: "Ajustes" })).toBeTruthy();
   });
 
   it("user popover trigger has correct aria attributes", () => {
@@ -65,7 +67,7 @@ describe("Navbar", () => {
 
   it("calls onLogout when logout button is clicked inside popover", () => {
     let logoutCalled = false;
-    const { container, getByText } = render(
+    const { container, getByText, getByRole } = render(
       <Navbar
         pathname="/"
         onLogout={() => {
@@ -79,7 +81,7 @@ describe("Navbar", () => {
     ) as HTMLElement;
     fireEvent.click(userBtn);
 
-    fireEvent.click(getByText("Cerrar sesión"));
+    fireEvent.click(getByRole("button", { name: "Cerrar sesión" }));
 
     expect(logoutCalled).toBe(true);
   });

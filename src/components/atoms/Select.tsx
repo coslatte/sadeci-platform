@@ -1,4 +1,5 @@
 import { cn, dataDisabledProps } from "@/lib/utils";
+import { inter } from "@/lib/fonts";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: boolean;
@@ -6,7 +7,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const SELECT_BASE = [
-  "h-9 rounded-lg border bg-white px-3 text-[length:var(--font-size-sm)] text-zinc-900 shadow-xs",
+  "h-9 rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs",
   "transition-colors duration-150",
   "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500",
   "disabled:cursor-not-allowed disabled:opacity-50",
@@ -29,6 +30,11 @@ export function Select({
   return (
     <select
       className={cn(
+        // Apply the app font class explicitly so form controls (select/options)
+        // inherit the same webfont as the rest of the app. Some UAs still
+        // render native dropdowns with system fonts, but this increases
+        // consistency where possible.
+        inter.className,
         SELECT_BASE,
         error
           ? "border-red-400 focus:ring-red-500 focus:border-red-500"

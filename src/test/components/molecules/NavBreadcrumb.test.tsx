@@ -1,5 +1,5 @@
 import "../../setup";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, within } from "@testing-library/react";
 import { describe, expect, it, mock, beforeAll, beforeEach } from "bun:test";
 import type { FC } from "react";
 
@@ -38,18 +38,24 @@ describe("NavBreadcrumb", () => {
   });
 
   it("calls router.back() when brand button is clicked", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <NavBreadcrumb brandName="Saduci" currentPage="Dashboard" />,
     );
-    fireEvent.click(getByRole("button"));
+    const nav = container.querySelector('nav[aria-label="Breadcrumb"]');
+    if (!nav) throw new Error("Breadcrumb nav not found");
+    const btn = within(nav).getByRole("button", { name: /Saduci/ });
+    fireEvent.click(btn);
     expect(mockBack).toHaveBeenCalledTimes(1);
   });
 
   it("brand button has descriptive aria-label", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <NavBreadcrumb brandName="Saduci" currentPage="Usuarios" />,
     );
-    expect(getByRole("button").getAttribute("aria-label")).toContain("Saduci");
+    const nav = container.querySelector('nav[aria-label="Breadcrumb"]');
+    if (!nav) throw new Error("Breadcrumb nav not found");
+    const btn = within(nav).getByRole("button", { name: /Saduci/ });
+    expect(btn.getAttribute("aria-label")).toContain("Saduci");
   });
 
   it("current page has aria-current='page'", () => {
@@ -60,11 +66,11 @@ describe("NavBreadcrumb", () => {
   });
 
   it("renders nav landmark with breadcrumb label", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <NavBreadcrumb brandName="Saduci" currentPage="Dashboard" />,
     );
-    expect(getByRole("navigation").getAttribute("aria-label")).toBe(
-      "Breadcrumb",
-    );
+    const nav = container.querySelector('nav[aria-label="Breadcrumb"]');
+    if (!nav) throw new Error("Breadcrumb nav not found");
+    expect(nav.getAttribute("aria-label")).toBe("Breadcrumb");
   });
 });

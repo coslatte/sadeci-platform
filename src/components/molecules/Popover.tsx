@@ -55,7 +55,9 @@ export function Popover({
     top?: number;
     bottom?: number;
     left: number;
+    relative?: boolean;
   } | null>(null);
+  const [usePortal, setUsePortal] = useState(true);
 
   useEffect(() => {
     function onDocDown(e: MouseEvent) {
@@ -98,7 +100,12 @@ export function Popover({
 
   function resolvePosition() {
     if (!wrapperRef.current) return;
-    const rect = wrapperRef.current.getBoundingClientRect();
+    // Prefer the actual trigger element (cloned button/anchor) when available
+    // as it provides a more accurate bounding rect in complex layouts.
+    const triggerEl = document.querySelector(`[aria-controls="${id}"]`) as
+      | HTMLElement
+      | null;
+    const rect = triggerEl?.getBoundingClientRect() ?? wrapperRef.current.getBoundingClientRect();
     const PANEL_WIDTH = 320;
     let left = rect.right - PANEL_WIDTH;
     if (align === "left") left = rect.left;
@@ -120,7 +127,11 @@ export function Popover({
 
     function compute() {
       if (!wrapperRef.current) return;
-      const rect = wrapperRef.current.getBoundingClientRect();
+      // Use the trigger element if present (aria-controls points to the popover id)
+      const triggerEl = document.querySelector(`[aria-controls="${id}"]`) as
+        | HTMLElement
+        | null;
+      const rect = triggerEl?.getBoundingClientRect() ?? wrapperRef.current.getBoundingClientRect();
       const PANEL_WIDTH = 320;
       let left = rect.right - PANEL_WIDTH;
       if (align === "left") left = rect.left;
@@ -133,13 +144,40 @@ export function Popover({
         contentRef.current?.offsetHeight ?? PANEL_MAX_HEIGHT;
       const spaceBelow = window.innerHeight - rect.bottom;
 
+      // detect transformed/filter/perspective ancestors which can change how
+      // fixed positioning behaves (they create a containing block). When
+      // present, we'll render the popover absolute inside the wrapper to
+      // avoid misalignment.
+      let el: Element | null = wrapperRef.current.parentElement;
+      let transformed = false;
+      while (el && el !== document.body) {
+        const st = window.getComputedStyle(el as Element);
+        const hasTransform = (st.transform && st.transform !== "none") || (st.perspective && st.perspective !== "none") || (st.filter && st.filter !== "none");
+        if (hasTransform) {
+          transformed = true;
+          break;
+        }
+        el = el.parentElement;
+      }
+      setUsePortal(!transformed);
+
       // prefer showing below when there's enough space, otherwise show above
       if (spaceBelow < contentHeight + 16) {
         // place above the trigger, keeping 8px margin
         const top = Math.max(8, rect.top - contentHeight - 8);
-        setPosition({ top, left });
+        if (transformed) {
+          const wrapperRect = wrapperRef.current.getBoundingClientRect();
+          setPosition({ top: top - wrapperRect.top, left: left - wrapperRect.left, relative: true });
+        } else {
+          setPosition({ top, left, relative: false });
+        }
       } else {
-        setPosition({ top: rect.bottom + 8, left });
+        if (transformed) {
+          const wrapperRect = wrapperRef.current.getBoundingClientRect();
+          setPosition({ top: rect.bottom + 8 - wrapperRect.top, left: left - wrapperRect.left, relative: true });
+        } else {
+          setPosition({ top: rect.bottom + 8, left, relative: false });
+        }
       }
     }
 
@@ -266,7 +304,7 @@ export function Popover({
     <div className={cn("relative inline-block", className)} ref={wrapperRef}>
       {renderTrigger()}
 
-      {(open || exiting) && createPortal(content, document.body)}
+      {(open || exiting) && (usePortal ? createPortal(content, document.body) : content)}
     </div>
   );
 }

@@ -177,6 +177,16 @@ export function Sidebar({
                                     : SUB_LINK_INACTIVE,
                                 )}
                               >
+                                <div
+                                  className={cn(
+                                    "flex size-4 shrink-0 items-center justify-center mr-2 transition-colors",
+                                    child.active
+                                      ? "text-primary-600"
+                                      : "text-slate-400 group-hover:text-slate-600",
+                                  )}
+                                >
+                                  {child.icon}
+                                </div>
                                 <span className="truncate text-[length:var(--font-size-xs)]">
                                   {child.label}
                                 </span>

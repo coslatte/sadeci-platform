@@ -3,9 +3,7 @@ import "./globals.css";
 import ClientOnly from "@/components/ClientOnly/ClientOnly";
 import ShellController from "@/components/layout/ShellController";
 import { AuthProvider } from "@/lib/auth";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { inter } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Saduci Platform",
@@ -19,9 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body
-        className={`${inter.className} antialiased bg-zinc-50 text-zinc-900`}
-      >
+      {/*
+        Global layout: the app font is applied here using the `inter` instance
+        imported from `src/lib/fonts.ts`. This makes it explicit where the
+        global font is defined so form controls (select/option) inherit it.
+      */}
+      <body className={`${inter.className} antialiased bg-zinc-50 text-zinc-900`}>
         <AuthProvider>
           <ClientOnly fallback={<div className="min-h-screen" />}>
             <ShellController>{children}</ShellController>

@@ -17,7 +17,15 @@ import {
   RUNS_LABEL,
   SIMULATE_BUTTON,
 } from "@/constants/constants";
-import { diagOptions, respInsufOptions, ventTypeOptions } from "../helpers";
+import {
+  diagOptions,
+  respInsufOptions,
+  ventTypeOptions,
+  respInsufData,
+  diagData,
+  ventTypeData,
+} from "../helpers";
+import AccessibleSelect from "@/components/atoms/AccessibleSelect";
 import type React from "react";
 
 interface Props {
@@ -245,61 +253,49 @@ export default function SimulationInputs({
               <Label htmlFor="diag-ing-1" className="text-slate-500">
                 Diag. Ingreso 1
               </Label>
-              <Select
+              <AccessibleSelect
                 id="diag-ing-1"
-                value={diagIng1}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setDiagIng1(Number(e.target.value))
-                }
+                value={String(diagIng1)}
+                onChange={(v) => setDiagIng1(Number(v))}
+                options={diagData()}
                 fullWidth
-              >
-                {diagOptions()}
-              </Select>
+              />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="diag-ing-2" className="text-slate-500">
                 Diag. Ingreso 2
               </Label>
-              <Select
+              <AccessibleSelect
                 id="diag-ing-2"
-                value={diagIng2}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setDiagIng2(Number(e.target.value))
-                }
+                value={String(diagIng2)}
+                onChange={(v) => setDiagIng2(Number(v))}
+                options={diagData()}
                 fullWidth
-              >
-                {diagOptions()}
-              </Select>
+              />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="diag-ing-3" className="text-slate-500">
                 Diag. Ingreso 3
               </Label>
-              <Select
+              <AccessibleSelect
                 id="diag-ing-3"
-                value={diagIng3}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setDiagIng3(Number(e.target.value))
-                }
+                value={String(diagIng3)}
+                onChange={(v) => setDiagIng3(Number(v))}
+                options={diagData()}
                 fullWidth
-              >
-                {diagOptions()}
-              </Select>
+              />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="diag-ing-4" className="text-slate-500">
                 Diag. Ingreso 4
               </Label>
-              <Select
+              <AccessibleSelect
                 id="diag-ing-4"
-                value={diagIng4}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setDiagIng4(Number(e.target.value))
-                }
+                value={String(diagIng4)}
+                onChange={(v) => setDiagIng4(Number(v))}
+                options={diagData()}
                 fullWidth
-              >
-                {diagOptions()}
-              </Select>
+              />
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -307,46 +303,37 @@ export default function SimulationInputs({
               <Label htmlFor="resp-insuf" className="text-slate-500">
                 Insuf. Respiratoria
               </Label>
-              <Select
+              <AccessibleSelect
                 id="resp-insuf"
-                value={respInsuf}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setRespInsuf(Number(e.target.value))
-                }
+                value={String(respInsuf)}
+                onChange={(v) => setRespInsuf(Number(v))}
+                options={respInsufData()}
                 fullWidth
-              >
-                {respInsufOptions()}
-              </Select>
+              />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="vent-type" className="text-slate-500">
                 Ventilación Artificial
               </Label>
-              <Select
+              <AccessibleSelect
                 id="vent-type"
-                value={ventType}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setVentType(Number(e.target.value))
-                }
+                value={String(ventType)}
+                onChange={(v) => setVentType(Number(v))}
+                options={ventTypeData()}
                 fullWidth
-              >
-                {ventTypeOptions()}
-              </Select>
+              />
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="diag-egreso-2" className="text-slate-500">
                 Diagnóstico Egreso 2
               </Label>
-              <Select
+              <AccessibleSelect
                 id="diag-egreso-2"
-                value={diagEgreso2}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setDiagEgreso2(Number(e.target.value))
-                }
+                value={String(diagEgreso2)}
+                onChange={(v) => setDiagEgreso2(Number(v))}
+                options={diagData()}
                 fullWidth
-              >
-                {diagOptions()}
-              </Select>
+              />
             </div>
           </div>
         </div>

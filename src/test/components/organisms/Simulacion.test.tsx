@@ -115,12 +115,13 @@ describe("simulacion page — smoke tests", () => {
   });
 
   it("Alert with danger variant renders error message", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <Alert variant="danger" title="Error en la simulación">
         Seleccione un tipo de Insuficiencia Respiratoria.
       </Alert>,
     );
-    const alert = getByRole("alert");
+    const alert = container.querySelector('[role="alert"]') as HTMLElement | null;
+    if (!alert) throw new Error("Alert not found");
     expect(alert.className.includes("bg-red-50")).toBe(true);
   });
 });
