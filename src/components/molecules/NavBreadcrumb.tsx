@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,7 @@ interface NavBreadcrumbProps {
 }
 
 const styles = {
-  root: "flex items-center gap-2 text-(length:--font-size-sm) text-slate-500",
+  root: "flex items-center gap-2 text-[length:var(--font-size-sm)] text-slate-500",
   brand:
     "cursor-pointer select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline",
   separator: "text-slate-300",

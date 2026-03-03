@@ -19,7 +19,7 @@ interface AppErrorProps {
  */
 export function AppError({ error, reset }: AppErrorProps) {
   useEffect(() => {
-    console.error(error);
+    console.error("[AppError]", error.message);
   }, [error]);
 
   const CONTAINER =

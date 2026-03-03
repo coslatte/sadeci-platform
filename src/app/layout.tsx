@@ -8,8 +8,8 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sadeci Platform",
-  description: "Plataforma de gestión Sadeci",
+  title: "Saduci Platform",
+  description: "Plataforma de gestión Saduci",
 };
 
 export default function RootLayout({

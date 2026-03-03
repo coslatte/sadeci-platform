@@ -22,12 +22,18 @@ export function parseCSV(text: string): Record<string, string[]> {
   return result;
 }
 
+const MAX_CSV_SIZE_BYTES = 5 * 1024 * 1024;
+
 /**
  * Reads a File object and returns the parsed CSV columns.
+ * Rejects files larger than 5 MB.
  */
 export async function readCSVFile(
   file: File,
 ): Promise<Record<string, string[]>> {
+  if (file.size > MAX_CSV_SIZE_BYTES) {
+    throw new Error(`El archivo "${file.name}" supera el límite de 5 MB.`);
+  }
   const text = await file.text();
   return parseCSV(text);
 }

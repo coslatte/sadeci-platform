@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cn, dataDisabledProps } from "@/lib/utils";
 
 /**
@@ -17,7 +17,7 @@ interface NavItemProps {
 }
 
 const NAVITEM_BASE =
-  "flex items-center gap-3 rounded-lg px-3 py-2 text-(length:--font-size-sm) font-medium";
+  "flex items-center gap-3 rounded-lg px-3 py-2 text-[length:var(--font-size-sm)] font-medium";
 const NAVITEM_TRANSITION = "transition-colors duration-150";
 const NAVITEM_ACTIVE = "bg-primary-50 text-primary-700";
 const NAVITEM_INACTIVE = "text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900";

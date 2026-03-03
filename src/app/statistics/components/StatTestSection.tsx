@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { Button } from "@/components/atoms/Buttons";
@@ -25,9 +25,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const RESULT_TABLE_HEADER =
-  "py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500";
+  "py-2 pr-4 text-left text-[length:var(--font-size-sm)] font-medium text-zinc-500";
 const RESULT_TABLE_VALUE =
-  "py-2 pl-4 text-right text-(length:--font-size-sm) tabular-nums font-semibold text-zinc-900";
+  "py-2 pl-4 text-right text-[length:var(--font-size-sm)] tabular-nums font-semibold text-zinc-900";
 const FILE_ZONE_BASE =
   "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400 cursor-pointer";
 const FILE_ZONE_FILLED = "border-primary-300 bg-primary-50";
@@ -67,11 +67,11 @@ function FileUploader({ label, file, inputId, onChange }: FileUploaderProps) {
           }}
         />
         {file ? (
-          <span className="text-(length:--font-size-sm) font-medium text-primary-700">
+          <span className="text-[length:var(--font-size-sm)] font-medium text-primary-700">
             {file.name}
           </span>
         ) : (
-          <span className="text-(length:--font-size-sm) text-zinc-400">
+          <span className="text-[length:var(--font-size-sm)] text-zinc-400">
             {STATS_CLICK_TO_SELECT_FILE}
           </span>
         )}
@@ -127,14 +127,14 @@ function MultiFileUploader({
             {files.map((f, idx) => (
               <li
                 key={idx}
-                className="text-(length:--font-size-sm) font-medium text-primary-700"
+                className="text-[length:var(--font-size-sm)] font-medium text-primary-700"
               >
                 {STATS_EXPERIMENT_LABEL(idx + 1)}: {f.name}
               </li>
             ))}
           </ul>
         ) : (
-          <span className="text-(length:--font-size-sm) text-zinc-400">
+          <span className="text-[length:var(--font-size-sm)] text-zinc-400">
             {STATS_CLICK_TO_SELECT_FILES}
           </span>
         )}
@@ -151,7 +151,7 @@ function StatResultTable({ result }: StatResultTableProps) {
   return (
     <div className="overflow-x-auto">
       <table
-        className="w-full text-(length:--font-size-sm)"
+        className="w-full text-[length:var(--font-size-sm)]"
         aria-label={STATS_RESULTS_TITLE}
       >
         <thead>
@@ -255,7 +255,7 @@ export function WilcoxonSection({
           </div>
 
           {file1 && file2 && (
-            <details className="text-(length:--font-size-sm) text-zinc-500">
+            <details className="text-[length:var(--font-size-sm)] text-zinc-500">
               <summary className="cursor-pointer font-medium text-zinc-700">
                 {STATS_PREVIEW_LABEL}
               </summary>
@@ -283,12 +283,12 @@ export function WilcoxonSection({
 
       {result && (
         <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
-          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
+          <h3 className="text-[length:var(--font-size-base)] font-semibold text-slate-800 border-b border-slate-200 pb-3">
             {STATS_RESULTS_TITLE}
           </h3>
           <div className="flex flex-col gap-4">
             <StatResultTable result={result} />
-            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
+            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-[length:var(--font-size-sm)] text-zinc-600">
               <p>{STATS_INFO_STATISTIC}</p>
               <p>{STATS_INFO_P_VALUE}</p>
             </div>
@@ -356,7 +356,7 @@ export function FriedmanSection({
           </div>
 
           {files.length > 0 && (
-            <details className="text-(length:--font-size-sm) text-zinc-500">
+            <details className="text-[length:var(--font-size-sm)] text-zinc-500">
               <summary className="cursor-pointer font-medium text-zinc-700">
                 {STATS_PREVIEW_LABEL}
               </summary>
@@ -387,12 +387,12 @@ export function FriedmanSection({
 
       {result && (
         <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
-          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
+          <h3 className="text-[length:var(--font-size-base)] font-semibold text-slate-800 border-b border-slate-200 pb-3">
             {STATS_RESULTS_TITLE}
           </h3>
           <div className="flex flex-col gap-4">
             <StatResultTable result={result} />
-            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
+            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-[length:var(--font-size-sm)] text-zinc-600">
               <p>{STATS_INFO_STATISTIC}</p>
               <p>{STATS_INFO_P_VALUE}</p>
             </div>

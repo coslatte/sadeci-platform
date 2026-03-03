@@ -44,7 +44,6 @@ export function AppShell({
         <Sidebar
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
-          sections={[]}
         />
         {/* Global Toaster for notifications */}
         <Toaster position="bottom-right" />

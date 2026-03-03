@@ -3,7 +3,7 @@ export const routes = {
   simulation: "/simulation",
   statistics: "/statistics",
   usuarios: "/usuarios",
-  ajustes: "/ajustes",
+  settings: "/settings",
 } as const;
 
 export type Route = (typeof routes)[keyof typeof routes];

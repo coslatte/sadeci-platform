@@ -27,7 +27,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
@@ -51,10 +51,10 @@ export default function LoginForm() {
         <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-xl bg-primary-700 text-2xl font-bold text-white shadow-md">
           S
         </div>
-        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900">
+        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900">
           {APP_NAME}
         </h1>
-        <p className="mt-1 text-(length:--font-size-sm) text-slate-500">
+        <p className="mt-1 text-[length:var(--font-size-sm)] text-slate-500">
           {LOGIN_PROMPT}
         </p>
       </div>

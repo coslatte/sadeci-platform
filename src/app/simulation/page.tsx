@@ -139,10 +139,10 @@ export default function SimulacionPage() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
+        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900 md:text-[length:var(--font-size-3xl)]">
           {SIMULATION_PAGE_TITLE}
         </h1>
-        <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
+        <p className="mt-2 text-[length:var(--font-size-sm)] text-slate-500">
           {SIMULATION_PAGE_SUBTITLE}
         </p>
       </div>
@@ -186,14 +186,16 @@ export default function SimulacionPage() {
 
         {error && (
           <Alert variant="danger" title={ERROR_SIMULATION_TITLE}>
-            {error}
+            {error.split("\n").map((line, i) => (
+              <div key={i}>{line.trim()}</div>
+            ))}
           </Alert>
         )}
 
         {result && (
           <section className="flex flex-col gap-4 border-t border-slate-100 pt-8">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-              <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
+              <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
                 Resultados de la Simulación
               </h2>
                 <Button
@@ -208,14 +210,14 @@ export default function SimulacionPage() {
             </div>
             <SimulationResultTable result={result.simulation} />
             <div className="p-4 mt-4 border rounded-lg border-slate-200 bg-slate-50">
-              <p className="mb-2 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
+              <p className="mb-2 text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400">
                 Predicción del modelo
               </p>
               <div className="flex items-center gap-3">
                 <Badge status={patientSurvives ? "success" : "danger"}>
                   {patientSurvives ? "Paciente no fallece" : "Paciente fallece"}
                 </Badge>
-                <span className="text-(length:--font-size-sm) text-slate-600">
+                <span className="text-[length:var(--font-size-sm)] text-slate-600">
                   Probabilidad de fallecer:{" "}
                   <strong>
                     {(result.prediction.probability * 100).toFixed(0)}%

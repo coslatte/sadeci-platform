@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import {
@@ -21,7 +21,6 @@ import { SIDEBAR_SECTIONS } from "@/lib/mockData";
 import type { NavItemType } from "@/lib/types";
 
 interface SidebarProps {
-  sections: Array<{ title: string; items: NavItemType[] }>;
   collapsed?: boolean;
   onToggleCollapse?: () => void;
   className?: string;
@@ -45,7 +44,7 @@ const BRAND_ICON =
   "flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm";
 const NAV_WRAPPER = "flex-1 overflow-y-auto overflow-x-hidden p-4";
 const SECTION_TITLE =
-  "px-2 text-(length:--font-size-xs) font-bold uppercase tracking-widest text-slate-400";
+  "px-2 text-[length:var(--font-size-xs)] font-bold uppercase tracking-widest text-slate-400";
 const LINK_BASE =
   "group flex items-center gap-3 rounded-lg px-2.5 py-2 transition-all duration-200";
 const LINK_ACTIVE =
@@ -77,7 +76,7 @@ export function Sidebar({
     "/simulation": "activity",
     "/statistics": "barchart",
     "/usuarios": "users",
-    "/ajustes": "settings",
+    "/settings": "settings",
   };
 
   const icons = {
@@ -157,7 +156,7 @@ export function Sidebar({
                         {item.icon}
                       </div>
                       {!collapsed && (
-                        <span className="truncate text-(length:--font-size-sm) font-medium">
+                        <span className="truncate text-[length:var(--font-size-sm)] font-medium">
                           {item.label}
                         </span>
                       )}
@@ -174,7 +173,7 @@ export function Sidebar({
                                 child.active ? SUB_LINK_ACTIVE : SUB_LINK_INACTIVE,
                               )}
                             >
-                              <span className="truncate text-(length:--font-size-xs)">
+                              <span className="truncate text-[length:var(--font-size-xs)]">
                                 {child.label}
                               </span>
                             </Link>

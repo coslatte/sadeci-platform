@@ -18,12 +18,12 @@ export async function POST(req: Request) {
     if (
       !newPassword ||
       typeof newPassword !== "string" ||
-      newPassword.length < 6
+      newPassword.length < 8
     ) {
       return NextResponse.json(
         {
           ok: false,
-          message: "La nueva contraseña debe tener al menos 6 caracteres.",
+          message: "La nueva contraseña debe tener al menos 8 caracteres.",
         },
         { status: 400 },
       );

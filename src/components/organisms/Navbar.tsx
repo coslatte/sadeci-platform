@@ -43,7 +43,7 @@ export function Navbar({
   pathname,
   onLogout,
 }: NavbarProps) {
-  const detectedPath = pathname ?? usePathname?.() ?? "/";
+  const detectedPath = pathname ?? usePathname() ?? "/";
   const currentPage = ROUTE_NAMES_MAP[detectedPath] ?? NAV_BRAND_SHORT;
   const breadcrumbSegments = ROUTE_BREADCRUMB_SEGMENTS[detectedPath];
 
@@ -52,8 +52,8 @@ export function Navbar({
     triggerButton:
       "flex items-center gap-3 px-3 py-2 no-underline transition-all duration-150 bg-white border border-transparent rounded-lg group hover:border-slate-200 hover:shadow-sm focus:outline-none focus:shadow-sm",
     userInfo: "flex-col hidden leading-none lg:flex",
-    userName: "text-(length:--font-size-sm) font-medium text-slate-900",
-    userRole: "text-(length:--font-size-xs) text-slate-500",
+    userName: "text-[length:var(--font-size-sm)] font-medium text-slate-900",
+    userRole: "text-[length:var(--font-size-xs)] text-slate-500",
     menu: "flex flex-col w-40 p-1 rounded-xl bg-white border border-slate-200 shadow-lg",
     menuItem: "block px-3 py-2 text-sm border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",
     menuItemButton: "w-full px-3 py-2 text-sm text-left border border-transparent rounded text-slate-700 hover:border-slate-200 hover:bg-slate-50",

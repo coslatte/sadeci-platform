@@ -1,4 +1,4 @@
-import { cn, dataDisabledProps } from "@/lib/utils";
+﻿import { cn, dataDisabledProps } from "@/lib/utils";
 import { HTMLAttributes, ReactNode } from "react";
 
 /**
@@ -60,11 +60,11 @@ export function Alert({
       )}
       <div className="flex-1">
         {title && (
-          <h5 className="mb-1 font-medium leading-none tracking-tight text-(length:--font-size-base)">
+          <h5 className="mb-1 font-medium leading-none tracking-tight text-[length:var(--font-size-base)]">
             {title}
           </h5>
         )}
-        <div className="text-(length:--font-size-sm) opacity-90">
+        <div className="text-[length:var(--font-size-sm)] opacity-90">
           {children}
         </div>
       </div>

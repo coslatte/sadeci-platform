@@ -1,4 +1,4 @@
-import { cn, dataDisabledProps } from "@/lib/utils";
+﻿import { cn, dataDisabledProps } from "@/lib/utils";
 
 /**
  * Props for `Label`.
@@ -11,7 +11,7 @@ interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   disabled?: boolean;
 }
 
-const LABEL_BASE = "text-(length:--font-size-sm) font-medium text-zinc-700";
+const LABEL_BASE = "text-[length:var(--font-size-sm)] font-medium text-zinc-700";
 
 /**
  * Label

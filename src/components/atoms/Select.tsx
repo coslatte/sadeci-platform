@@ -6,10 +6,10 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const SELECT_BASE = [
-  "h-9 rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs",
+  "h-9 rounded-lg border bg-white px-3 text-[length:var(--font-size-sm)] text-zinc-900 shadow-xs",
   "transition-colors duration-150",
   "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500",
-  "disabled:cursor-not-allowed disabled:opacity-0",
+  "disabled:cursor-not-allowed disabled:opacity-50",
 ].join(" ");
 
 /**

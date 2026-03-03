@@ -22,7 +22,8 @@ export function downloadSimulationCSV(
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `simulacion-paciente-${patientId}.csv`;
+  const safeId = patientId.replace(/[^a-zA-Z0-9_-]/g, "_");
+  a.download = `simulacion-paciente-${safeId}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }

@@ -28,8 +28,13 @@ const AuthContext = createContext<AuthState | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(() => {
     if (typeof window === "undefined") return null;
-    const stored = localStorage.getItem("saduci_user");
-    return stored ? (JSON.parse(stored) as User) : null;
+    try {
+      const stored = localStorage.getItem("saduci_user");
+      return stored ? (JSON.parse(stored) as User) : null;
+    } catch {
+      localStorage.removeItem("saduci_user");
+      return null;
+    }
   });
 
   const login = useCallback(async (email: string, _password: string) => {

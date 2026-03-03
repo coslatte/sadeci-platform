@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Button } from "@/components/atoms/Buttons";
 import { Label } from "@/components/atoms/Label";
@@ -100,10 +100,10 @@ export default function SimulationInputs({
     <>
       <section className="flex flex-col gap-6 border-b border-slate-100 pb-8">
         <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-          <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
+          <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800">
             Datos del Paciente
           </h2>
-          <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-400">
+          <span className="font-mono text-[length:var(--font-size-xs)] uppercase text-slate-400">
             ID: {patientId}
           </span>
         </div>
@@ -134,7 +134,7 @@ export default function SimulationInputs({
 
         <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="flex flex-col gap-4">
-            <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+            <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
               {DEMOGRAPHICS_TITLE}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -168,7 +168,7 @@ export default function SimulationInputs({
           </div>
 
           <div className="flex flex-col gap-4">
-            <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+            <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
               {CLINICAL_SCORES_TITLE}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -202,7 +202,7 @@ export default function SimulationInputs({
           </div>
 
           <div className="flex flex-col gap-4">
-            <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+            <p className="text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
               {VENTILATION_TITLE}
             </p>
             <div className="flex flex-col gap-1.5">
@@ -237,7 +237,7 @@ export default function SimulationInputs({
         </div>
 
         <div>
-          <p className="mb-4 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
+          <p className="mb-4 text-[length:var(--font-size-sm)] font-semibold uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-1">
             {DIAGNOSES_TITLE}
           </p>
           <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -353,7 +353,7 @@ export default function SimulationInputs({
       </section>
 
       <section className="flex flex-col gap-6 border-b border-slate-100 pb-8">
-        <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800 border-b border-slate-200 pb-3">
+        <h2 className="text-[length:var(--font-size-lg)] font-semibold text-slate-800 border-b border-slate-200 pb-3">
           {SIMULATION_CONFIG_TITLE}
         </h2>
         <div className="flex flex-col items-center justify-between gap-6">
@@ -373,7 +373,7 @@ export default function SimulationInputs({
               }
               fullWidth
             />
-            <p className="text-(length:--font-size-xs) text-slate-500 text-center md:text-left">
+            <p className="text-[length:var(--font-size-xs)] text-slate-500 text-center md:text-left">
               Mínimo {SIMULATION_LIMITS.simRuns.min} — máximo{" "}
               {SIMULATION_LIMITS.simRuns.max.toLocaleString()} iteraciones
             </p>

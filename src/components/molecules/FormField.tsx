@@ -1,4 +1,4 @@
-import { cn, dataDisabledProps } from "@/lib/utils";
+﻿import { cn, dataDisabledProps } from "@/lib/utils";
 import { Label } from "@/components/atoms/Label";
 import { Input } from "@/components/atoms/Input";
 
@@ -38,8 +38,8 @@ export function FormField({
   disabled,
 }: FormFieldProps) {
   const WRAPPER = "flex flex-col gap-1.5";
-  const HINT_CLASS = "text-(length:--font-size-xs) text-zinc-500";
-  const ERROR_CLASS = "text-(length:--font-size-xs) text-red-600";
+  const HINT_CLASS = "text-[length:var(--font-size-xs)] text-zinc-500";
+  const ERROR_CLASS = "text-[length:var(--font-size-xs)] text-red-600";
 
   return (
     <div {...dataDisabledProps(disabled)} className={cn(WRAPPER, className)}>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -33,7 +33,7 @@ import { readCSVFile, extractNumericColumn, adjustArraySizes } from "./helpers";
 type ActiveTab = "wilcoxon" | "friedman";
 
 const TAB_BASE =
-  "px-4 py-2 text-(length:--font-size-sm) font-medium border-b-2 transition-colors focus:outline-none";
+  "px-4 py-2 text-[length:var(--font-size-sm)] font-medium border-b-2 transition-colors focus:outline-none";
 const TAB_ACTIVE = "border-primary-600 text-primary-700";
 const TAB_INACTIVE =
   "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300";
@@ -154,10 +154,10 @@ export default function StatisticsPage() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
+        <h1 className="text-[length:var(--font-size-2xl)] font-bold tracking-tight text-slate-900 md:text-[length:var(--font-size-3xl)]">
           {STATISTICS_PAGE_TITLE}
         </h1>
-        <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
+        <p className="mt-2 text-[length:var(--font-size-sm)] text-slate-500">
           {STATISTICS_PAGE_SUBTITLE}
         </p>
       </div>

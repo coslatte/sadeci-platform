@@ -1,4 +1,4 @@
-import { cn, dataDisabledProps } from "@/lib/utils";
+﻿import { cn, dataDisabledProps } from "@/lib/utils";
 import React, { useId, useRef } from "react";
 import { FiChevronUp, FiChevronDown, FiInfo } from "react-icons/fi";
 
@@ -41,7 +41,7 @@ export function Input({
     inputType === "number" && showNumberControls && !disabled;
 
   const baseInput =
-    "h-9 rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs";
+    "h-9 rounded-lg border bg-white px-3 text-[length:var(--font-size-sm)] text-zinc-900 shadow-xs";
   const placeholderClass = "placeholder:text-zinc-400";
   const transitionClass = "transition-colors duration-150 input-transition";
   const focusClass =

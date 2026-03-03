@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/molecules/Card";
 
@@ -49,11 +49,11 @@ export function LinkCard({
         <div className={cn(LINKCARD_ICON)}>{icon}</div>
 
         <div>
-          <p className="text-(length:--font-size-sm) font-semibold text-slate-800 group-hover:text-primary-700">
+          <p className="text-[length:var(--font-size-sm)] font-semibold text-slate-800 group-hover:text-primary-700">
             {label}
           </p>
           {description && (
-            <p className="mt-0.5 text-(length:--font-size-xs) text-slate-500">
+            <p className="mt-0.5 text-[length:var(--font-size-xs)] text-slate-500">
               {description}
             </p>
           )}
