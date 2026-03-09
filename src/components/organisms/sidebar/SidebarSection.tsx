@@ -1,5 +1,13 @@
-import { Text } from "@/components/atoms/Text";
+"use client";
+
+import { useEffect, useState } from "react";
+import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { NavItem } from "@/components/molecules/NavItem";
+import { Text } from "@/components/atoms/Text";
+import {
+  SIDEBAR_SECTION_COLLAPSE,
+  SIDEBAR_SECTION_EXPAND,
+} from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import type { NavItemType } from "@/lib/types";
 
@@ -7,6 +15,95 @@ interface SidebarSectionProps {
   title: string;
   items: NavItemType[];
   collapsed: boolean;
+}
+
+interface TreeItemProps {
+  item: NavItemType;
+  depth: number;
+  collapsed: boolean;
+}
+
+function TreeItem({ item, depth, collapsed }: TreeItemProps) {
+  const hasChildren = !!item.children?.length;
+  const isRoot = depth === 0;
+  const variant = isRoot ? "default" : "nested";
+  const shouldAutoExpand = !!item.active;
+  const [expanded, setExpanded] = useState(shouldAutoExpand);
+
+  useEffect(() => {
+    if (shouldAutoExpand) {
+      setExpanded(true);
+    }
+  }, [shouldAutoExpand]);
+
+  const showChildren = hasChildren && !collapsed && expanded;
+
+  return (
+    <li className="relative">
+      <div className="flex items-center gap-2">
+        <NavItem
+          href={item.href}
+          label={item.label}
+          icon={item.icon}
+          active={item.active}
+          current={item.current}
+          collapsed={collapsed && isRoot}
+          variant={variant}
+          className={cn(
+            "flex-1",
+            depth > 0 && "min-h-10",
+            collapsed && isRoot && "mx-auto size-12 rounded-2xl px-0",
+          )}
+          labelClassName={cn(depth > 0 && "text-sm font-medium")}
+        />
+
+        {hasChildren && !collapsed && (
+          <button
+            type="button"
+            onClick={() => setExpanded((currentExpanded) => !currentExpanded)}
+            aria-expanded={expanded}
+            aria-label={
+              expanded
+                ? SIDEBAR_SECTION_COLLAPSE(item.label)
+                : SIDEBAR_SECTION_EXPAND(item.label)
+            }
+            title={
+              expanded
+                ? SIDEBAR_SECTION_COLLAPSE(item.label)
+                : SIDEBAR_SECTION_EXPAND(item.label)
+            }
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-300 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          >
+            {expanded ? (
+              <FiChevronDown className="size-4" aria-hidden="true" />
+            ) : (
+              <FiChevronRight className="size-4" aria-hidden="true" />
+            )}
+          </button>
+        )}
+      </div>
+
+      {showChildren && (
+        <div
+          className={cn(
+            "ml-7 mt-1 border-l border-slate-200/80 pl-4",
+            depth > 0 && "ml-5",
+          )}
+        >
+          <ul className="flex flex-col gap-1">
+            {item.children!.map((child) => (
+              <TreeItem
+                key={child.href}
+                item={child}
+                depth={depth + 1}
+                collapsed={collapsed}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
+    </li>
+  );
 }
 
 export function SidebarSection({
@@ -23,64 +120,20 @@ export function SidebarSection({
           weight="bold"
           uppercase
           tracking="widest"
-          className="px-2 text-slate-400"
+          className="px-3 text-slate-400"
         >
           {title}
         </Text>
       )}
 
-      <ul className="flex flex-col gap-1">
+      <ul className="flex flex-col gap-1.5">
         {items.map((item) => (
-          <li key={item.href}>
-            <NavItem
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              active={item.active}
-              collapsed={collapsed}
-              className={cn(
-                "group px-2.5 py-2 transition-all duration-200",
-                item.active
-                  ? "shadow-sm ring-1 ring-primary-100"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
-                collapsed && "px-0",
-              )}
-              iconClassName={cn(
-                "transition-colors",
-                item.active
-                  ? "text-primary-600"
-                  : "text-slate-400 group-hover:text-slate-600",
-              )}
-              labelClassName="truncate text-(length:--font-size-sm) font-medium"
-            />
-
-            {!collapsed && item.children && item.children.length > 0 && (
-              <ul className="mt-0.5 flex flex-col gap-0.5 pl-9">
-                {item.children.map((child) => (
-                  <li key={child.href}>
-                    <NavItem
-                      href={child.href}
-                      label={child.label}
-                      icon={child.icon}
-                      active={child.active}
-                      variant="nested"
-                      className={cn(
-                        child.active
-                          ? ""
-                          : "text-slate-500 hover:text-slate-800",
-                      )}
-                      iconClassName={cn(
-                        child.active
-                          ? "text-primary-600"
-                          : "text-slate-400 group-hover:text-slate-600",
-                      )}
-                      labelClassName="truncate text-(length:--font-size-xs)"
-                    />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
+          <TreeItem
+            key={item.href}
+            item={item}
+            depth={0}
+            collapsed={collapsed}
+          />
         ))}
       </ul>
     </div>

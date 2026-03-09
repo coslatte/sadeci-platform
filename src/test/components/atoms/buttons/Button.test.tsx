@@ -33,7 +33,7 @@ describe("Button", () => {
     const button = container.querySelector("button");
     expect(button).toBeTruthy();
     if (!button) return;
-    expect(button.className.includes("h-10")).toBe(true);
+    expect(button.className.includes("h-9")).toBe(true);
     expect(button.className.includes("w-full")).toBe(true);
   });
 

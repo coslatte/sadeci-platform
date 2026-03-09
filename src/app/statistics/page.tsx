@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 import {
   EXPERIMENT_VARIABLE_LABELS,
   runWilcoxonTest,
@@ -9,10 +8,6 @@ import {
   type StatisticalTestResult,
 } from "@/lib/statistics";
 import {
-  STATISTICS_PAGE_TITLE,
-  STATISTICS_PAGE_SUBTITLE,
-  WILCOXON_SECTION_TITLE,
-  FRIEDMAN_SECTION_TITLE,
   STATS_RUN_WILCOXON,
   STATS_RUN_FRIEDMAN,
   STATS_ERROR_WILCOXON_EMPTY,
@@ -22,15 +17,16 @@ import {
   STATS_UPLOAD_EXPERIMENT_1,
   STATS_UPLOAD_EXPERIMENT_2,
   STATS_UPLOAD_EXPERIMENTS,
-  STATS_TABLIST_LABEL,
 } from "@/constants/constants";
+import { StatisticsPageHeader } from "./components/StatisticsPageHeader";
 import { WilcoxonSection, FriedmanSection } from "./components/StatTestSection";
+import { StatisticsTabPanel } from "./components/StatisticsTabPanel";
+import { StatisticsTabs } from "./components/StatisticsTabs";
+import type { ActiveStatisticsTab } from "./components/types";
 import { readCSVFile, extractNumericColumn, adjustArraySizes } from "./helpers";
 
-type ActiveTab = "wilcoxon" | "friedman";
-
 export default function StatisticsPage() {
-  const [activeTab, setActiveTab] = useState<ActiveTab>("wilcoxon");
+  const [activeTab, setActiveTab] = useState<ActiveStatisticsTab>("wilcoxon");
 
   const defaultColumn = EXPERIMENT_VARIABLE_LABELS[0];
 
@@ -134,59 +130,14 @@ export default function StatisticsPage() {
 
   return (
     <>
-      <div className="mb-8">
-        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
-          {STATISTICS_PAGE_TITLE}
-        </h1>
-        <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
-          {STATISTICS_PAGE_SUBTITLE}
-        </p>
-      </div>
+      <StatisticsPageHeader />
 
       <div className="flex flex-col gap-6">
-        <div
-          className="flex border-b border-slate-200"
-          role="tablist"
-          aria-label={STATS_TABLIST_LABEL}
-        >
-          <button
-            role="tab"
-            aria-selected={activeTab === "wilcoxon"}
-            aria-controls="panel-wilcoxon"
-            id="tab-wilcoxon"
-            type="button"
-            className={cn(
-              "px-4 py-2 text-(length:--font-size-sm) font-medium border-b-2 transition-colors focus:outline-none",
-              activeTab === "wilcoxon"
-                ? "border-primary-600 text-primary-700"
-                : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300",
-            )}
-            onClick={() => setActiveTab("wilcoxon")}
-          >
-            {WILCOXON_SECTION_TITLE}
-          </button>
-          <button
-            role="tab"
-            aria-selected={activeTab === "friedman"}
-            aria-controls="panel-friedman"
-            id="tab-friedman"
-            type="button"
-            className={cn(
-              "px-4 py-2 text-(length:--font-size-sm) font-medium border-b-2 transition-colors focus:outline-none",
-              activeTab === "friedman"
-                ? "border-primary-600 text-primary-700"
-                : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300",
-            )}
-            onClick={() => setActiveTab("friedman")}
-          >
-            {FRIEDMAN_SECTION_TITLE}
-          </button>
-        </div>
+        <StatisticsTabs activeTab={activeTab} onChange={setActiveTab} />
 
-        <div
-          role="tabpanel"
-          id="panel-wilcoxon"
-          aria-labelledby="tab-wilcoxon"
+        <StatisticsTabPanel
+          panelId="panel-wilcoxon"
+          labelledBy="tab-wilcoxon"
           hidden={activeTab !== "wilcoxon"}
         >
           <WilcoxonSection
@@ -205,12 +156,11 @@ export default function StatisticsPage() {
             uploadLabel1={STATS_UPLOAD_EXPERIMENT_1}
             uploadLabel2={STATS_UPLOAD_EXPERIMENT_2}
           />
-        </div>
+        </StatisticsTabPanel>
 
-        <div
-          role="tabpanel"
-          id="panel-friedman"
-          aria-labelledby="tab-friedman"
+        <StatisticsTabPanel
+          panelId="panel-friedman"
+          labelledBy="tab-friedman"
           hidden={activeTab !== "friedman"}
         >
           <FriedmanSection
@@ -226,7 +176,7 @@ export default function StatisticsPage() {
             runLabel={STATS_RUN_FRIEDMAN}
             uploadLabel={STATS_UPLOAD_EXPERIMENTS}
           />
-        </div>
+        </StatisticsTabPanel>
       </div>
     </>
   );

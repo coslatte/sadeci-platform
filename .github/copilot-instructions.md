@@ -53,7 +53,7 @@ Salvo que sea realmente necesario, evitar modificar:
 
 - Usa Tailwind para estilos, evitando CSS personalizado salvo que sea necesario para casos muy específicos.
 - Usa de referencia la última versión de Tailwind (v4) y sus nuevas utilidades (en caso de ser necesario buscar en la web para utilidades en particular, realizarlo).
-- Extraer variables/tokens de Tailwind: Cuando un componente se cree o se modifique y se le añadan estilos, extrae las clases de Tailwind a constantes/variables reutilizables en un archivo de estilos central o en un archivo asociado al componente (ej. `src/constants/styles.ts` o `src/components/<Componente>/styles.ts`). Lo más deseado es que las variables de estilos estén dentro del componente, para que sea más fácil encontrarlas. Usa nombres descriptivos, agrupa variantes en objetos y compón clases usando la utilidad `cn()` en `src/lib/utils.ts`. Evita incluir largas cadenas de clases inline en el TSX; el objetivo es mantener los estilos separados, legibles y reutilizables para futuros componentes y facilitar cambios globales.
+  - Gestión de clases Tailwind: Ya no extraeremos por norma las clases de Tailwind a constantes/variables cuando se creen componentes nuevos. En su lugar, use clases inline en el JSX para la mayoría de los casos y utilice `cn()` para componer clases dinámicas o condicionales cuando sea necesario. Evite la proliferación de pequeñas constantes de estilo que solo se usan una vez; prefiera la legibilidad local y la claridad del marcado. Si hay patrones de estilo realmente reutilizables y estables, considérelos para centralizarlos en un archivo de estilos compartido con un nombre claro.
 - Evitar lo máximo posible el uso de `!important` o hacks de CSS. Si es necesario, documenta claramente el motivo en la PR/commit.
 - Evitar lo máximo posible el uso de widths/heights fijos en estilos. Prioriza clases de Tailwind que permitan flexibilidad y adaptabilidad (ej. `w-full`, `max-w-md`, `h-auto`) para mejorar la responsividad y evitar problemas de diseño en diferentes tamaños de pantalla.
 
@@ -117,6 +117,12 @@ Evitar comentarios que sobreexpliquen el código. Siempre que se pueda, evitarlo
 - Extraer componentes repetidos de páginas: cuando una `page.tsx` contiene bloques UI muy repetidos (formularios con muchos inputs, tarjetas, grids), extrae esos bloques a un componente dentro de la ruta: `src/app/<ruta>/components/ComponentName.tsx`. Esto mantiene las páginas ligeras y facilita pruebas unitarias.
 
 - Centralizar literales visibles y mensajes: todas las cadenas UI (títulos, subtítulos, etiquetas, placeholders, mensajes de error, labels de botones, textos de navegación) deben colocarse en `src/constants/constants.ts` (o submódulos dentro de `src/constants/`) en vez de estar hardcodeadas en los componentes. Esto facilita cambios futuros y prepara la base para i18n.
+
+  Obligatorio — constantes para textos visibles: a partir de ahora es obligatorio crear y usar constantes para TODOS los textos visibles en la UI (títulos, subtítulos, descripciones, labels, placeholders, textos de ayuda, mensajes de error, botones, navegación, etc.).
+  - Implementación inmediata: cuando añadas o modifiques componentes o páginas, crea y exporta las constantes correspondientes en `src/constants/constants.ts` o en un submódulo dentro de `src/constants/` (por dominio). Reemplaza los literales en JSX/TSX por estas constantes y usa los imports con el alias `@/`.
+  - Organización: agrupa las constantes por dominio (ej. `login`, `navigation`, `simulation`, `validation`) y exporta funciones helper para textos dinámicos si es necesario (por ejemplo `runsRangeText(min, max)`).
+
+  Esta regla busca garantizar consistencia, facilitar traducción y evitar literales dispersos en el código base. Si existe una razón válida para no extraer un literal (excepciones muy puntuales), documenta la excepción en el commit/PR.
 
 - Organización de `constants`: agrupa por dominio (login, navigation, simulation, validation, etc.). Para valores dinámicos o formateos de texto, provee funciones helper en el mismo archivo (p. ej. `runsRangeText(min, max)`).
 

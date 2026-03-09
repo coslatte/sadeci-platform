@@ -1,5 +1,5 @@
 import "../setup";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import GlobalErrorPage from "@/app/components/GlobalErrorPage";
 import {
@@ -35,19 +35,20 @@ describe("GlobalErrorPage", () => {
     const originalConsoleError = console.error;
     console.error = consoleError as typeof console.error;
 
-    const { getByRole } = render(
+    const { container } = render(
       <GlobalErrorPage error={new Error("Boom")} reset={reset} />,
     );
+    const scopedQueries = within(container);
 
     fireEvent.click(
-      getByRole("button", {
+      scopedQueries.getByRole("button", {
         name: new RegExp(ERROR_PAGE_RETRY_BUTTON, "i"),
       }),
     );
 
     expect(reset).toHaveBeenCalledTimes(1);
     expect(
-      getByRole("button", {
+      scopedQueries.getByRole("button", {
         name: new RegExp(ERROR_PAGE_BACK_BUTTON, "i"),
       }),
     ).toBeTruthy();

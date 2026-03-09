@@ -1,0 +1,55 @@
+import {
+  FRIEDMAN_SECTION_TITLE,
+  STATS_TABLIST_LABEL,
+  WILCOXON_SECTION_TITLE,
+} from "@/constants/constants";
+import { cn } from "@/lib/utils";
+import type { ActiveStatisticsTab } from "./types";
+
+interface StatisticsTabsProps {
+  activeTab: ActiveStatisticsTab;
+  onChange: (tab: ActiveStatisticsTab) => void;
+}
+
+export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
+  return (
+    <div
+      className="flex border-b border-slate-200"
+      role="tablist"
+      aria-label={STATS_TABLIST_LABEL}
+    >
+      <button
+        role="tab"
+        aria-selected={activeTab === "wilcoxon"}
+        aria-controls="panel-wilcoxon"
+        id="tab-wilcoxon"
+        type="button"
+        className={cn(
+          "border-b-2 px-4 py-2 text-(length:--font-size-sm) font-medium transition-colors focus:outline-none",
+          activeTab === "wilcoxon"
+            ? "border-primary-600 text-primary-700"
+            : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700",
+        )}
+        onClick={() => onChange("wilcoxon")}
+      >
+        {WILCOXON_SECTION_TITLE}
+      </button>
+      <button
+        role="tab"
+        aria-selected={activeTab === "friedman"}
+        aria-controls="panel-friedman"
+        id="tab-friedman"
+        type="button"
+        className={cn(
+          "border-b-2 px-4 py-2 text-(length:--font-size-sm) font-medium transition-colors focus:outline-none",
+          activeTab === "friedman"
+            ? "border-primary-600 text-primary-700"
+            : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700",
+        )}
+        onClick={() => onChange("friedman")}
+      >
+        {FRIEDMAN_SECTION_TITLE}
+      </button>
+    </div>
+  );
+}

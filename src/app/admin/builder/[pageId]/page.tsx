@@ -74,7 +74,7 @@ function BuilderContent() {
       </div>
 
       <div className="flex flex-1 gap-4 overflow-hidden">
-        <aside className="w-56 shrink-0">
+        <aside className="w-56 shrink-0 h-full overflow-y-auto">
           <BlockPalette onAdd={(type) => void addBlock(pageId, type)} />
         </aside>
 
@@ -89,7 +89,7 @@ function BuilderContent() {
         </main>
 
         {editingBlock && (
-          <aside className="w-72 shrink-0">
+          <aside className="w-72 shrink-0 h-full overflow-y-auto">
             <BlockPropsEditor
               block={editingBlock}
               onSave={(props) => handleEditSave(editingBlock.id, props)}

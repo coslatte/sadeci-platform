@@ -13,7 +13,6 @@ interface NavBreadcrumbProps {
   currentPage: string;
   segments?: BreadcrumbSegment[];
   className?: string;
-  onBack?: () => void;
 }
 
 export function NavBreadcrumb({
@@ -21,7 +20,6 @@ export function NavBreadcrumb({
   currentPage,
   segments,
   className,
-  onBack,
 }: NavBreadcrumbProps) {
   return (
     <nav
@@ -31,14 +29,13 @@ export function NavBreadcrumb({
         className,
       )}
     >
-      <button
-        type="button"
-        className="cursor-pointer select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline"
-        onClick={onBack}
-        aria-label={`Volver a la página anterior — ${brandName}`}
+      <Link
+        href="/"
+        className="select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline"
+        aria-label={`Ir al inicio — ${brandName}`}
       >
         {brandName}
-      </button>
+      </Link>
       {segments?.map((seg) => (
         <span key={seg.href} className="contents">
           <span aria-hidden="true" className="text-slate-300">

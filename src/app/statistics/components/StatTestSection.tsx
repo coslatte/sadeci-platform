@@ -1,192 +1,18 @@
 ﻿"use client";
 
-import { useRef } from "react";
 import { Button } from "@/components/atoms/Buttons";
 import AccessibleSelect from "@/components/atoms/AccessibleSelect";
-import { Alert } from "@/components/molecules/Alert";
 import { Label } from "@/components/atoms/Label";
 import { EXPERIMENT_VARIABLE_LABELS } from "@/lib/statistics";
 import type { StatisticalTestResult } from "@/lib/statistics";
 import {
   STATS_SELECT_COLUMN,
-  STATS_INFO_STATISTIC,
-  STATS_INFO_P_VALUE,
-  STATS_STATISTIC_LABEL,
-  STATS_P_VALUE_LABEL,
-  STATS_RESULTS_TITLE,
   STATS_PREVIEW_LABEL,
   STATS_EXPERIMENT_LABEL,
-  STATS_CLICK_TO_SELECT_FILE,
-  STATS_CLICK_TO_SELECT_FILES,
-  STATS_TABLE_METRIC_HEADER,
-  STATS_TABLE_VALUE_HEADER,
   STATS_LOADING,
 } from "@/constants/constants";
-import { cn } from "@/lib/utils";
-
-interface FileUploaderProps {
-  label: string;
-  file: File | null;
-  inputId: string;
-  onChange: (file: File | null) => void;
-}
-
-function FileUploader({ label, file, inputId, onChange }: FileUploaderProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor={inputId}>{label}</Label>
-      <div
-        role="button"
-        tabIndex={0}
-        aria-label={label}
-        className={cn(
-          "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400 cursor-pointer",
-          file && "border-primary-300 bg-primary-50",
-        )}
-        onClick={() => inputRef.current?.click()}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
-        }}
-      >
-        <input
-          ref={inputRef}
-          id={inputId}
-          type="file"
-          accept=".csv"
-          className="sr-only"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const selected = e.target.files?.[0] ?? null;
-            onChange(selected);
-          }}
-        />
-        {file ? (
-          <span className="text-(length:--font-size-sm) font-medium text-primary-700">
-            {file.name}
-          </span>
-        ) : (
-          <span className="text-(length:--font-size-sm) text-zinc-400">
-            {STATS_CLICK_TO_SELECT_FILE}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-interface MultiFileUploaderProps {
-  label: string;
-  files: File[];
-  inputId: string;
-  onChange: (files: File[]) => void;
-}
-
-function MultiFileUploader({
-  label,
-  files,
-  inputId,
-  onChange,
-}: MultiFileUploaderProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor={inputId}>{label}</Label>
-      <div
-        role="button"
-        tabIndex={0}
-        aria-label={label}
-        className={cn(
-          "flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400 cursor-pointer",
-          files.length > 0 && "border-primary-300 bg-primary-50",
-        )}
-        onClick={() => inputRef.current?.click()}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") inputRef.current?.click();
-        }}
-      >
-        <input
-          ref={inputRef}
-          id={inputId}
-          type="file"
-          accept=".csv"
-          multiple
-          className="sr-only"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const selected = e.target.files ? Array.from(e.target.files) : [];
-            onChange(selected);
-          }}
-        />
-        {files.length > 0 ? (
-          <ul className="w-full text-left">
-            {files.map((f, idx) => (
-              <li
-                key={idx}
-                className="text-(length:--font-size-sm) font-medium text-primary-700"
-              >
-                {STATS_EXPERIMENT_LABEL(idx + 1)}: {f.name}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <span className="text-(length:--font-size-sm) text-zinc-400">
-            {STATS_CLICK_TO_SELECT_FILES}
-          </span>
-        )}
-      </div>
-    </div>
-  );
-}
-
-interface StatResultTableProps {
-  result: StatisticalTestResult;
-}
-
-function StatResultTable({ result }: StatResultTableProps) {
-  return (
-    <div className="overflow-x-auto">
-      <table
-        className="w-full text-(length:--font-size-sm)"
-        aria-label={STATS_RESULTS_TITLE}
-      >
-        <thead>
-          <tr className="border-b border-zinc-200">
-            <th className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
-              {STATS_TABLE_METRIC_HEADER}
-            </th>
-            <th
-              className={cn(
-                "py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500",
-                "pl-4 text-right text-zinc-700",
-              )}
-            >
-              {STATS_TABLE_VALUE_HEADER}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-b border-zinc-100">
-            <td className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
-              {STATS_STATISTIC_LABEL}
-            </td>
-            <td className="py-2 pl-4 text-right text-(length:--font-size-sm) tabular-nums font-semibold text-zinc-900">
-              {result.statistic.toFixed(4)}
-            </td>
-          </tr>
-          <tr>
-            <td className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
-              {STATS_P_VALUE_LABEL}
-            </td>
-            <td className="py-2 pl-4 text-right text-(length:--font-size-sm) tabular-nums font-semibold text-zinc-900">
-              {result.p_value.toFixed(4)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-}
+import { StatisticsFileDropzone } from "./StatisticsFileDropzone";
+import { StatisticsResultSection } from "./StatisticsResultSection";
 
 export interface WilcoxonSectionProps {
   file1: File | null;
@@ -226,17 +52,17 @@ export function WilcoxonSection({
       <div className="flex flex-col gap-4 pb-6 border-b border-slate-100">
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <FileUploader
+            <StatisticsFileDropzone
               label={uploadLabel1}
-              file={file1}
+              files={file1 ? [file1] : []}
               inputId="wilcoxon-file-1"
-              onChange={onFile1Change}
+              onChange={(files) => onFile1Change(files[0] ?? null)}
             />
-            <FileUploader
+            <StatisticsFileDropzone
               label={uploadLabel2}
-              file={file2}
+              files={file2 ? [file2] : []}
               inputId="wilcoxon-file-2"
-              onChange={onFile2Change}
+              onChange={(files) => onFile2Change(files[0] ?? null)}
             />
           </div>
 
@@ -282,23 +108,11 @@ export function WilcoxonSection({
         {loading ? STATS_LOADING : runLabel}
       </Button>
 
-      {warning && <Alert variant="warning">{warning}</Alert>}
-      {error && <Alert variant="danger">{error}</Alert>}
-
-      {result && (
-        <section className="flex flex-col gap-4 pt-6 border-t border-slate-100">
-          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
-            {STATS_RESULTS_TITLE}
-          </h3>
-          <div className="flex flex-col gap-4">
-            <StatResultTable result={result} />
-            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
-              <p>{STATS_INFO_STATISTIC}</p>
-              <p>{STATS_INFO_P_VALUE}</p>
-            </div>
-          </div>
-        </section>
-      )}
+      <StatisticsResultSection
+        result={result}
+        error={error}
+        warning={warning}
+      />
     </div>
   );
 }
@@ -334,10 +148,11 @@ export function FriedmanSection({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-4 pb-6 border-b border-slate-100">
         <div className="flex flex-col gap-4">
-          <MultiFileUploader
+          <StatisticsFileDropzone
             label={uploadLabel}
             files={files}
             inputId="friedman-files"
+            multiple
             onChange={onFilesChange}
           />
 
@@ -382,23 +197,11 @@ export function FriedmanSection({
         {loading ? STATS_LOADING : runLabel}
       </Button>
 
-      {warning && <Alert variant="warning">{warning}</Alert>}
-      {error && <Alert variant="danger">{error}</Alert>}
-
-      {result && (
-        <section className="flex flex-col gap-4 pt-6 border-t border-slate-100">
-          <h3 className="text-(length:--font-size-base) font-semibold text-slate-800 border-b border-slate-200 pb-3">
-            {STATS_RESULTS_TITLE}
-          </h3>
-          <div className="flex flex-col gap-4">
-            <StatResultTable result={result} />
-            <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
-              <p>{STATS_INFO_STATISTIC}</p>
-              <p>{STATS_INFO_P_VALUE}</p>
-            </div>
-          </div>
-        </section>
-      )}
+      <StatisticsResultSection
+        result={result}
+        error={error}
+        warning={warning}
+      />
     </div>
   );
 }

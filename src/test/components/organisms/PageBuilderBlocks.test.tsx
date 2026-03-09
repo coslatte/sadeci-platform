@@ -1,5 +1,5 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { ButtonBlock } from "@/components/organisms/blocks/ButtonBlock";
 import { InputFieldBlock } from "@/components/organisms/blocks/InputFieldBlock";
@@ -43,10 +43,10 @@ describe("InputFieldBlock", () => {
   });
 
   it("renders input with placeholder", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <InputFieldBlock placeholder="Escribe tu nombre" />,
     );
-    const input = getByRole("textbox");
+    const input = within(container).getByRole("textbox");
     expect(input).toBeTruthy();
     expect((input as HTMLInputElement).placeholder).toBe("Escribe tu nombre");
   });
@@ -75,8 +75,8 @@ describe("InputFieldBlock", () => {
   });
 
   it("input is disabled (display-only)", () => {
-    const { getByRole } = render(<InputFieldBlock />);
-    const input = getByRole("textbox");
+    const { container } = render(<InputFieldBlock />);
+    const input = within(container).getByRole("textbox");
     expect((input as HTMLInputElement).disabled).toBe(true);
   });
 });
@@ -90,12 +90,19 @@ describe("SelectFieldBlock", () => {
   });
 
   it("renders options from optionsRaw", () => {
-    const { getByRole } = render(
+    const { container } = render(
       <SelectFieldBlock optionsRaw="Opcion A,Opcion B,Opcion C" />,
     );
-    expect(getByRole("option", { name: "Opcion A" })).toBeTruthy();
-    expect(getByRole("option", { name: "Opcion B" })).toBeTruthy();
-    expect(getByRole("option", { name: "Opcion C" })).toBeTruthy();
+    const scopedQueries = within(container);
+    expect(
+      scopedQueries.getByRole("option", { name: "Opcion A" }),
+    ).toBeTruthy();
+    expect(
+      scopedQueries.getByRole("option", { name: "Opcion B" }),
+    ).toBeTruthy();
+    expect(
+      scopedQueries.getByRole("option", { name: "Opcion C" }),
+    ).toBeTruthy();
   });
 
   it("shows required asterisk when required=true", () => {
@@ -105,8 +112,8 @@ describe("SelectFieldBlock", () => {
   });
 
   it("select is disabled (display-only)", () => {
-    const { getByRole } = render(<SelectFieldBlock />);
-    const select = getByRole("combobox");
+    const { container } = render(<SelectFieldBlock />);
+    const select = within(container).getByRole("combobox");
     expect((select as HTMLSelectElement).disabled).toBe(true);
   });
 
@@ -120,8 +127,8 @@ describe("SelectFieldBlock", () => {
   });
 
   it("handles empty optionsRaw gracefully", () => {
-    const { getByRole } = render(<SelectFieldBlock optionsRaw="" />);
-    const select = getByRole("combobox");
+    const { container } = render(<SelectFieldBlock optionsRaw="" />);
+    const select = within(container).getByRole("combobox");
     // Only the placeholder option should be present
     expect((select as HTMLSelectElement).options.length).toBe(1);
   });

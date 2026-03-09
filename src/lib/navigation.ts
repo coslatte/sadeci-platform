@@ -47,6 +47,10 @@ export function isRouteActive(itemHref: string, pathname: string) {
   return pathname === itemHref || pathname.startsWith(`${itemHref}/`);
 }
 
+function isCurrentRoute(itemHref: string, pathname: string) {
+  return pathname === itemHref;
+}
+
 export function getRouteNameForPath(pathname: string) {
   if (ROUTE_NAMES_MAP[pathname]) {
     return ROUTE_NAMES_MAP[pathname];
@@ -60,6 +64,10 @@ export function getRouteNameForPath(pathname: string) {
 }
 
 export function getBreadcrumbSegments(pathname: string) {
+  const allItems = APP_NAVIGATION_SECTIONS.flatMap((s) => s.items);
+  const fromTree = findAncestorSegments(allItems, pathname, []);
+  if (fromTree !== null) return fromTree;
+
   if (ROUTE_BREADCRUMB_SEGMENTS[pathname]) {
     return ROUTE_BREADCRUMB_SEGMENTS[pathname];
   }
@@ -69,6 +77,28 @@ export function getBreadcrumbSegments(pathname: string) {
     .sort(([left], [right]) => right.length - left.length)[0];
 
   return matchingSegment?.[1];
+}
+
+function findAncestorSegments(
+  items: NavigationItemConfig[],
+  pathname: string,
+  currentPath: Array<{ label: string; href: string }>,
+): Array<{ label: string; href: string }> | null {
+  for (const item of items) {
+    const entry = { label: item.label, href: item.href };
+
+    if (item.children?.length) {
+      const deeper = findAncestorSegments(item.children, pathname, [
+        ...currentPath,
+        entry,
+      ]);
+      if (deeper !== null) return deeper;
+    }
+
+    if (pathname === item.href) return currentPath;
+    if (isRouteActive(item.href, pathname)) return currentPath;
+  }
+  return null;
 }
 
 export function resolveSidebarSections(
@@ -94,15 +124,21 @@ function mapNavigationItem(
   item: NavigationItemConfig,
   pathname: string,
 ): NavItemType {
+  const children = item.children?.map((child) =>
+    mapNavigationItem(child, pathname),
+  );
+  const current = isCurrentRoute(item.href, pathname);
+  const hasActiveDescendant = children?.some((child) => child.active) ?? false;
+
   return {
     ...item,
-    active: isRouteActive(item.href, pathname) ? true : undefined,
+    active:
+      current || isRouteActive(item.href, pathname) || hasActiveDescendant
+        ? true
+        : undefined,
+    current: current ? true : undefined,
     icon: getNavigationIcon(item.iconKey),
-    children: item.children?.map((child) => ({
-      ...child,
-      active: isRouteActive(child.href, pathname) ? true : undefined,
-      icon: getNavigationIcon(child.iconKey),
-    })),
+    children,
   };
 }
 

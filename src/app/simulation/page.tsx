@@ -1,13 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FiDownload } from "react-icons/fi";
-import { Button } from "@/components/atoms/Buttons";
 import { Alert } from "@/components/molecules/Alert";
-import { Badge } from "@/components/atoms/Badge";
-// inputs rendered in SimulationInputs component
 import SimulationInputs from "./components/SimulationInputs";
-import { SimulationResultTable } from "./components/SimulationResultTable";
+import { SimulationPageHeader } from "./components/SimulationPageHeader";
+import { SimulationResultsSection } from "./components/SimulationResultsSection";
 import {
   SIMULATION_LIMITS,
   generatePatientId,
@@ -21,10 +18,7 @@ import {
   downloadSimulationCSV,
 } from "./helpers/index";
 import {
-  SIMULATION_PAGE_TITLE,
-  SIMULATION_PAGE_SUBTITLE,
   ERROR_SIMULATION_TITLE,
-  DOWNLOAD_CSV,
   VALIDATION_MISSING_DIAG,
   VALIDATION_SELECT_RESP,
 } from "@/constants/constants";
@@ -132,20 +126,9 @@ export default function SimulacionPage() {
     if (!result) return;
     downloadSimulationCSV(result, patientId);
   }
-
-  const prediction = result?.prediction;
-  const patientSurvives = prediction?.class === 0;
-
   return (
     <>
-      <div className="mb-8">
-        <h1 className="text-(length:--font-size-2xl) font-bold tracking-tight text-slate-900 md:text-(length:--font-size-3xl)">
-          {SIMULATION_PAGE_TITLE}
-        </h1>
-        <p className="mt-2 text-(length:--font-size-sm) text-slate-500">
-          {SIMULATION_PAGE_SUBTITLE}
-        </p>
-      </div>
+      <SimulationPageHeader />
 
       <div className="flex flex-col gap-6">
         <SimulationInputs
@@ -193,39 +176,10 @@ export default function SimulacionPage() {
         )}
 
         {result && (
-          <section className="flex flex-col gap-4 pt-8 border-t border-slate-100">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-              <h2 className="text-(length:--font-size-lg) font-semibold text-slate-800">
-                Resultados de la Simulación
-              </h2>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleDownload}
-                aria-label="Descargar resultados en CSV"
-              >
-                <FiDownload className="size-4" />
-                {DOWNLOAD_CSV}
-              </Button>
-            </div>
-            <SimulationResultTable result={result.simulation} />
-            <div className="p-4 mt-4 border rounded-lg border-slate-200 bg-slate-50">
-              <p className="mb-2 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
-                Predicción del modelo
-              </p>
-              <div className="flex items-center gap-3">
-                <Badge status={patientSurvives ? "success" : "danger"}>
-                  {patientSurvives ? "Paciente no fallece" : "Paciente fallece"}
-                </Badge>
-                <span className="text-(length:--font-size-sm) text-slate-600">
-                  Probabilidad de fallecer:{" "}
-                  <strong>
-                    {(result.prediction.probability * 100).toFixed(0)}%
-                  </strong>
-                </span>
-              </div>
-            </div>
-          </section>
+          <SimulationResultsSection
+            result={result}
+            onDownload={handleDownload}
+          />
         )}
       </div>
     </>

@@ -3,32 +3,27 @@ import { render } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import { NAV_BRAND_SHORT, SIDEBAR_BRAND_FULL } from "@/constants/constants";
 
+mock.module("sileo", () => ({
+  Toaster: () => null,
+  sileo: {
+    success: () => {},
+    error: () => {},
+  },
+}));
+
+mock.module("@/lib/auth", () => ({
+  useAuth: () => ({
+    user: { id: "1", name: "Test", email: "t@test", role: "Admin" },
+    isAuthenticated: true,
+    login: async () => {},
+    logout: () => {},
+  }),
+}));
+
+import { AppShell } from "@/components/layout/AppShell";
+
 describe("AppShell", () => {
-  it("renders global chrome and marks active route", async () => {
-    // next/navigation is already mocked by Navbar.test.tsx module-level mock.
-    // Re-declaring it here triggers Bun to re-validate the real file → error.
-
-    // Mock sileo toaster to avoid rendering issues during tests
-    mock.module("sileo", () => ({
-      Toaster: () => null,
-      sileo: {
-        success: () => {},
-        error: () => {},
-      },
-    }));
-
-    // Provide a mocked authenticated user so AppShell renders normally
-    mock.module("@/lib/auth", () => ({
-      useAuth: () => ({
-        user: { id: "1", name: "Test", email: "t@test", role: "Admin" },
-        isAuthenticated: true,
-        login: async () => {},
-        logout: () => {},
-      }),
-    }));
-
-    const { AppShell } = await import("@/components/layout/AppShell");
-
+  it("renders global chrome and marks active route", () => {
     const { container } = render(
       <AppShell>
         <h1>Contenido de prueba</h1>

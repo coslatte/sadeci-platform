@@ -16,6 +16,7 @@ export type NavItemType = {
   href: string;
   icon?: React.ReactNode;
   active?: boolean;
+  current?: boolean;
   children?: NavItemType[];
 };
 

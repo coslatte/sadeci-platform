@@ -1,15 +1,12 @@
 import "../../setup";
-import { render, fireEvent, within } from "@testing-library/react";
-import { describe, expect, it, beforeAll, beforeEach, mock } from "bun:test";
+import { render, within } from "@testing-library/react";
+import { describe, expect, it, beforeAll } from "bun:test";
 import type { FC } from "react";
-
-const mockBack = mock(() => {});
 
 interface NavBreadcrumbProps {
   brandName: string;
   currentPage: string;
   className?: string;
-  onBack?: () => void;
 }
 
 describe("NavBreadcrumb", () => {
@@ -20,11 +17,7 @@ describe("NavBreadcrumb", () => {
       .NavBreadcrumb;
   });
 
-  beforeEach(() => {
-    mockBack.mockClear();
-  });
-
-  it("renders brand name and current page", () => {
+  it("renders brand name as a link to home", () => {
     const { container } = render(
       <NavBreadcrumb brandName="Saduci" currentPage="Simulación" />,
     );
@@ -32,41 +25,21 @@ describe("NavBreadcrumb", () => {
       'nav[aria-label="Breadcrumb"]',
     );
     if (!nav) throw new Error("Breadcrumb nav not found");
-    expect(within(nav).getByRole("button", { name: /Saduci/ })).toBeTruthy();
-    expect(within(nav).getByText("Simulación")).toBeTruthy();
+    const brandLink = within(nav).getByRole("link", { name: /Saduci/ });
+    expect(brandLink).toBeTruthy();
+    expect(brandLink.getAttribute("href")).toBe("/");
   });
 
-  it("calls router.back() when brand button is clicked", () => {
+  it("brand link has descriptive aria-label", () => {
     const { container } = render(
-      <NavBreadcrumb
-        brandName="Saduci"
-        currentPage="Dashboard"
-        onBack={mockBack}
-      />,
+      <NavBreadcrumb brandName="Saduci" currentPage="Usuarios" />,
     );
     const nav = container.querySelector<HTMLElement>(
       'nav[aria-label="Breadcrumb"]',
     );
     if (!nav) throw new Error("Breadcrumb nav not found");
-    const btn = within(nav).getByRole("button", { name: /Saduci/ });
-    fireEvent.click(btn);
-    expect(mockBack).toHaveBeenCalledTimes(1);
-  });
-
-  it("brand button has descriptive aria-label", () => {
-    const { container } = render(
-      <NavBreadcrumb
-        brandName="Saduci"
-        currentPage="Usuarios"
-        onBack={mockBack}
-      />,
-    );
-    const nav = container.querySelector<HTMLElement>(
-      'nav[aria-label="Breadcrumb"]',
-    );
-    if (!nav) throw new Error("Breadcrumb nav not found");
-    const btn = within(nav).getByRole("button", { name: /Saduci/ });
-    expect(btn.getAttribute("aria-label")).toContain("Saduci");
+    const brandLink = within(nav).getByRole("link", { name: /Saduci/ });
+    expect(brandLink.getAttribute("aria-label")).toContain("Saduci");
   });
 
   it("current page has aria-current='page'", () => {
@@ -91,5 +64,23 @@ describe("NavBreadcrumb", () => {
     );
     if (!nav) throw new Error("Breadcrumb nav not found");
     expect(nav.getAttribute("aria-label")).toBe("Breadcrumb");
+  });
+
+  it("renders intermediate segment links when segments are provided", () => {
+    const segments = [{ label: "Simulación", href: "/simulation" }];
+    const { container } = render(
+      <NavBreadcrumb
+        brandName="Saduci"
+        currentPage="Pruebas Estadísticas"
+        segments={segments}
+      />,
+    );
+    const nav = container.querySelector<HTMLElement>(
+      'nav[aria-label="Breadcrumb"]',
+    );
+    if (!nav) throw new Error("Breadcrumb nav not found");
+    const segLink = within(nav).getByRole("link", { name: "Simulación" });
+    expect(segLink).toBeTruthy();
+    expect(segLink.getAttribute("href")).toBe("/simulation");
   });
 });

@@ -42,20 +42,20 @@ export function Button({
 
   const sizeClass =
     size === "xs"
-      ? "h-7 px-2.5 text-(length:--font-size-xs) gap-1"
+      ? "h-6 px-2 text-(length:--font-size-xs) gap-1"
       : size === "sm"
-        ? "h-8 px-3 text-(length:--font-size-sm) gap-1.5"
+        ? "h-7 px-3 text-(length:--font-size-sm) gap-1.5"
         : size === "md"
-          ? "h-9 px-4 text-(length:--font-size-sm) gap-2"
+          ? "h-8 px-3.5 text-(length:--font-size-sm) gap-2"
           : size === "lg"
-            ? "h-10 px-5 text-(length:--font-size-base) gap-2"
-            : "h-12 px-6 text-(length:--font-size-base) gap-2.5";
+            ? "h-9 px-4 text-(length:--font-size-base) gap-2"
+            : "h-10 px-5 text-(length:--font-size-base) gap-2.5";
 
   return (
     <BaseButton
       size={size}
       className={cn(
-        variant === "circle" ? "rounded-full" : "rounded-xl",
+        variant === "circle" ? "rounded-full" : "rounded-lg",
         variantClass,
         sizeClass,
         fullWidth && "w-full",

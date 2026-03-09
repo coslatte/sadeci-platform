@@ -20,6 +20,7 @@ export const SIMULATION_PAGE_SUBTITLE =
 
 export const ID_PATIENT_LABEL = "ID Paciente";
 export const NEW_PATIENT_BUTTON = "Nuevo paciente";
+export const SIMULATION_PATIENT_SECTION_TITLE = "Datos del Paciente";
 export const DEMOGRAPHICS_TITLE = "Demográficos & Tiempos";
 export const CLINICAL_SCORES_TITLE = "Puntajes Clínicos";
 export const VENTILATION_TITLE = "Ventilación Mecánica";
@@ -30,10 +31,22 @@ export const SIMULATE_BUTTON = "Realizar Simulación";
 export const DOWNLOAD_CSV = "Descargar CSV";
 export const ERROR_SIMULATION_TITLE = "Error en la simulación";
 export const ALERT_ERROR_TITLE = "Error";
+export const SIMULATION_RESULTS_TITLE = "Resultados de la Simulación";
 export const MODEL_PREDICTION_TITLE = "Predicción del modelo";
 export const PATIENT_SURVIVES = "Paciente no fallece";
 export const PATIENT_DIES = "Paciente fallece";
 export const PROB_DIE_PREFIX = "Probabilidad de fallecer: ";
+export const SIMULATION_AGE_LABEL = "Edad";
+export const SIMULATION_PREUTI_STAY_LABEL = "Tiempo Pre-UCI (h)";
+export const SIMULATION_APACHE_LABEL = "Apache II";
+export const SIMULATION_SIM_PERCENT_LABEL = "% Tiempo UCI";
+export const SIMULATION_VAM_TIME_LABEL = "Tiempo VA (h)";
+export const SIMULATION_UTI_STAY_LABEL = "Tiempo UCI (h)";
+export const SIMULATION_DIAG_ING_LABEL = (index: number) =>
+  `Diag. Ingreso ${index}`;
+export const SIMULATION_RESP_INSUF_LABEL = "Insuf. Respiratoria";
+export const SIMULATION_VENT_TYPE_LABEL = "Ventilación Artificial";
+export const SIMULATION_DIAG_DISCHARGE_LABEL = "Diagnóstico Egreso 2";
 
 // Helper for formatted runs text
 export function runsRangeText(min: number, max: number) {
@@ -60,8 +73,16 @@ export const ROUTE_BREADCRUMB_SEGMENTS: Record<
 };
 
 export const SIDEBAR_BRAND_FULL = APP_NAME;
+export const SIDEBAR_NAVIGATION_TITLE = "Navegación";
+export const SIDEBAR_NAVIGATION_SUBTITLE = "Jerarquía del sistema";
 export const SIDEBAR_COLLAPSE_EXPAND = "Expandir barra lateral";
 export const SIDEBAR_COLLAPSE_COLLAPSE = "Contraer barra lateral";
+export const SIDEBAR_USER_STATUS = "Sesión activa";
+export const SIDEBAR_LOGOUT = "Cerrar sesión";
+export const SIDEBAR_SECTION_EXPAND = (label: string) =>
+  `Expandir sección ${label}`;
+export const SIDEBAR_SECTION_COLLAPSE = (label: string) =>
+  `Contraer sección ${label}`;
 
 // Simulation validation messages
 export const VALIDATION_MISSING_DIAG =

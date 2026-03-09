@@ -1,0 +1,62 @@
+import type React from "react";
+import { FiRefreshCw } from "react-icons/fi";
+import { Button } from "@/components/atoms/Buttons";
+import { Input } from "@/components/atoms/Input";
+import { Label } from "@/components/atoms/Label";
+import {
+  ID_PATIENT_LABEL,
+  NEW_PATIENT_BUTTON,
+  SIMULATION_PATIENT_SECTION_TITLE,
+} from "@/constants/constants";
+
+interface SimulationPatientSectionProps {
+  patientId: string;
+  setPatientId: (value: string) => void;
+  handleNewPatient: () => void;
+}
+
+// inline classes per styling guideline
+
+export function SimulationPatientSection({
+  patientId,
+  setPatientId,
+  handleNewPatient,
+}: SimulationPatientSectionProps) {
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <h2 className="text-(length:--font-size-lg) font-semibold text-zinc-900">
+          {SIMULATION_PATIENT_SECTION_TITLE}
+        </h2>
+        <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-400">
+          ID: {patientId}
+        </span>
+      </div>
+
+      <div className="mb-8 flex flex-col items-end gap-4 md:flex-row">
+        <div className="w-full md:w-1/3 flex flex-col gap-1.5">
+          <Label htmlFor="patient-id">{ID_PATIENT_LABEL}</Label>
+          <Input
+            id="patient-id"
+            value={patientId}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setPatientId(event.target.value)
+            }
+            fullWidth
+            aria-label="ID del paciente"
+          />
+        </div>
+
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={handleNewPatient}
+          aria-label="Generar nuevo ID de paciente"
+        >
+          <FiRefreshCw className="size-4" />
+          {NEW_PATIENT_BUTTON}
+        </Button>
+      </div>
+    </>
+  );
+}
