@@ -163,6 +163,7 @@ function getDefaultNavigationIconKey(
     "/": "home",
     "/simulation": "activity",
     "/statistics": "barchart",
+    "/prediccion": "prediction",
     "/usuarios": "users",
     "/settings": "settings",
   };

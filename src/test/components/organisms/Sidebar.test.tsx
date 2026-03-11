@@ -1,5 +1,5 @@
 import "../../setup";
-import { fireEvent, render, within } from "@testing-library/react";
+import { act, fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import { Sidebar } from "@/components/organisms/Sidebar";
 import { SIDEBAR_BRAND_FULL } from "@/constants/constants";
@@ -34,7 +34,30 @@ describe("Sidebar", () => {
     const { container } = render(
       <Sidebar sections={sections} collapsed={true} />,
     );
-    expect(container.textContent?.includes("Dashboard")).toBe(false);
+    // Label stays in DOM for CSS transition — it must be aria-hidden and
+    // visually collapsed (w-0 opacity-0).
+    const labelSpan = container.querySelector("span[aria-hidden='true']");
+    expect(labelSpan).toBeTruthy();
+  });
+
+  it("shows the collapsed item tooltip on hover", async () => {
+    const { container } = render(
+      <Sidebar sections={sections} collapsed={true} />,
+    );
+    const collapsedLink = container.querySelector(
+      'a[title="Dashboard"]',
+    ) as HTMLElement | null;
+
+    expect(collapsedLink).toBeTruthy();
+    if (!collapsedLink?.parentElement) return;
+
+    await act(async () => {
+      fireEvent.mouseEnter(collapsedLink.parentElement!);
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    });
+
+    const tooltip = within(document.body).getByRole("tooltip");
+    expect(tooltip.textContent?.includes("Dashboard")).toBe(true);
   });
 
   it("renders section title when not collapsed", () => {
@@ -46,7 +69,10 @@ describe("Sidebar", () => {
     const { container } = render(
       <Sidebar sections={sections} collapsed={true} />,
     );
-    expect(container.textContent?.includes("Principal")).toBe(false);
+    // Title text stays in the DOM for the collapse animation but is visually
+    // hidden via opacity-0 + max-h-0. Verify the wrapper carries those classes.
+    const titleWrapper = container.querySelector(".opacity-0.max-h-0");
+    expect(titleWrapper).toBeTruthy();
   });
 
   it("renders brand full name when not collapsed", () => {
@@ -80,13 +106,20 @@ describe("Sidebar", () => {
 
     const navScope = within(sidebarNav);
     expect(navScope.getByText("Simulación")).toBeTruthy();
-    expect(navScope.queryByText("Pruebas Estadísticas")).toBeNull();
+
+    // Children are in the DOM but visually hidden (aria-hidden) before expanding.
+    const childrenWrapper = sidebarNav.querySelector("[aria-hidden='true']");
+    expect(childrenWrapper).toBeTruthy();
 
     fireEvent.click(
       navScope.getByRole("button", { name: /expandir sección simulación/i }),
     );
 
-    expect(navScope.getByText("Pruebas Estadísticas")).toBeTruthy();
+    // After expanding the wrapper should no longer be aria-hidden.
+    const expandedWrapper =
+      sidebarNav.querySelector("[aria-hidden='false']") ??
+      sidebarNav.querySelector(".max-h-96");
+    expect(expandedWrapper).toBeTruthy();
   });
 
   it("hides nested children when collapsed", () => {
@@ -98,8 +131,11 @@ describe("Sidebar", () => {
     expect(sidebarNav).toBeTruthy();
     if (!sidebarNav) return;
 
-    const navScope = within(sidebarNav);
-    expect(navScope.queryByText("Pruebas Estadísticas")).toBeNull();
+    // Children wrapper stays in DOM but must be aria-hidden + pointer-events-none.
+    const hiddenWrapper = sidebarNav.querySelector(
+      "[aria-hidden='true'].pointer-events-none",
+    );
+    expect(hiddenWrapper).toBeTruthy();
   });
 
   it("calls the collapse toggle callback", () => {
@@ -135,6 +171,22 @@ describe("Sidebar", () => {
     expect(onLogout).toHaveBeenCalledTimes(1);
   });
 
+  it("matches the footer row height with the user panel", () => {
+    const { container } = render(
+      <Sidebar sections={sections} userName="Alex Rodriguez" />,
+    );
+
+    const userPanel = container.querySelector(
+      "[data-slot='sidebar-user-panel']",
+    );
+
+    expect(userPanel).toBeTruthy();
+    if (!userPanel) return;
+
+    expect(userPanel.className.includes("h-16")).toBe(true);
+    expect(userPanel.className.includes("shrink-0")).toBe(true);
+  });
+
   it("uses non-underlined button and link labels in the sidebar", () => {
     const { container } = render(<Sidebar sections={nestedSections} />);
     const sidebarScope = within(container);
@@ -161,7 +213,23 @@ describe("Sidebar", () => {
     const aside = container.querySelector("aside");
     expect(aside).toBeTruthy();
     if (!aside) return;
-    expect(aside.className.includes("w-24")).toBe(true);
+    expect(aside.className.includes("w-20")).toBe(true);
+  });
+
+  it("centers collapsed navigation items with a square hit area", () => {
+    const { container } = render(
+      <Sidebar sections={sections} collapsed={true} />,
+    );
+    const collapsedLink = container.querySelector(
+      'a[title="Dashboard"]',
+    ) as HTMLElement | null;
+
+    expect(collapsedLink).toBeTruthy();
+    if (!collapsedLink) return;
+
+    expect(collapsedLink.className.includes("w-11")).toBe(true);
+    expect(collapsedLink.className.includes("mx-auto")).toBe(true);
+    expect(collapsedLink.className.includes("flex-none")).toBe(true);
   });
 
   it("applies full width when not collapsed", () => {

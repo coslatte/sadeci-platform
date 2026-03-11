@@ -47,3 +47,5 @@ next-env.d.ts
 # page config data (managed at runtime, not committed)
 /data/*.json
 
+# reference config files
+reference-to-adapt

@@ -5,33 +5,22 @@ import { FiChevronUp, FiChevronDown, FiInfo } from "react-icons/fi";
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   fullWidth?: boolean;
+  help?: string;
   info?: string;
   showNumberControls?: boolean;
 }
 
 export function Input({
   error,
-  fullWidth = false,
+  fullWidth = true,
   className,
   disabled,
+  help,
   info,
   showNumberControls = true,
   type,
   ...props
 }: InputProps) {
-  /**
-   * Input
-   *
-   * A controlled/uncontrolled input field with optional inline info tooltip
-   * and number increment/decrement controls. The component forwards both
-   * React's `onChange` and also handles native `input` events to support
-   * test utilities that dispatch native events.
-   *
-   * @param error - marks the input as having an error state (applies red styles)
-   * @param fullWidth - when true the input expands to fill the container
-   * @param info - optional helper text shown in a tooltip triggered by an icon
-   * @param showNumberControls - when true and type="number" shows small up/down controls
-   */
   const inputId = useId();
   const infoId = info ? `${inputId}-info` : undefined;
   const ref = useRef<HTMLInputElement | null>(null);
@@ -122,6 +111,25 @@ export function Input({
                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800" />
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {help && (
+        <div className="group/help absolute -top-2.5 -right-2.5 z-10">
+          <button
+            type="button"
+            aria-label="Información de ayuda del campo"
+            className="w-5 h-5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-500 text-[10px] font-bold flex items-center justify-center cursor-help hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-colors"
+          >
+            ?
+          </button>
+          <div
+            role="tooltip"
+            className="absolute bottom-full right-0 mb-2 w-60 max-w-xs rounded-lg bg-gray-800 px-3 py-2 text-(length:--font-size-xs) text-white opacity-0 transition-opacity pointer-events-none group-hover/help:opacity-100 group-focus-within/help:opacity-100 whitespace-normal"
+          >
+            {help}
+            <div className="absolute top-full right-3 border-4 border-transparent border-t-gray-800" />
           </div>
         </div>
       )}

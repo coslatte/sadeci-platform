@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { SidebarBrand } from "@/components/organisms/sidebar/SidebarBrand";
 import { SidebarCollapseToggle } from "@/components/organisms/sidebar/SidebarCollapseToggle";
@@ -43,18 +44,36 @@ export function Sidebar({
   const pathname = usePathname() ?? "/";
   const sections = resolveSidebarSections(pathname, sectionConfigs);
 
+  // Support uncontrolled usage: if parent doesn't provide an onToggleCollapse
+  // handler, manage collapsed state internally so the toggle button is
+  // interactive by default.
+  const [internalCollapsed, setInternalCollapsed] =
+    useState<boolean>(collapsed);
+
+  const isControlled = typeof onToggleCollapse === "function";
+  const effectiveCollapsed = isControlled ? collapsed : internalCollapsed;
+
+  function handleToggle() {
+    if (isControlled) {
+      onToggleCollapse?.();
+    } else {
+      setInternalCollapsed((s) => !s);
+    }
+  }
+
   return (
     <aside
       className={cn(
         "relative flex h-full flex-col border-r border-slate-200/80 bg-slate-50/90 transition-all duration-300 ease-in-out",
-        collapsed ? "w-24" : "w-72",
+        // Use a slightly narrower collapsed width now that item backgrounds are hidden
+        effectiveCollapsed ? "w-20" : "w-72",
         className,
       )}
     >
-      <SidebarBrand collapsed={collapsed} />
+      <SidebarBrand collapsed={effectiveCollapsed} />
 
       <nav
-        className="flex-1 p-3 overflow-x-hidden overflow-y-auto"
+        className="flex-1 p-3 overflow-x-hidden overflow-y-auto no-underline"
         aria-label="Sidebar navigation"
       >
         <div className="flex flex-col gap-6">
@@ -63,14 +82,14 @@ export function Sidebar({
               key={section.title}
               title={section.title}
               items={section.items}
-              collapsed={collapsed}
+              collapsed={effectiveCollapsed}
             />
           ))}
         </div>
       </nav>
 
       <SidebarUserPanel
-        collapsed={collapsed}
+        collapsed={effectiveCollapsed}
         userName={userName}
         userRole={userRole}
         userAvatar={userAvatar}
@@ -78,8 +97,8 @@ export function Sidebar({
       />
 
       <SidebarCollapseToggle
-        collapsed={collapsed}
-        onToggleCollapse={onToggleCollapse}
+        collapsed={effectiveCollapsed}
+        onToggleCollapse={handleToggle}
       />
     </aside>
   );

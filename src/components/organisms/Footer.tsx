@@ -20,7 +20,7 @@ export function Footer({ className, disabled }: FooterProps) {
   return (
     <footer
       className={cn(
-        "flex h-12 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-8 transition-colors",
+        "flex h-16 shrink-0 items-center justify-between border-t border-slate-200 bg-white px-8 transition-colors",
         disabled && "opacity-50 grayscale pointer-events-none",
         className,
       )}

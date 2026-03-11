@@ -61,6 +61,7 @@ export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/": "Dashboard",
   "/simulation": "Simulación",
   "/statistics": "Pruebas Estadísticas",
+  "/prediccion": "Predicción",
   "/usuarios": "Usuarios",
   "/settings": "Ajustes",
 };
@@ -205,6 +206,36 @@ export const STATS_TABLE_VALUE_HEADER = "Valor";
 export const STATS_LOADING = "Ejecutando...";
 export const STATS_TABLIST_LABEL = "Pruebas estadísticas";
 
+// Prediccion (ML Prediction & Explainability)
+export const PREDICCION_PAGE_TITLE = "Predicción de No Supervivencia";
+export const PREDICCION_PAGE_SUBTITLE =
+  "Herramienta de apoyo en la predicción de no supervivencia de pacientes en UCI.";
+export const PREDICCION_PATIENT_SECTION_TITLE = "Características del Paciente";
+export const PREDICCION_EDAD_LABEL = "Edad";
+export const PREDICCION_DIAG_ING1_LABEL = "Diag.Ing1";
+export const PREDICCION_DIAG_ING2_LABEL = "Diag.Ing2";
+export const PREDICCION_DIAG_EGR2_LABEL = "Diag.Egr2";
+export const PREDICCION_APACHE_LABEL = "APACHE II";
+export const PREDICCION_TIEMPO_VAM_LABEL = "TiempoVAM";
+export const PREDICCION_PREDICT_BUTTON = "Predecir";
+export const PREDICCION_PREDICTING_BUTTON = "Prediciendo...";
+export const PREDICCION_RESULT_TITLE = "Probabilidad de No Supervivencia";
+export const PREDICCION_PATIENT_SURVIVES = "Paciente no fallece";
+export const PREDICCION_PATIENT_DIES = "Paciente fallece";
+export const PREDICCION_EXPLAIN_SECTION_TITLE = "Explicabilidad";
+export const PREDICCION_METHOD_LABEL = "Método de Explicabilidad";
+export const PREDICCION_EXPLAIN_BUTTON = "Explicar";
+export const PREDICCION_EXPLAINING_BUTTON = "Generando...";
+export const PREDICCION_EXPLAIN_TITLE = (method: string) =>
+  `Explicación de ${method}`;
+export const PREDICCION_WARN_NO_PREDICTION =
+  "Realice una predicción antes de solicitar la explicación.";
+export const PREDICCION_ERROR_TITLE = "Error en la predicción";
+export const PREDICCION_FEATURE_IMPORTANCE_TITLE =
+  "Relevancia de las Características";
+export const PREDICCION_POSITIVE = "Positiva (aumenta probabilidad)";
+export const PREDICCION_NEGATIVE = "Negativa (disminuye probabilidad)";
+
 // Notifications
 export const NOTIFICATIONS_TITLE = "Notificaciones";
 export const NOTIFICATIONS_MARK_ALL = "Marcar todo";
@@ -212,3 +243,21 @@ export const NOTIFICATIONS_MARK_READ = "Marcar leída";
 export const NOTIFICATIONS_EMPTY = "No hay notificaciones";
 export const NOTIFICATIONS_EMPTY_SUBTITLE =
   "No hay notificaciones recientes. Te avisaremos cuando haya novedades.";
+
+// Input field help messages (adapted from Streamlit reference constants/messages.py)
+export const HELP_ID_PATIENT =
+  "Identificador del Paciente en el sistema. Utilizado en la simulación para numerar experimentos.";
+export const HELP_APACHE =
+  "Valor del APACHE (Acute Physiology and Chronic Health Evaluation): puntaje clínico para cuidados intensivos que mide la gravedad del paciente crítico y estima su riesgo de mortalidad. Un riesgo bajo sería 0 y un riesgo alto sería 36.";
+export const HELP_UTI_STAY =
+  "Tiempo de estadía en Unidad de Terapia Intensiva (UTI) en horas.";
+export const HELP_PREUTI_STAY =
+  "Tiempo de estadía pre Unidad de Terapia Intensiva (UTI) antes de ingresar a la unidad, en horas.";
+export const HELP_SIM_RUNS =
+  "Cantidad de corridas de la simulación. Un número mayor mejora la precisión pero incrementa el tiempo de procesamiento. Se recomienda 200 corridas como punto de partida.";
+export const HELP_SIM_PERCENT =
+  "Proporción de tiempo dentro de la estancia UCI que se espera antes de entrar en Ventilación.";
+export const HELP_PREDICTION_METRIC =
+  "La predicción se realiza mediante un modelo de Inteligencia Artificial entrenado con datos de pacientes UCI. Intervienen variables como Diagnóstico Ingreso 1, Diagnóstico Ingreso 2, Diagnóstico Egreso 2, Tiempo en VAM, Apache y Edad.";
+export const HELP_VAM_TIME =
+  "Tiempo en Ventilación Asistida Mecánica (VAM) en horas.";

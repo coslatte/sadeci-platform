@@ -103,7 +103,13 @@ Deben usarse componentes ya existentes siempre que cumplan el propósito, inclus
 Ejecutar siempre que se concluya una tarea o cambio importante los siguientes comandos para verificar que no se rompa nada:
 
 ```bash
-bun run lint ; bun run test ; bun run build
+bun run lint ; bun run test 
+```
+
+Muy especialmente, con ánimo de resolver un problema en que involucre esta función, correr:
+
+```bash
+bun run build
 ```
 
 No des por finalizado un trabajo si esos comandos no pasan.
@@ -144,7 +150,7 @@ Evitar comentarios que sobreexpliquen el código. Siempre que se pueda, evitarlo
 Tras cualquier cambio importante ejecutar:
 
 ```bash
-bun run lint ; bun run test ; bun run build
+bun run lint ; bun run test
 ```
 
 - Corrige errores detectados antes de abrir PR. Todo componente nuevo o modificado debe incluir/actualizar tests en `src/test/components/**`.

@@ -35,6 +35,12 @@
   --font-size-4xl: clamp(2.25rem, 1.8rem + 1.7vw, 3.2rem);
 }
 
+@layer base {
+  a {
+    text-decoration: none;
+  }
+}
+
 :root {
   --font-family-primary: "Inter";
   --font-family-secondary: "Manrope";

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useCallback,
+} from "react";
 
 export type NotificationType = "success" | "failure" | "info";
 
@@ -47,19 +53,17 @@ export function NotificationsProvider({
     },
   ]);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
-  function markAsRead(id: NotificationItem["id"]) {
+  const markAsRead = useCallback((id: NotificationItem["id"]) => {
     setNotifications((prev) =>
       prev.map((p) => (p.id === id ? { ...p, read: true } : p)),
     );
-  }
+  }, []);
 
-  function markAllAsRead() {
+  const markAllAsRead = useCallback(() => {
     setNotifications((prev) => prev.map((p) => ({ ...p, read: true })));
-  }
+  }, []);
 
-  function addNotification(n: Omit<NotificationItem, "id">) {
+  const addNotification = useCallback((n: Omit<NotificationItem, "id">) => {
     setNotifications((prev) => [
       {
         id: prev.length ? Math.max(...prev.map((p) => Number(p.id))) + 1 : 1,
@@ -67,22 +71,28 @@ export function NotificationsProvider({
       },
       ...prev,
     ]);
-  }
+  }, []);
 
-  function removeNotification(id: NotificationItem["id"]) {
+  const removeNotification = useCallback((id: NotificationItem["id"]) => {
     setNotifications((prev) => prev.filter((p) => p.id !== id));
-  }
+  }, []);
 
   const value = useMemo(
     () => ({
       notifications,
-      unreadCount,
+      unreadCount: notifications.filter((n) => !n.read).length,
       markAsRead,
       markAllAsRead,
       addNotification,
       removeNotification,
     }),
-    [notifications, unreadCount],
+    [
+      notifications,
+      markAsRead,
+      markAllAsRead,
+      addNotification,
+      removeNotification,
+    ],
   );
 
   return (

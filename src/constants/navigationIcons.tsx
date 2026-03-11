@@ -5,6 +5,7 @@ import {
   FiSettings,
   FiUsers,
   FiLayout,
+  FiCpu,
 } from "react-icons/fi";
 
 export type NavigationIconKey =
@@ -13,7 +14,8 @@ export type NavigationIconKey =
   | "barchart"
   | "users"
   | "settings"
-  | "admin";
+  | "admin"
+  | "prediction";
 
 export const NAVIGATION_ICON_REGISTRY = {
   home: FiHome,
@@ -22,4 +24,5 @@ export const NAVIGATION_ICON_REGISTRY = {
   users: FiUsers,
   settings: FiSettings,
   admin: FiLayout,
+  prediction: FiCpu,
 } as const;

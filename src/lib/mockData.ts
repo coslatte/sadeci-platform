@@ -54,6 +54,10 @@ export const SIDEBAR_SECTIONS: SidebarSection[] = [
           },
         ],
       },
+      {
+        label: "Predicción",
+        href: "/prediccion",
+      },
     ],
   },
 ];
