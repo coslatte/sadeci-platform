@@ -98,7 +98,7 @@ export default function PrediccionPage() {
   }
 
   return (
-    <Stack gap={6}>
+    <Stack space="lg">
       <div>
         <Text as="h1" size="xl" weight="bold" className="text-zinc-900">
           {PREDICCION_PAGE_TITLE}

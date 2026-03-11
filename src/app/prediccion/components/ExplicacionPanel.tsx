@@ -45,6 +45,20 @@ interface ChartEntry {
   importance: number;
 }
 
+function formatChartValue(
+  value: number | string | readonly (number | string)[] | undefined,
+) {
+  if (typeof value === "number") {
+    return value.toFixed(4);
+  }
+
+  if (Array.isArray(value)) {
+    return value.join(", ");
+  }
+
+  return value ?? "";
+}
+
 export function ExplicacionPanel({
   hasPrediction,
   method,
@@ -149,7 +163,7 @@ export function ExplicacionPanel({
                   width={76}
                   tick={{ fontSize: 12 }}
                 />
-                <Tooltip formatter={(v: number) => v.toFixed(4)} />
+                <Tooltip formatter={formatChartValue} />
                 <ReferenceLine x={0} stroke="#ef4444" strokeDasharray="4 2" />
                 <Bar dataKey="importance" radius={[0, 4, 4, 0]}>
                   {chartData.map((entry, index) => (
