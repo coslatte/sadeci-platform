@@ -15,6 +15,7 @@ interface SpinnerProps {
  *
  * Icon-based spinner used to indicate loading states. Provides a readable
  * `aria-label` and supports a size token mapped to utility classes.
+ * Used in X case: inline busy indicators in buttons, forms, and panels.
  */
 export function Spinner({
   size = "md",

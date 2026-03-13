@@ -25,6 +25,11 @@ interface NavItemProps {
   iconClassName?: string;
   disabled?: boolean;
 }
+
+/**
+ * Renders a sidebar navigation item with optional nesting and tooltip support.
+ * Used in X case: route links inside expanded and collapsed sidebar states.
+ */
 export function NavItem({
   href,
   label,

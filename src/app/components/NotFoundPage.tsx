@@ -18,6 +18,10 @@ const styles = {
   divider: "mx-auto h-px w-12 bg-primary-200",
 } as const;
 
+/**
+ * Shows a branded 404 fallback with a shortcut back to home.
+ * Used in X case: unknown route handling in the Next.js not-found boundary.
+ */
 export default function NotFoundPage() {
   return (
     <div className={styles.wrapper}>

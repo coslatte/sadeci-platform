@@ -24,12 +24,31 @@ describe("Navbar", () => {
     expect(container.textContent?.includes("Simulación")).toBe(true);
   });
 
-  it("does not render user controls in the navbar", () => {
+  it("renders user controls in the navbar when profile data is provided", () => {
     const { container } = render(<Navbar pathname="/" />);
     expect(
-      container.querySelector("button[aria-haspopup='dialog']"),
+      container.querySelector("button[aria-label='Cerrar sesión']"),
     ).toBeNull();
-    expect(container.textContent?.includes("Ajustes")).toBe(false);
-    expect(container.textContent?.includes("Cerrar sesión")).toBe(false);
+  });
+
+  it("renders profile and logout controls when props are provided", () => {
+    const onLogout = mock(() => {});
+    const { container, getByRole } = render(
+      <Navbar
+        pathname="/"
+        userName="Alex Rodriguez"
+        userRole="System Admin"
+        onLogout={onLogout}
+      />,
+    );
+
+    expect(
+      container.querySelector("a[aria-label='Ir a ajustes de perfil']"),
+    ).toBeTruthy();
+    expect(container.textContent?.includes("Alex Rodriguez")).toBe(true);
+
+    const logout = getByRole("button", { name: /cerrar sesión/i });
+    logout.click();
+    expect(onLogout).toHaveBeenCalledTimes(1);
   });
 });

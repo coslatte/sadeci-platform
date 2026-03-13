@@ -11,6 +11,10 @@ interface SidebarTooltipProps {
   };
 }
 
+/**
+ * Displays a floating tooltip near collapsed sidebar navigation items.
+ * Used in X case: showing labels when users hover icon-only nav entries.
+ */
 export function SidebarTooltip({ label, position }: SidebarTooltipProps) {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
 

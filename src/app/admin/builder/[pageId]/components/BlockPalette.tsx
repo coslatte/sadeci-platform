@@ -9,6 +9,10 @@ interface BlockPaletteProps {
   onAdd: (type: BlockType) => void;
 }
 
+/**
+ * Lists available block types and emits add events for the builder.
+ * Used in X case: left-side block picker in admin page builder.
+ */
 export function BlockPalette({ onAdd }: BlockPaletteProps) {
   const entries = Object.entries(BLOCK_REGISTRY) as [
     BlockType,

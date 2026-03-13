@@ -14,6 +14,10 @@ interface TagListEditorProps {
   onChange: (tags: TagItem[]) => void;
 }
 
+/**
+ * Manages editable label-color tag lists with palette shortcuts.
+ * Used in X case: configuring multi-tag badge block properties in builder.
+ */
 export function TagListEditor({ value = [], onChange }: TagListEditorProps) {
   const [local, setLocal] = useState<TagItem[]>([...value]);
 

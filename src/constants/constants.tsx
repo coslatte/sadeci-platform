@@ -84,6 +84,7 @@ export const SIDEBAR_SECTION_EXPAND = (label: string) =>
   `Expandir sección ${label}`;
 export const SIDEBAR_SECTION_COLLAPSE = (label: string) =>
   `Contraer sección ${label}`;
+export const NAVBAR_PROFILE_SETTINGS = "Ir a ajustes de perfil";
 
 // Simulation validation messages
 export const VALIDATION_MISSING_DIAG =
@@ -95,6 +96,10 @@ export const VALIDATION_SELECT_RESP =
 export const HOME_DEFAULT_GREETING = "Bienvenido";
 export const HOME_WELCOME_SUBTITLE =
   "Panel principal de Saduci Platform - sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos.";
+export const HOME_PRESENTATION_SECTION_TITLE = "Presentación";
+export const HOME_DOCUMENTATION_SECTION_TITLE = "Documentación";
+export const HOME_DOCUMENTATION_SECTION_DESCRIPTION =
+  "En esta sección se encuentran los recursos oficiales del proyecto. Los enlaces se ubican al final del bloque para mantener una jerarquía visual estable en el dashboard.";
 
 export const ABOUT_TITLE = "Acerca de la Plataforma";
 

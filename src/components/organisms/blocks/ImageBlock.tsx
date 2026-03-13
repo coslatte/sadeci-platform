@@ -4,6 +4,10 @@ interface ImageBlockProps {
   caption?: string;
 }
 
+/**
+ * Displays an image block with optional caption and empty-state fallback.
+ * Used in X case: rendering media sections configured from page builder.
+ */
 export function ImageBlock({
   src = "",
   alt = "Imagen",

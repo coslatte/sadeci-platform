@@ -30,6 +30,10 @@ interface PrediccionFormProps {
   onPredict: () => void;
 }
 
+/**
+ * Collects prediction input metrics and triggers the model request action.
+ * Used in X case: patient data entry step for mortality prediction.
+ */
 export function PrediccionForm({
   edad,
   setEdad,

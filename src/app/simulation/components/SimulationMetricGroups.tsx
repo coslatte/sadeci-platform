@@ -64,6 +64,10 @@ function NumberField({
   );
 }
 
+/**
+ * Groups numeric simulation inputs by demographics, scores, and ventilation.
+ * Used in X case: core metric entry area of the simulation form.
+ */
 export function SimulationMetricGroups({
   age,
   apache,

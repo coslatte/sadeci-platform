@@ -17,6 +17,7 @@ export interface ButtonProps extends Omit<BaseButtonProps, "className"> {
  * High-level button component exposing `variant` and `size` tokens used by the
  * design system. It composes `BaseButton` and applies variant/size utility
  * classes.
+ * Used in X case: primary and secondary action buttons across the app.
  */
 export function Button({
   variant = "primary",

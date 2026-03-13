@@ -7,6 +7,7 @@ import { HTMLAttributes } from "react";
  * Simple pulsing placeholder used while content is loading. It accepts an
  * optional `disabled` prop that attaches a `data-disabled` attribute for
  * styling or testing.
+ * Used in X case: temporary placeholders during async content rendering.
  */
 export function Skeleton(
   props: HTMLAttributes<HTMLDivElement> & { disabled?: boolean },

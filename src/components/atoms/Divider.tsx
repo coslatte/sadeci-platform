@@ -17,6 +17,7 @@ interface DividerProps extends HTMLAttributes<HTMLHRElement | HTMLDivElement> {
  * Simple visual separator. Renders either an <hr> for horizontal separators
  * or a <div> for vertical separators. It sets `role="separator"` and the
  * appropriate `aria-orientation` value.
+ * Used in X case: separating related UI regions in cards and layouts.
  */
 export function Divider({
   className,

@@ -50,3 +50,12 @@ La única excepción es este archivo `AGENT.md` y el `README.md` raíz del proye
 ## Evitar por todos los medios
 
 Uso constante de emojis y demás cosas que son innecesarias para el código.
+
+## Regla de navegación lateral
+
+- Al agregar un nuevo botón en el sidebar que tenga subcategorías, el control desplegable debe ir dentro del mismo botón, alineado al costado derecho y respetando márgenes/paddings del diseño.
+
+## Regla de ejecución de builds
+
+- No ejecutar `build` por defecto durante cambios de implementación o refactor.
+- Ejecutar `build` únicamente cuando el usuario lo solicite explícitamente.

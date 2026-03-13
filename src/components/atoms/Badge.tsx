@@ -19,6 +19,7 @@ interface BadgeProps {
  * Badge
  *
  * Small status badge used to convey lightweight semantic states.
+ * Used in X case: showing compact status labels in results and summaries.
  */
 export function Badge({
   status = "default",

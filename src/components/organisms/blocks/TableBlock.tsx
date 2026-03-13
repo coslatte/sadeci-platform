@@ -30,6 +30,10 @@ const SAMPLE_ROWS = [
   { nombre: "Paciente C", valor: 65, estado: "Activo" },
 ];
 
+/**
+ * Builds a preview data table from JSON column and row definitions.
+ * Used in X case: visualizing tabular block data configured in page builder.
+ */
 export function TableBlock({ title, columnsJson, rowsJson }: TableBlockProps) {
   const columns = parseJson<Column[]>(columnsJson, SAMPLE_COLUMNS);
   const rows = parseJson<Record<string, unknown>[]>(rowsJson, SAMPLE_ROWS);

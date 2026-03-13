@@ -17,6 +17,7 @@ interface AppErrorProps {
  *
  * @param error - the caught error object
  * @param reset - callback to attempt recovery
+ * Used in X case: displaying route-level fallback when a page crashes.
  */
 export function AppError({ error, reset }: AppErrorProps) {
   useEffect(() => {

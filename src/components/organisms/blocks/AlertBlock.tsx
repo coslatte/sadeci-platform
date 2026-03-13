@@ -8,6 +8,10 @@ interface AlertBlockProps {
   message?: string;
 }
 
+/**
+ * Renders a configured alert variant with title and message content.
+ * Used in X case: alert block previews in dynamic page compositions.
+ */
 export function AlertBlock({
   variant = "info",
   title = "Información",

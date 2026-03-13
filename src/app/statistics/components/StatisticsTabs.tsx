@@ -11,6 +11,10 @@ interface StatisticsTabsProps {
   onChange: (tab: ActiveStatisticsTab) => void;
 }
 
+/**
+ * Renders tab buttons to switch between supported statistical tests.
+ * Used in X case: choosing Wilcoxon or Friedman workflows in statistics page.
+ */
 export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
   return (
     <div

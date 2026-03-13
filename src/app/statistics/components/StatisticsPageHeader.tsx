@@ -3,6 +3,10 @@ import {
   STATISTICS_PAGE_TITLE,
 } from "@/constants/constants";
 
+/**
+ * Renders title and subtitle for the statistics module landing section.
+ * Used in X case: top heading area on statistics page.
+ */
 export function StatisticsPageHeader() {
   return (
     <div className="mb-8">

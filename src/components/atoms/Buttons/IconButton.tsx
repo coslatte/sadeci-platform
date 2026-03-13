@@ -17,6 +17,7 @@ export interface IconButtonProps extends Omit<BaseButtonProps, "className"> {
  *
  * Compact round button variant intended to display a single icon. `aria-label`
  * must be provided to ensure accessibility.
+ * Used in X case: toolbar and inline icon-only action controls.
  */
 export function IconButton({
   variant = "secondary",

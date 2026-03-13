@@ -10,6 +10,10 @@ interface SidebarCollapseToggleProps {
   onToggleCollapse?: () => void;
 }
 
+/**
+ * Toggles collapsed and expanded states for the sidebar rail.
+ * Used in X case: compacting the left navigation panel in app shell.
+ */
 export function SidebarCollapseToggle({
   collapsed,
   onToggleCollapse,
@@ -19,7 +23,7 @@ export function SidebarCollapseToggle({
       type="button"
       onClick={onToggleCollapse}
       className={cn(
-        "absolute -right-4 top-1/2 z-50 flex h-12 w-4 -translate-y-1/2 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-slate-50 text-slate-400 transition-all hover:border-primary-400 hover:text-primary-400 hover:text-shadow-primary-700 hover:text-shadow-md hover:shadow-current/30 hover:shadow-sm focus:outline-none",
+        "absolute -right-4 top-0 bottom-0 my-auto z-50 flex h-12 w-4 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-slate-50 text-slate-400 transition-all duration-200 hover:border-primary-500 hover:text-primary-500 hover:shadow-primary-500/20 hover:shadow-sm focus:outline-none",
         collapsed && "ring-0 ring-primary-50",
       )}
       aria-label={

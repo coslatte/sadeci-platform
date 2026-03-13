@@ -55,6 +55,10 @@ function SelectField({
   );
 }
 
+/**
+ * Collects diagnosis and ventilation categorical variables for simulation.
+ * Used in X case: selecting diagnosis codes before running patient simulation.
+ */
 export function SimulationDiagnosesSection({
   diagIng1,
   setDiagIng1,

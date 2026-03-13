@@ -36,6 +36,10 @@ function hexLuminance(hex: string) {
   }
 }
 
+/**
+ * Renders single or multiple status badges from configurable block props.
+ * Used in X case: showing categorical tags in dynamic admin-built pages.
+ */
 export function BadgeBlock({ label, status, tags }: BadgeBlockProps) {
   // If tags provided (new format), render multiple colored chips
   if (Array.isArray(tags) && tags.length > 0) {

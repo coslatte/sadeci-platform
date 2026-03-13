@@ -17,6 +17,10 @@ interface StatisticsFileDropzoneProps {
   onChange: (files: File[]) => void;
 }
 
+/**
+ * Provides clickable CSV file selection with selected-file preview.
+ * Used in X case: uploading experiment files in statistics tests.
+ */
 export function StatisticsFileDropzone({
   label,
   files,

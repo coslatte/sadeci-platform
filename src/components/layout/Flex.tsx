@@ -9,6 +9,10 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement> {
   gap?: string | number;
 }
 
+/**
+ * Provides a configurable flex container for direction and alignment.
+ * Used in X case: quick horizontal or vertical layout composition in UI blocks.
+ */
 export function Flex({
   className,
   direction = "row",

@@ -8,6 +8,10 @@ interface SelectFieldBlockProps {
   helperText?: string;
 }
 
+/**
+ * Displays a labeled disabled select preview from comma-separated options.
+ * Used in X case: select-field block rendering in dynamic page previews.
+ */
 export function SelectFieldBlock({
   label = "Selección",
   placeholder = "Selecciona una opción",

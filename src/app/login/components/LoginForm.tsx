@@ -19,6 +19,10 @@ import {
   ALERT_ERROR_TITLE,
 } from "@/constants/constants";
 
+/**
+ * Handles credential input, authentication request, and login feedback states.
+ * Used in X case: primary sign-in form for user access.
+ */
 export default function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();

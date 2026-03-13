@@ -21,6 +21,10 @@ interface PageCanvasProps {
   onReorder: (fromIndex: number, toIndex: number) => void;
 }
 
+/**
+ * Renders draggable page blocks with controls for edit, move, and delete.
+ * Used in X case: central canvas preview in admin page builder.
+ */
 export function PageCanvas({
   page,
   onRemove,

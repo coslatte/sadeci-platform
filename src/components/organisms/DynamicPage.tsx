@@ -5,6 +5,10 @@ interface DynamicPageProps {
   config: PageConfig;
 }
 
+/**
+ * Renders page-builder blocks sorted by order from a page config.
+ * Used in X case: dynamic content pages resolved by slug configuration.
+ */
 export function DynamicPage({ config }: DynamicPageProps) {
   const sorted = [...config.blocks].sort((a, b) => a.order - b.order);
 

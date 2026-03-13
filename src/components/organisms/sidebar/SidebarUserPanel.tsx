@@ -14,6 +14,10 @@ interface SidebarUserPanelProps {
   onLogout?: () => void;
 }
 
+/**
+ * Shows current user identity details and a logout action in sidebar.
+ * Used in X case: profile controls at the bottom of expanded sidebars.
+ */
 export function SidebarUserPanel({
   collapsed,
   userName = "Usuario",

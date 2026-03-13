@@ -20,6 +20,7 @@ export interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
  * @param loading - when true shows the spinner overlay and disables the button
  * @param size - size token passed through to allow consistent spacing
  * @param spinner - optional React node used as custom spinner
+ * Used in X case: foundational button behavior shared by button variants.
  */
 
 export function BaseButton({

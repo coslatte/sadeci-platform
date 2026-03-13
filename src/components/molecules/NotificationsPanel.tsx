@@ -27,6 +27,10 @@ interface NotificationsPanelProps {
   onMarkAllAsRead?: () => void;
 }
 
+/**
+ * Shows notification items with actions to mark individual or all as read.
+ * Used in X case: notification popover content in the app footer.
+ */
 export function NotificationsPanel({
   notifications,
   className,

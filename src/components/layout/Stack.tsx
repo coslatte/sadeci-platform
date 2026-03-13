@@ -5,6 +5,10 @@ interface StackProps extends HTMLAttributes<HTMLDivElement> {
   space?: "sm" | "md" | "lg" | "xl";
 }
 
+/**
+ * Arranges children vertically with token-based spacing presets.
+ * Used in X case: stacking form fields and panels in layout compositions.
+ */
 export function Stack({
   className,
   space = "md",

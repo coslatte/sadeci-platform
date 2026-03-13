@@ -5,6 +5,10 @@ interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg" | "xl" | "full";
 }
 
+/**
+ * Centers page content and constrains width with size presets.
+ * Used in X case: wrapping route content with consistent horizontal padding.
+ */
 export function Container({
   className,
   size = "lg",

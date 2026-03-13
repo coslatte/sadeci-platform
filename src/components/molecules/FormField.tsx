@@ -26,6 +26,7 @@ interface FormFieldProps {
  * @param hint - optional helper text shown when there is no error
  * @param inputProps - props forwarded to the underlying `Input` component
  * @param disabled - attach data-disabled for styling/testing
+ * Used in X case: labeled form inputs with helper and validation messaging.
  */
 export function FormField({
   id,

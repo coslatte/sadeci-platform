@@ -54,6 +54,10 @@ const SAMPLE_DATA = [
   { nombre: "May", valor: 71 },
 ];
 
+/**
+ * Renders bar, line, area, or pie charts from configurable JSON data.
+ * Used in X case: chart block previews and dynamic analytics sections.
+ */
 export function ChartBlock({
   chartType = "bar",
   title,

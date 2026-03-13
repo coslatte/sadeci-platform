@@ -5,6 +5,10 @@ interface CardBlockProps {
   content?: string;
 }
 
+/**
+ * Wraps text content inside a standard card block container.
+ * Used in X case: card-type content blocks in dynamic pages.
+ */
 export function CardBlock({
   header = "Título",
   content = "Contenido de la tarjeta.",

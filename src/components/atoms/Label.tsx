@@ -16,6 +16,7 @@ interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
  *
  * Simple form label that can render an optional required marker. Use this
  * component to keep label styles consistent across forms.
+ * Used in X case: labeling controlled inputs in forms and settings panels.
  */
 export function Label({
   required,

@@ -27,6 +27,10 @@ const styles = {
   digestText: "mt-1 font-mono",
 } as const;
 
+/**
+ * Displays a global error fallback with retry and home navigation actions.
+ * Used in X case: runtime route errors captured by the global error boundary.
+ */
 export default function GlobalErrorPage({
   error,
   reset,

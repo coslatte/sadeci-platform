@@ -56,6 +56,10 @@ function StatisticsResultTable({ result }: { result: StatisticalTestResult }) {
   );
 }
 
+/**
+ * Shows statistical outcomes along with warning and error feedback blocks.
+ * Used in X case: displaying computed Wilcoxon or Friedman test results.
+ */
 export function StatisticsResultSection({
   result,
   error,

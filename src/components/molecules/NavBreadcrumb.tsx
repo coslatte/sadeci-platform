@@ -15,6 +15,10 @@ interface NavBreadcrumbProps {
   className?: string;
 }
 
+/**
+ * Builds a breadcrumb trail from current route segments and brand label.
+ * Used in X case: contextual page path display inside the top navbar.
+ */
 export function NavBreadcrumb({
   brandName,
   currentPage,

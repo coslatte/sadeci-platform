@@ -18,6 +18,7 @@ interface CardProps {
  * Generic container that provides a bordered white surface with optional
  * header and footer slots. Use `padded=false` to let the content control
  * spacing.
+ * Used in X case: reusable panel wrapper across forms, cards, and editors.
  */
 export function Card({
   header,

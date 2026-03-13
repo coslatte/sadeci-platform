@@ -9,6 +9,10 @@ interface PrediccionResultCardProps {
   probability: number;
 }
 
+/**
+ * Presents predicted mortality probability with status color and progress bar.
+ * Used in X case: prediction outcome summary in the prediccion workflow.
+ */
 export function PrediccionResultCard({
   probability,
 }: PrediccionResultCardProps) {

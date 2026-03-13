@@ -21,6 +21,7 @@ interface AlertProps extends HTMLAttributes<HTMLDivElement> {
  * Informational message component with semantic variants. Use for small
  * inline notices that shouldn't block user flow. The component sets
  * `role="alert"` for assistive technologies.
+ * Used in X case: inline success, warning, and error feedback panels.
  */
 export function Alert({
   className,

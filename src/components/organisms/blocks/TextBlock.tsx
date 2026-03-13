@@ -9,6 +9,10 @@ interface TextBlockProps {
   muted?: boolean;
 }
 
+/**
+ * Displays configurable typography content inside dynamic page blocks.
+ * Used in X case: rendering paragraph or heading content from page builder data.
+ */
 export function TextBlock({
   content = "Escribe aquí...",
   as = "p",

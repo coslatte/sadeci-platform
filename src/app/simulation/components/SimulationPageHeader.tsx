@@ -3,6 +3,10 @@ import {
   SIMULATION_PAGE_SUBTITLE,
 } from "@/constants/constants";
 
+/**
+ * Renders title and subtitle for the simulation module screen.
+ * Used in X case: top header section of simulation route.
+ */
 export function SimulationPageHeader() {
   return (
     <div className="mb-8">

@@ -59,6 +59,10 @@ function formatChartValue(
   return value ?? "";
 }
 
+/**
+ * Configures and renders feature-importance explanations for predictions.
+ * Used in X case: post-prediction explainability panel in prediccion flow.
+ */
 export function ExplicacionPanel({
   hasPrediction,
   method,

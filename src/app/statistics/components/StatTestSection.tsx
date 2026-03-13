@@ -31,6 +31,10 @@ export interface WilcoxonSectionProps {
   uploadLabel2: string;
 }
 
+/**
+ * Captures two-sample inputs and runs the Wilcoxon test workflow.
+ * Used in X case: non-parametric paired comparison in statistics module.
+ */
 export function WilcoxonSection({
   file1,
   file2,
@@ -131,6 +135,10 @@ export interface FriedmanSectionProps {
   uploadLabel: string;
 }
 
+/**
+ * Collects multi-experiment inputs and runs the Friedman test workflow.
+ * Used in X case: repeated-measures comparison across three or more samples.
+ */
 export function FriedmanSection({
   files,
   selectedColumn,

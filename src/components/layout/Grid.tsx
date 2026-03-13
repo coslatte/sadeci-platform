@@ -5,6 +5,10 @@ interface GridProps extends HTMLAttributes<HTMLDivElement> {
   cols?: 1 | 2 | 3 | 4 | 5 | 6 | 12;
 }
 
+/**
+ * Applies responsive grid column presets to a container wrapper.
+ * Used in X case: organizing cards and input groups in page layouts.
+ */
 export function Grid({
   className,
   cols,

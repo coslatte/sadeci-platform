@@ -96,6 +96,10 @@ function FieldInput({
   );
 }
 
+/**
+ * Edits and validates props for the currently selected page builder block.
+ * Used in X case: right-side property editor in admin builder.
+ */
 export function BlockPropsEditor({
   block,
   onSave,

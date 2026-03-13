@@ -25,6 +25,7 @@ interface LinkCardProps {
  * @param description - optional secondary text shown below the title
  * @param className - extra classes applied to the Card root
  * @param target - anchor target (defaults to `_blank`)
+ * Used in X case: dashboard shortcut cards linking to tools or resources.
  */
 export function LinkCard({
   label,

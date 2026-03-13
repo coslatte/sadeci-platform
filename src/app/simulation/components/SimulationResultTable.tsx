@@ -14,6 +14,7 @@ export interface SimulationResultTableProps {
  *
  * Route-local table used by the simulation screen to render summary
  * statistics (mean, std and confidence intervals) for each time variable.
+ * Used in X case: tabular summary of simulation outputs per clinical metric.
  */
 export function SimulationResultTable({
   result,

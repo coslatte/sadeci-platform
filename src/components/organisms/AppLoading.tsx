@@ -11,6 +11,7 @@ interface AppLoadingProps {
  * Simple full-page loading placeholder used by pages while async data is
  * being resolved. The component centers a `Spinner` and accepts a
  * `className` to merge into the outer container.
+ * Used in X case: route loading placeholders during async data fetches.
  */
 export function AppLoading({ className }: AppLoadingProps) {
   return (

@@ -6,6 +6,10 @@ interface StatisticsTabPanelProps extends PropsWithChildren {
   hidden: boolean;
 }
 
+/**
+ * Wraps tab content with accessible panel semantics and visibility toggling.
+ * Used in X case: rendering active statistics test section content.
+ */
 export function StatisticsTabPanel({
   panelId,
   labelledBy,

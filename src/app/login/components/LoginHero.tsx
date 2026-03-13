@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+/**
+ * Renders the decorative hero illustration for the login screen.
+ * Used in X case: visual side panel on the authentication page.
+ */
 export default function LoginHero({ className }: { className?: string }) {
   return (
     <figure

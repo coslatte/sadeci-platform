@@ -18,6 +18,10 @@ interface SimulationRunConfigurationProps {
   onSimulate: () => void;
 }
 
+/**
+ * Captures run count configuration and triggers simulation execution.
+ * Used in X case: final action panel before starting a simulation batch.
+ */
 export function SimulationRunConfiguration({
   simRuns,
   setSimRuns,

@@ -18,6 +18,7 @@ const SELECT_BASE = [
  *
  * Basic select input that mirrors the visual style of the `Input` component.
  * Supports an `error` visual state and optional full width behavior.
+ * Used in X case: native dropdown fields in generic form components.
  */
 export function Select({
   error,

@@ -23,6 +23,7 @@ interface AccessibleSelectProps {
  * Accessible custom select implemented without external deps.
  * Renders a native hidden <select> (sr-only) for form compatibility and tests,
  * and a custom button + popover list for consistent styling across platforms.
+ * Used in X case: consistent select inputs for simulation and statistics forms.
  */
 export function AccessibleSelect({
   id,

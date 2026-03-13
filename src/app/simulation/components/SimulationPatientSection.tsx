@@ -17,6 +17,10 @@ interface SimulationPatientSectionProps {
 
 // inline classes per styling guideline
 
+/**
+ * Handles patient identifier display, editing, and regeneration actions.
+ * Used in X case: patient context header in simulation workflow.
+ */
 export function SimulationPatientSection({
   patientId,
   setPatientId,

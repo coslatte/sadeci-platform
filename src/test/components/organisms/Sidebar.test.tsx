@@ -153,25 +153,7 @@ describe("Sidebar", () => {
     expect(onToggleCollapse).toHaveBeenCalledTimes(1);
   });
 
-  it("renders the user footer and logout action", () => {
-    const onLogout = mock(() => {});
-    const { container, getByRole } = render(
-      <Sidebar
-        sections={sections}
-        userName="Alex Rodriguez"
-        userRole="System Admin"
-        onLogout={onLogout}
-      />,
-    );
-
-    expect(container.textContent?.includes("Alex Rodriguez")).toBe(true);
-    expect(container.textContent?.includes("System Admin")).toBe(true);
-
-    fireEvent.click(getByRole("button", { name: /cerrar sesión/i }));
-    expect(onLogout).toHaveBeenCalledTimes(1);
-  });
-
-  it("matches the footer row height with the user panel", () => {
+  it("does not render user panel in sidebar", () => {
     const { container } = render(
       <Sidebar sections={sections} userName="Alex Rodriguez" />,
     );
@@ -179,12 +161,7 @@ describe("Sidebar", () => {
     const userPanel = container.querySelector(
       "[data-slot='sidebar-user-panel']",
     );
-
-    expect(userPanel).toBeTruthy();
-    if (!userPanel) return;
-
-    expect(userPanel.className.includes("h-16")).toBe(true);
-    expect(userPanel.className.includes("shrink-0")).toBe(true);
+    expect(userPanel).toBeNull();
   });
 
   it("uses non-underlined button and link labels in the sidebar", () => {
@@ -194,11 +171,15 @@ describe("Sidebar", () => {
     const parentLink = sidebarScope.getByRole("link", { name: /simulación/i });
     expect(parentLink.className.includes("no-underline")).toBe(true);
 
-    fireEvent.click(
-      sidebarScope.getByRole("button", {
+    const sectionToggle =
+      sidebarScope.queryByRole("button", {
         name: /expandir sección simulación/i,
-      }),
-    );
+      }) ??
+      sidebarScope.getByRole("button", {
+        name: /contraer sección simulación/i,
+      });
+
+    fireEvent.click(sectionToggle);
 
     const childLink = within(container).getByRole("link", {
       name: /pruebas estadísticas/i,
@@ -213,23 +194,20 @@ describe("Sidebar", () => {
     const aside = container.querySelector("aside");
     expect(aside).toBeTruthy();
     if (!aside) return;
-    expect(aside.className.includes("w-20")).toBe(true);
+    expect(aside.className.includes("w-4")).toBe(true);
   });
 
-  it("centers collapsed navigation items with a square hit area", () => {
+  it("fades out and disables collapsed navigation area", () => {
     const { container } = render(
       <Sidebar sections={sections} collapsed={true} />,
     );
-    const collapsedLink = container.querySelector(
-      'a[title="Dashboard"]',
-    ) as HTMLElement | null;
+    const nav = container.querySelector("nav");
 
-    expect(collapsedLink).toBeTruthy();
-    if (!collapsedLink) return;
+    expect(nav).toBeTruthy();
+    if (!nav) return;
 
-    expect(collapsedLink.className.includes("w-11")).toBe(true);
-    expect(collapsedLink.className.includes("mx-auto")).toBe(true);
-    expect(collapsedLink.className.includes("flex-none")).toBe(true);
+    expect(nav.className.includes("opacity-0")).toBe(true);
+    expect(nav.className.includes("pointer-events-none")).toBe(true);
   });
 
   it("applies full width when not collapsed", () => {

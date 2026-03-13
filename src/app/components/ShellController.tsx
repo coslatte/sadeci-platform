@@ -13,6 +13,10 @@ interface Props {
   children: ReactNode;
 }
 
+/**
+ * Wraps protected routes with auth redirects and the shared app shell.
+ * Used in X case: gating non-login routes behind authenticated session checks.
+ */
 export default function ShellController({ children }: Props) {
   const pathname = usePathname() ?? "/";
   const router = useRouter();

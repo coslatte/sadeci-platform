@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { SidebarBrand } from "@/components/organisms/sidebar/SidebarBrand";
 import { SidebarCollapseToggle } from "@/components/organisms/sidebar/SidebarCollapseToggle";
 import { SidebarSection } from "@/components/organisms/sidebar/SidebarSection";
-import { SidebarUserPanel } from "@/components/organisms/sidebar/SidebarUserPanel";
 import {
   APP_NAVIGATION_SECTIONS,
   resolveSidebarSections,
@@ -29,16 +28,13 @@ interface SidebarProps {
  *
  * Primary application sidebar that renders brand, navigation sections and a
  * collapse control.
+ * Used in X case: main authenticated app shell layout.
  */
 
 export function Sidebar({
   sections: sectionConfigs = APP_NAVIGATION_SECTIONS,
   collapsed = false,
   onToggleCollapse,
-  userName,
-  userRole,
-  userAvatar,
-  onLogout,
   className,
 }: SidebarProps) {
   const pathname = usePathname() ?? "/";
@@ -64,16 +60,20 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "relative flex h-full flex-col border-r border-slate-200/80 bg-slate-50/90 transition-all duration-300 ease-in-out",
-        // Use a slightly narrower collapsed width now that item backgrounds are hidden
-        effectiveCollapsed ? "w-20" : "w-72",
+        "relative flex h-full flex-col border-r border-slate-200/80 bg-slate-50/90 transition-[width,opacity] duration-300 ease-linear",
+        effectiveCollapsed
+          ? "w-4 overflow-visible bg-white/95"
+          : "w-72 opacity-100",
         className,
       )}
     >
       <SidebarBrand collapsed={effectiveCollapsed} />
 
       <nav
-        className="flex-1 p-3 overflow-x-hidden overflow-y-auto no-underline"
+        className={cn(
+          "flex-1 overflow-x-hidden overflow-y-auto p-3 no-underline transition-opacity duration-200 ease-linear",
+          effectiveCollapsed && "opacity-0 pointer-events-none",
+        )}
         aria-label="Sidebar navigation"
       >
         <div className="flex flex-col gap-6">
@@ -87,14 +87,6 @@ export function Sidebar({
           ))}
         </div>
       </nav>
-
-      <SidebarUserPanel
-        collapsed={effectiveCollapsed}
-        userName={userName}
-        userRole={userRole}
-        userAvatar={userAvatar}
-        onLogout={onLogout}
-      />
 
       <SidebarCollapseToggle
         collapsed={effectiveCollapsed}

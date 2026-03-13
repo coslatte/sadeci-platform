@@ -46,6 +46,10 @@ interface Props {
   onSimulate: () => void;
 }
 
+/**
+ * Composes patient, metric, diagnosis, and run-configuration simulation inputs.
+ * Used in X case: main form body on the simulation page.
+ */
 export default function SimulationInputs({
   patientId,
   setPatientId,

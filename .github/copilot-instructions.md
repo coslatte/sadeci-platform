@@ -140,6 +140,9 @@ Evitar comentarios que sobreexpliquen el código. Siempre que se pueda, evitarlo
 
 - Import paths y alias: mantén los imports con el alias `@/` cuando sea posible (evita rutas relativas profundas).
 
+- Regla para botones con subcategorías en sidebar: al agregar un nuevo botón navegacional con subcategorías, coloca el control desplegable dentro del mismo botón, alineado al costado derecho, respetando márgenes y paddings del diseño.
+- Regla operativa para ejecución: no correr builds por defecto durante tareas de implementación. Ejecutar `bun run build` solo si el usuario lo pide explícitamente.
+
 - Mensajes y commits: al crear PRs, en la descripción indica:
   - Los archivos movidos/creados.
   - Las constantes nuevas añadidas a `src/constants`.
@@ -166,3 +169,10 @@ bun run lint ; bun run test
 ## Bun como runtime
 
 - En lugar de usar `pnpm`, `npm` o `yarn`, se utiliza `bun` como gestor de paquetes y runtime. Tener presente `bunx` como sustituto de `npx` para ejecutar scripts sin necesidad de instalarlos globalmente.
+
+## Documentación nuevos componentes
+
+- Para cada nuevo componente se le agregará un bloque de documentación en el mismo archivo, justo antes de la declaración del componente, con formato JSDoc. Este bloque debe incluir:
+  - Descripción breve del propósito del componente.
+  - Lista de props con sus tipos y una breve descripción de cada una.
+  - Ejemplo de uso básico del componente.

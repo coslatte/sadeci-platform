@@ -26,6 +26,10 @@ interface TextProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
 }
 
+/**
+ * Applies design-system typography variants to semantic text elements.
+ * Used in X case: consistent text styling across atoms, molecules, and pages.
+ */
 export function Text({
   as: Tag = "p",
   size = "base",

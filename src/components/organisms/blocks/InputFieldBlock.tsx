@@ -10,6 +10,10 @@ interface InputFieldBlockProps {
   helperText?: string;
 }
 
+/**
+ * Renders a labeled disabled input preview for configured block metadata.
+ * Used in X case: showing input field blocks in page builder output.
+ */
 export function InputFieldBlock({
   label = "Campo",
   placeholder = "Escribe aquí...",

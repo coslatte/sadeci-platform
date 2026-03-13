@@ -10,6 +10,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   showNumberControls?: boolean;
 }
 
+/**
+ * Renders a styled input with optional numeric steppers and helper tooltips.
+ * Used in X case: reusable text and number entry across data forms.
+ */
 export function Input({
   error,
   fullWidth = true,

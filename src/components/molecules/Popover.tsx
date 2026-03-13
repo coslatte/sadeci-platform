@@ -37,6 +37,7 @@ interface PopoverProps {
  * @param align - Horizontal alignment of the popover relative to the trigger
  * @param className - Optional className applied to the wrapper
  * @param closeOnSelect - If true, clicking a button/link inside the popover will close it
+ * Used in X case: opening lightweight overlay panels like notifications.
  */
 export function Popover({
   trigger,

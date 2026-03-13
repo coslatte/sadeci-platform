@@ -23,6 +23,10 @@ interface AppShellProps {
   extraSections?: NavigationSectionConfig[];
 }
 
+/**
+ * Composes sidebar, navbar, content area, footer, and global notifications.
+ * Used in X case: base layout wrapper for authenticated application routes.
+ */
 export function AppShell({
   children,
   userName = "Usuario",
@@ -44,15 +48,16 @@ export function AppShell({
           collapsed={sidebarCollapsed}
           onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
           sections={sidebarSections}
-          userName={userName}
-          userRole={userRole}
-          userAvatar={userAvatar}
-          onLogout={onLogout}
         />
         {/* Global Toaster for notifications */}
         <Toaster position="bottom-right" />
         <div className="flex flex-col flex-1 overflow-hidden">
-          <Navbar />
+          <Navbar
+            userName={userName}
+            userRole={userRole}
+            userAvatar={userAvatar}
+            onLogout={onLogout}
+          />
           <main className="flex-1 px-8 py-8 overflow-y-auto bg-white">
             {children}
           </main>

@@ -17,6 +17,10 @@ interface SimulationResultsSectionProps {
   onDownload: () => void;
 }
 
+/**
+ * Displays simulation results, prediction badge, and CSV download action.
+ * Used in X case: post-run results panel in the simulation workflow.
+ */
 export function SimulationResultsSection({
   result,
   onDownload,
