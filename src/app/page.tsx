@@ -8,7 +8,6 @@ import { Divider } from "@/components/atoms/Divider";
 import {
   HOME_DEFAULT_GREETING,
   HOME_WELCOME_SUBTITLE,
-  HOME_PRESENTATION_SECTION_TITLE,
   HOME_DOCUMENTATION_SECTION_TITLE,
   HOME_DOCUMENTATION_SECTION_DESCRIPTION,
   ABOUT_TITLE,
@@ -25,18 +24,6 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full max-w-6xl gap-8 mx-auto">
       <section className="px-6 py-8 bg-white border rounded-2xl border-slate-200/80 md:px-8">
-        <header className="mb-6 text-center">
-          <Text
-            as="h2"
-            size="lg"
-            weight="semibold"
-            tracking="tight"
-            className="text-slate-900"
-          >
-            {HOME_PRESENTATION_SECTION_TITLE}
-          </Text>
-        </header>
-
         <div>
           <Text
             as="h1"
