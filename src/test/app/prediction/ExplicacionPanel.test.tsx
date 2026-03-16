@@ -1,7 +1,7 @@
 import "../../setup";
 import { render, within, fireEvent } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
-import { EXPLANATION_METHODS } from "@/lib/prediccion";
+import { EXPLANATION_METHODS } from "@/lib/prediction";
 import {
   PREDICCION_EXPLAIN_SECTION_TITLE,
   PREDICCION_METHOD_LABEL,
@@ -26,7 +26,7 @@ mock.module("recharts", () => ({
   ),
 }));
 
-import { ExplicacionPanel } from "@/app/prediccion/components/ExplicacionPanel";
+import { ExplicacionPanel } from "@/app/prediction/components/ExplicacionPanel";
 
 const BASE_PROPS = {
   hasPrediction: true,

@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 import {
-  PREDICCION_RESULT_TITLE,
-  PREDICCION_PATIENT_SURVIVES,
-  PREDICCION_PATIENT_DIES,
+  PREDICTION_RESULT_TITLE,
+  PREDICTION_PATIENT_SURVIVES,
+  PREDICTION_PATIENT_DIES,
 } from "@/constants/constants";
 
-interface PrediccionResultCardProps {
+interface PredictionResultCardProps {
   probability: number;
 }
 
@@ -13,19 +13,19 @@ interface PrediccionResultCardProps {
  * Presents predicted mortality probability with status color and progress bar.
  * Used in X case: prediction outcome summary in the prediccion workflow.
  */
-export function PrediccionResultCard({
+export function PredictionResultCard({
   probability,
-}: PrediccionResultCardProps) {
+}: PredictionResultCardProps) {
   const dies = probability >= 0.5;
   const percentage = (probability * 100).toFixed(1);
 
   return (
     <section
-      aria-labelledby="prediccion-result-title"
+      aria-labelledby="prediction-result-title"
       className="flex flex-col gap-4"
     >
-      <h2 id="prediccion-result-title" className="font-semibold text-zinc-800">
-        {PREDICCION_RESULT_TITLE}
+      <h2 id="prediction-result-title" className="font-semibold text-zinc-800">
+        {PREDICTION_RESULT_TITLE}
       </h2>
       <div className="flex flex-col items-center gap-3 py-2">
         <p
@@ -42,7 +42,7 @@ export function PrediccionResultCard({
             dies ? "text-red-500" : "text-emerald-500",
           )}
         >
-          {dies ? PREDICCION_PATIENT_DIES : PREDICCION_PATIENT_SURVIVES}
+          {dies ? PREDICTION_PATIENT_DIES : PREDICTION_PATIENT_SURVIVES}
         </p>
         <div className="w-full max-w-sm">
           <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-100">

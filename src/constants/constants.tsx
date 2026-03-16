@@ -61,7 +61,7 @@ export const ROUTE_NAMES_MAP: Record<string, string> = {
   "/": "Dashboard",
   "/simulation": "Simulación",
   "/statistics": "Pruebas Estadísticas",
-  "/prediccion": "Predicción",
+  "/prediction": "Predicción",
   "/usuarios": "Usuarios",
   "/settings": "Ajustes",
 };
@@ -85,6 +85,8 @@ export const SIDEBAR_SECTION_EXPAND = (label: string) =>
 export const SIDEBAR_SECTION_COLLAPSE = (label: string) =>
   `Contraer sección ${label}`;
 export const NAVBAR_PROFILE_SETTINGS = "Ir a ajustes de perfil";
+export const NAVBAR_USER_STATUS = "Sesión activa";
+export const NAVBAR_LOGOUT = "Cerrar sesión";
 
 // Simulation validation messages
 export const VALIDATION_MISSING_DIAG =
@@ -211,35 +213,64 @@ export const STATS_TABLE_VALUE_HEADER = "Valor";
 export const STATS_LOADING = "Ejecutando...";
 export const STATS_TABLIST_LABEL = "Pruebas estadísticas";
 
-// Prediccion (ML Prediction & Explainability)
-export const PREDICCION_PAGE_TITLE = "Predicción de No Supervivencia";
-export const PREDICCION_PAGE_SUBTITLE =
+// Prediction (ML Prediction & Explainability)
+export const PREDICTION_PAGE_TITLE = "Predicción de No Supervivencia";
+export const PREDICTION_PAGE_SUBTITLE =
   "Herramienta de apoyo en la predicción de no supervivencia de pacientes en UCI.";
-export const PREDICCION_PATIENT_SECTION_TITLE = "Características del Paciente";
-export const PREDICCION_EDAD_LABEL = "Edad";
-export const PREDICCION_DIAG_ING1_LABEL = "Diag.Ing1";
-export const PREDICCION_DIAG_ING2_LABEL = "Diag.Ing2";
-export const PREDICCION_DIAG_EGR2_LABEL = "Diag.Egr2";
-export const PREDICCION_APACHE_LABEL = "APACHE II";
-export const PREDICCION_TIEMPO_VAM_LABEL = "TiempoVAM";
-export const PREDICCION_PREDICT_BUTTON = "Predecir";
-export const PREDICCION_PREDICTING_BUTTON = "Prediciendo...";
-export const PREDICCION_RESULT_TITLE = "Probabilidad de No Supervivencia";
-export const PREDICCION_PATIENT_SURVIVES = "Paciente no fallece";
-export const PREDICCION_PATIENT_DIES = "Paciente fallece";
-export const PREDICCION_EXPLAIN_SECTION_TITLE = "Explicabilidad";
-export const PREDICCION_METHOD_LABEL = "Método de Explicabilidad";
-export const PREDICCION_EXPLAIN_BUTTON = "Explicar";
-export const PREDICCION_EXPLAINING_BUTTON = "Generando...";
-export const PREDICCION_EXPLAIN_TITLE = (method: string) =>
+export const PREDICTION_PATIENT_SECTION_TITLE = "Características del Paciente";
+export const PREDICTION_EDAD_LABEL = "Edad";
+export const PREDICTION_DIAG_ING1_LABEL = "Diag.Ing1";
+export const PREDICTION_DIAG_ING2_LABEL = "Diag.Ing2";
+export const PREDICTION_DIAG_EGR2_LABEL = "Diag.Egr2";
+export const PREDICTION_APACHE_LABEL = "APACHE II";
+export const PREDICTION_TIEMPO_VAM_LABEL = "TiempoVAM";
+export const PREDICTION_PREDICT_BUTTON = "Predecir";
+export const PREDICTION_PREDICTING_BUTTON = "Prediciendo...";
+export const PREDICTION_RESULT_TITLE = "Probabilidad de No Supervivencia";
+export const PREDICTION_PATIENT_SURVIVES = "Paciente no fallece";
+export const PREDICTION_PATIENT_DIES = "Paciente fallece";
+export const PREDICTION_EXPLAIN_SECTION_TITLE = "Explicabilidad";
+export const PREDICTION_METHOD_LABEL = "Método de Explicabilidad";
+export const PREDICTION_EXPLAIN_BUTTON = "Explicar";
+export const PREDICTION_EXPLAINING_BUTTON = "Generando...";
+export const PREDICTION_EXPLAIN_TITLE = (method: string) =>
   `Explicación de ${method}`;
-export const PREDICCION_WARN_NO_PREDICTION =
+export const PREDICTION_WARN_NO_PREDICTION =
   "Realice una predicción antes de solicitar la explicación.";
-export const PREDICCION_ERROR_TITLE = "Error en la predicción";
-export const PREDICCION_FEATURE_IMPORTANCE_TITLE =
+export const PREDICTION_ERROR_TITLE = "Error en la predicción";
+export const PREDICTION_FEATURE_IMPORTANCE_TITLE =
   "Relevancia de las Características";
-export const PREDICCION_POSITIVE = "Positiva (aumenta probabilidad)";
-export const PREDICCION_NEGATIVE = "Negativa (disminuye probabilidad)";
+export const PREDICTION_POSITIVE = "Positiva (aumenta probabilidad)";
+export const PREDICTION_NEGATIVE = "Negativa (disminuye probabilidad)";
+
+// Backwards compatibility aliases (Spanish identifiers)
+export const PREDICCION_PAGE_TITLE = PREDICTION_PAGE_TITLE;
+export const PREDICCION_PAGE_SUBTITLE = PREDICTION_PAGE_SUBTITLE;
+export const PREDICCION_PATIENT_SECTION_TITLE =
+  PREDICTION_PATIENT_SECTION_TITLE;
+export const PREDICCION_EDAD_LABEL = PREDICTION_EDAD_LABEL;
+export const PREDICCION_DIAG_ING1_LABEL = PREDICTION_DIAG_ING1_LABEL;
+export const PREDICCION_DIAG_ING2_LABEL = PREDICTION_DIAG_ING2_LABEL;
+export const PREDICCION_DIAG_EGR2_LABEL = PREDICTION_DIAG_EGR2_LABEL;
+export const PREDICCION_APACHE_LABEL = PREDICTION_APACHE_LABEL;
+export const PREDICCION_TIEMPO_VAM_LABEL = PREDICTION_TIEMPO_VAM_LABEL;
+export const PREDICCION_PREDICT_BUTTON = PREDICTION_PREDICT_BUTTON;
+export const PREDICCION_PREDICTING_BUTTON = PREDICTION_PREDICTING_BUTTON;
+export const PREDICCION_RESULT_TITLE = PREDICTION_RESULT_TITLE;
+export const PREDICCION_PATIENT_SURVIVES = PREDICTION_PATIENT_SURVIVES;
+export const PREDICCION_PATIENT_DIES = PREDICTION_PATIENT_DIES;
+export const PREDICCION_EXPLAIN_SECTION_TITLE =
+  PREDICTION_EXPLAIN_SECTION_TITLE;
+export const PREDICCION_METHOD_LABEL = PREDICTION_METHOD_LABEL;
+export const PREDICCION_EXPLAIN_BUTTON = PREDICTION_EXPLAIN_BUTTON;
+export const PREDICCION_EXPLAINING_BUTTON = PREDICTION_EXPLAINING_BUTTON;
+export const PREDICCION_EXPLAIN_TITLE = PREDICTION_EXPLAIN_TITLE;
+export const PREDICCION_WARN_NO_PREDICTION = PREDICTION_WARN_NO_PREDICTION;
+export const PREDICCION_ERROR_TITLE = PREDICTION_ERROR_TITLE;
+export const PREDICCION_FEATURE_IMPORTANCE_TITLE =
+  PREDICTION_FEATURE_IMPORTANCE_TITLE;
+export const PREDICCION_POSITIVE = PREDICTION_POSITIVE;
+export const PREDICCION_NEGATIVE = PREDICTION_NEGATIVE;
 
 // Notifications
 export const NOTIFICATIONS_TITLE = "Notificaciones";

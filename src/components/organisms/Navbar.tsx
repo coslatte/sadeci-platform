@@ -55,12 +55,13 @@ export function Navbar({
   const currentPage = getRouteNameForPath(detectedPath) ?? NAV_BRAND_SHORT;
   const breadcrumbSegments = getBreadcrumbSegments(detectedPath);
   const showProfile = typeof userName === "string" && userName.length > 0;
+  const roleLabel = (userRole || SIDEBAR_USER_STATUS).toUpperCase();
 
   return (
     <header
       {...dataDisabledProps(disabled)}
       className={cn(
-        "z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white/10 backdrop-blur-md px-8",
+        "z-10 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 surface-backdrop-medium px-8",
         className,
       )}
     >
@@ -92,9 +93,16 @@ export function Navbar({
               >
                 {userName}
               </Text>
-              <Text as="p" size="xs" className="truncate text-slate-500">
-                {userRole || SIDEBAR_USER_STATUS}
-              </Text>
+              <div className="flex items-center gap-1.5">
+                <span
+                  data-slot="navbar-user-online-indicator"
+                  aria-hidden
+                  className="size-1.5 rounded-full bg-primary-500"
+                />
+                <Text as="p" size="xs" className="truncate text-slate-500">
+                  {roleLabel}
+                </Text>
+              </div>
             </div>
           </Link>
 

@@ -35,13 +35,13 @@ export function SidebarTooltip({ label, position }: SidebarTooltipProps) {
 
   const el = (
     <div
-      className="pointer-events-none fixed z-50 -translate-y-1/2"
+      className="fixed z-50 -translate-y-1/2 pointer-events-none"
       style={{ top: position.top, left: position.left }}
     >
       <div
         ref={tooltipRef}
         role="tooltip"
-        className="opacity-0 scale-95 transform bg-white/75 backdrop-blur-sm border border-white/30 text-slate-900 rounded-md shadow-lg px-3 py-1 text-sm whitespace-nowrap transition-all duration-150"
+        className="px-3 py-1 text-sm transition-all duration-150 transform scale-95 border rounded-md shadow-lg opacity-0 bg-white/75 backdrop-blur-sm border-white/30 text-slate-900 whitespace-nowrap"
       >
         {label}
       </div>

@@ -16,18 +16,18 @@ import { Alert } from "@/components/molecules/Alert";
 import { Label } from "@/components/atoms/Label";
 import { AccessibleSelect } from "@/components/atoms/AccessibleSelect";
 import { Spinner } from "@/components/atoms/Spinner";
-import type { ExplanationMethod, ExplicacionResponse } from "@/lib/prediccion";
-import { EXPLANATION_METHODS } from "@/lib/prediccion";
+import type { ExplanationMethod, ExplicacionResponse } from "@/lib/prediction";
+import { EXPLANATION_METHODS } from "@/lib/prediction";
 import {
-  PREDICCION_EXPLAIN_SECTION_TITLE,
-  PREDICCION_METHOD_LABEL,
-  PREDICCION_EXPLAIN_BUTTON,
-  PREDICCION_EXPLAINING_BUTTON,
-  PREDICCION_EXPLAIN_TITLE,
-  PREDICCION_WARN_NO_PREDICTION,
-  PREDICCION_FEATURE_IMPORTANCE_TITLE,
-  PREDICCION_POSITIVE,
-  PREDICCION_NEGATIVE,
+  PREDICTION_EXPLAIN_SECTION_TITLE,
+  PREDICTION_METHOD_LABEL,
+  PREDICTION_EXPLAIN_BUTTON,
+  PREDICTION_EXPLAINING_BUTTON,
+  PREDICTION_EXPLAIN_TITLE,
+  PREDICTION_WARN_NO_PREDICTION,
+  PREDICTION_FEATURE_IMPORTANCE_TITLE,
+  PREDICTION_POSITIVE,
+  PREDICTION_NEGATIVE,
 } from "@/constants/constants";
 
 interface ExplicacionPanelProps {
@@ -61,7 +61,7 @@ function formatChartValue(
 
 /**
  * Configures and renders feature-importance explanations for predictions.
- * Used in X case: post-prediction explainability panel in prediccion flow.
+ * Used in X case: post-prediction explainability panel in prediction flow.
  */
 export function ExplicacionPanel({
   hasPrediction,
@@ -88,22 +88,22 @@ export function ExplicacionPanel({
 
   return (
     <section
-      aria-labelledby="prediccion-explain-section-title"
+      aria-labelledby="prediction-explain-section-title"
       className="flex flex-col gap-4"
     >
       <h2
-        id="prediccion-explain-section-title"
+        id="prediction-explain-section-title"
         className="font-semibold text-zinc-800"
       >
-        {PREDICCION_EXPLAIN_SECTION_TITLE}
+        {PREDICTION_EXPLAIN_SECTION_TITLE}
       </h2>
       <div className="flex flex-col gap-4">
         {!hasPrediction && (
-          <Alert variant="warning">{PREDICCION_WARN_NO_PREDICTION}</Alert>
+          <Alert variant="warning">{PREDICTION_WARN_NO_PREDICTION}</Alert>
         )}
 
         <div className="flex flex-col gap-1.5 sm:max-w-xs">
-          <Label htmlFor="pred-method">{PREDICCION_METHOD_LABEL}</Label>
+          <Label htmlFor="pred-method">{PREDICTION_METHOD_LABEL}</Label>
           <AccessibleSelect
             id="pred-method"
             value={method}
@@ -122,10 +122,10 @@ export function ExplicacionPanel({
             {loading ? (
               <span className="flex items-center gap-2">
                 <Spinner size="sm" />
-                {PREDICCION_EXPLAINING_BUTTON}
+                {PREDICTION_EXPLAINING_BUTTON}
               </span>
             ) : (
-              PREDICCION_EXPLAIN_BUTTON
+              PREDICTION_EXPLAIN_BUTTON
             )}
           </Button>
         </div>
@@ -135,19 +135,19 @@ export function ExplicacionPanel({
         {result && (
           <div className="flex flex-col gap-3">
             <h3 className="font-medium text-zinc-700">
-              {PREDICCION_EXPLAIN_TITLE(method)}
+              {PREDICTION_EXPLAIN_TITLE(method)}
             </h3>
             <p className="text-sm font-semibold text-zinc-700">
-              {PREDICCION_FEATURE_IMPORTANCE_TITLE}
+              {PREDICTION_FEATURE_IMPORTANCE_TITLE}
             </p>
             <div className="flex gap-4 text-xs text-zinc-500">
               <span className="flex items-center gap-1">
                 <span className="inline-block w-3 h-3 bg-orange-400 rounded-sm" />
-                {PREDICCION_POSITIVE}
+                {PREDICTION_POSITIVE}
               </span>
               <span className="flex items-center gap-1">
                 <span className="inline-block w-3 h-3 bg-blue-500 rounded-sm" />
-                {PREDICCION_NEGATIVE}
+                {PREDICTION_NEGATIVE}
               </span>
             </div>
             <ResponsiveContainer width="100%" height={220}>

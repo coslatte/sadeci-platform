@@ -1,19 +1,19 @@
 import { FormField } from "@/components/molecules/FormField";
 import { Button } from "@/components/atoms/Buttons";
-import { PREDICCION_LIMITS } from "@/lib/prediccion";
+import { PREDICTION_LIMITS } from "@/lib/prediction";
 import {
-  PREDICCION_PATIENT_SECTION_TITLE,
-  PREDICCION_EDAD_LABEL,
-  PREDICCION_DIAG_ING1_LABEL,
-  PREDICCION_DIAG_ING2_LABEL,
-  PREDICCION_DIAG_EGR2_LABEL,
-  PREDICCION_APACHE_LABEL,
-  PREDICCION_TIEMPO_VAM_LABEL,
-  PREDICCION_PREDICT_BUTTON,
-  PREDICCION_PREDICTING_BUTTON,
+  PREDICTION_PATIENT_SECTION_TITLE,
+  PREDICTION_EDAD_LABEL,
+  PREDICTION_DIAG_ING1_LABEL,
+  PREDICTION_DIAG_ING2_LABEL,
+  PREDICTION_DIAG_EGR2_LABEL,
+  PREDICTION_APACHE_LABEL,
+  PREDICTION_TIEMPO_VAM_LABEL,
+  PREDICTION_PREDICT_BUTTON,
+  PREDICTION_PREDICTING_BUTTON,
 } from "@/constants/constants";
 
-interface PrediccionFormProps {
+interface PredictionFormProps {
   edad: number;
   setEdad: (v: number) => void;
   diagIng1: number;
@@ -34,7 +34,7 @@ interface PrediccionFormProps {
  * Collects prediction input metrics and triggers the model request action.
  * Used in X case: patient data entry step for mortality prediction.
  */
-export function PrediccionForm({
+export function PredictionForm({
   edad,
   setEdad,
   diagIng1,
@@ -49,7 +49,7 @@ export function PrediccionForm({
   setTiempoVam,
   loading,
   onPredict,
-}: PrediccionFormProps) {
+}: PredictionFormProps) {
   const {
     edad: edadL,
     diagIng1: d1L,
@@ -57,23 +57,23 @@ export function PrediccionForm({
     diagEgr2: d3L,
     apache: apL,
     tiempoVam: tvL,
-  } = PREDICCION_LIMITS;
+  } = PREDICTION_LIMITS;
 
   return (
     <section
-      aria-labelledby="prediccion-patient-section-title"
+      aria-labelledby="prediction-patient-section-title"
       className="flex flex-col gap-5"
     >
       <h2
-        id="prediccion-patient-section-title"
+        id="prediction-patient-section-title"
         className="font-semibold text-zinc-800"
       >
-        {PREDICCION_PATIENT_SECTION_TITLE}
+        {PREDICTION_PATIENT_SECTION_TITLE}
       </h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <FormField
           id="pred-edad"
-          label={PREDICCION_EDAD_LABEL}
+          label={PREDICTION_EDAD_LABEL}
           inputProps={{
             type: "number",
             value: edad,
@@ -86,7 +86,7 @@ export function PrediccionForm({
         />
         <FormField
           id="pred-diag-ing1"
-          label={PREDICCION_DIAG_ING1_LABEL}
+          label={PREDICTION_DIAG_ING1_LABEL}
           inputProps={{
             type: "number",
             value: diagIng1,
@@ -99,7 +99,7 @@ export function PrediccionForm({
         />
         <FormField
           id="pred-diag-ing2"
-          label={PREDICCION_DIAG_ING2_LABEL}
+          label={PREDICTION_DIAG_ING2_LABEL}
           inputProps={{
             type: "number",
             value: diagIng2,
@@ -112,7 +112,7 @@ export function PrediccionForm({
         />
         <FormField
           id="pred-diag-egr2"
-          label={PREDICCION_DIAG_EGR2_LABEL}
+          label={PREDICTION_DIAG_EGR2_LABEL}
           inputProps={{
             type: "number",
             value: diagEgr2,
@@ -125,7 +125,7 @@ export function PrediccionForm({
         />
         <FormField
           id="pred-apache"
-          label={PREDICCION_APACHE_LABEL}
+          label={PREDICTION_APACHE_LABEL}
           inputProps={{
             type: "number",
             value: apache,
@@ -138,7 +138,7 @@ export function PrediccionForm({
         />
         <FormField
           id="pred-tiempo-vam"
-          label={PREDICCION_TIEMPO_VAM_LABEL}
+          label={PREDICTION_TIEMPO_VAM_LABEL}
           inputProps={{
             type: "number",
             value: tiempoVam,
@@ -152,7 +152,7 @@ export function PrediccionForm({
       </div>
       <div className="mt-5 flex justify-end">
         <Button variant="primary" disabled={loading} onClick={onPredict}>
-          {loading ? PREDICCION_PREDICTING_BUTTON : PREDICCION_PREDICT_BUTTON}
+          {loading ? PREDICTION_PREDICTING_BUTTON : PREDICTION_PREDICT_BUTTON}
         </Button>
       </div>
     </section>

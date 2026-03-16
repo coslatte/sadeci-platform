@@ -46,6 +46,10 @@ describe("Navbar", () => {
       container.querySelector("a[aria-label='Ir a ajustes de perfil']"),
     ).toBeTruthy();
     expect(container.textContent?.includes("Alex Rodriguez")).toBe(true);
+    expect(container.textContent?.includes("SYSTEM ADMIN")).toBe(true);
+    expect(
+      container.querySelector("[data-slot='navbar-user-online-indicator']"),
+    ).toBeTruthy();
 
     const logout = getByRole("button", { name: /cerrar sesión/i });
     logout.click();

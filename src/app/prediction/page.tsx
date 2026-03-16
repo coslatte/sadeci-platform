@@ -4,47 +4,47 @@ import { useState } from "react";
 import { Alert } from "@/components/molecules/Alert";
 import { Text } from "@/components/atoms/Text";
 import { Stack } from "@/components/layout/Stack";
-import { PrediccionForm } from "./components/PrediccionForm";
-import { PrediccionResultCard } from "./components/PrediccionResultCard";
+import { PredictionForm } from "./components/PredictionForm";
+import { PredictionResultCard } from "./components/PredictionResultCard";
 import { ExplicacionPanel } from "./components/ExplicacionPanel";
 import {
-  PREDICCION_LIMITS,
-  runPrediccion,
+  PREDICTION_LIMITS,
+  runPrediction,
   runExplicacion,
-  type PrediccionResponse,
+  type PredictionResponse,
   type ExplicacionResponse,
   type ExplanationMethod,
   EXPLANATION_METHODS,
-} from "@/lib/prediccion";
+} from "@/lib/prediction";
 import {
-  PREDICCION_PAGE_TITLE,
-  PREDICCION_PAGE_SUBTITLE,
-  PREDICCION_ERROR_TITLE,
+  PREDICTION_PAGE_TITLE,
+  PREDICTION_PAGE_SUBTITLE,
+  PREDICTION_ERROR_TITLE,
 } from "@/constants/constants";
 
-export default function PrediccionPage() {
-  const [edad, setEdad] = useState<number>(PREDICCION_LIMITS.edad.default);
+export default function PredictionPage() {
+  const [edad, setEdad] = useState<number>(PREDICTION_LIMITS.edad.default);
   const [diagIng1, setDiagIng1] = useState<number>(
-    PREDICCION_LIMITS.diagIng1.default,
+    PREDICTION_LIMITS.diagIng1.default,
   );
   const [diagIng2, setDiagIng2] = useState<number>(
-    PREDICCION_LIMITS.diagIng2.default,
+    PREDICTION_LIMITS.diagIng2.default,
   );
   const [diagEgr2, setDiagEgr2] = useState<number>(
-    PREDICCION_LIMITS.diagEgr2.default,
+    PREDICTION_LIMITS.diagEgr2.default,
   );
   const [apache, setApache] = useState<number>(
-    PREDICCION_LIMITS.apache.default,
+    PREDICTION_LIMITS.apache.default,
   );
   const [tiempoVam, setTiempoVam] = useState<number>(
-    PREDICCION_LIMITS.tiempoVam.default,
+    PREDICTION_LIMITS.tiempoVam.default,
   );
 
   const [loadingPredict, setLoadingPredict] = useState<boolean>(false);
   const [loadingExplain, setLoadingExplain] = useState<boolean>(false);
   const [predictError, setPredictError] = useState<string | null>(null);
   const [explainError, setExplainError] = useState<string | null>(null);
-  const [prediction, setPrediction] = useState<PrediccionResponse | null>(null);
+  const [prediction, setPrediction] = useState<PredictionResponse | null>(null);
   const [explicacion, setExplicacion] = useState<ExplicacionResponse | null>(
     null,
   );
@@ -58,7 +58,7 @@ export default function PrediccionPage() {
     setExplicacion(null);
     setLoadingPredict(true);
     try {
-      const result = await runPrediccion({
+      const result = await runPrediction({
         edad,
         diag_ing1: diagIng1,
         diag_ing2: diagIng2,
@@ -101,14 +101,14 @@ export default function PrediccionPage() {
     <Stack space="lg">
       <div>
         <Text as="h1" size="xl" weight="bold" className="text-zinc-900">
-          {PREDICCION_PAGE_TITLE}
+          {PREDICTION_PAGE_TITLE}
         </Text>
         <Text size="sm" className="mt-1 text-zinc-500">
-          {PREDICCION_PAGE_SUBTITLE}
+          {PREDICTION_PAGE_SUBTITLE}
         </Text>
       </div>
 
-      <PrediccionForm
+      <PredictionForm
         edad={edad}
         setEdad={setEdad}
         diagIng1={diagIng1}
@@ -126,13 +126,13 @@ export default function PrediccionPage() {
       />
 
       {predictError && (
-        <Alert variant="danger" title={PREDICCION_ERROR_TITLE}>
+        <Alert variant="danger" title={PREDICTION_ERROR_TITLE}>
           {predictError}
         </Alert>
       )}
 
       {prediction && (
-        <PrediccionResultCard probability={prediction.probability} />
+        <PredictionResultCard probability={prediction.probability} />
       )}
 
       <ExplicacionPanel

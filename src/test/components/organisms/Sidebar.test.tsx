@@ -154,9 +154,7 @@ describe("Sidebar", () => {
   });
 
   it("does not render user panel in sidebar", () => {
-    const { container } = render(
-      <Sidebar sections={sections} userName="Alex Rodriguez" />,
-    );
+    const { container } = render(<Sidebar sections={sections} />);
 
     const userPanel = container.querySelector(
       "[data-slot='sidebar-user-panel']",
@@ -164,7 +162,7 @@ describe("Sidebar", () => {
     expect(userPanel).toBeNull();
   });
 
-  it("uses non-underlined button and link labels in the sidebar", () => {
+  it("uses non-underlined button and link labels in the sidebar", async () => {
     const { container } = render(<Sidebar sections={nestedSections} />);
     const sidebarScope = within(container);
 
@@ -179,11 +177,17 @@ describe("Sidebar", () => {
         name: /contraer sección simulación/i,
       });
 
-    fireEvent.click(sectionToggle);
-
-    const childLink = within(container).getByRole("link", {
-      name: /pruebas estadísticas/i,
+    await act(async () => {
+      fireEvent.click(sectionToggle);
+      await Promise.resolve();
     });
+
+    const childLink = container.querySelector(
+      'a[href="/statistics"] span',
+    ) as HTMLElement | null;
+
+    expect(childLink).toBeTruthy();
+    if (!childLink) return;
     expect(childLink.className.includes("no-underline")).toBe(true);
   });
 

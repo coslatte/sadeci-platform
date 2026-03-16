@@ -46,6 +46,16 @@
   --font-family-secondary: "Manrope";
 }
 
+/* Surface/backdrop design tokens */
+:root {
+  --surface-bg-very: rgba(255, 255, 255, 0.05); /* bastante transparente */
+  --surface-bg-medium: rgba(255, 255, 255, 0.10); /* medio */
+  --surface-bg-opaque: rgba(255, 255, 255, 0.75); /* poco transparente */
+  --surface-blur-sm: 4px;
+  --surface-blur-md: 8px;
+  --surface-blur-lg: 12px;
+}
+
 body {
   font-family: var(--font-family-primary), ui-sans-serif, system-ui, sans-serif;
 }
@@ -99,4 +109,39 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
+}
+
+/* Component utilities: reusable surface/backdrop styles */
+@layer components {
+  /* semantic surface utilities */
+  .surface-backdrop-very {
+    background-color: var(--surface-bg-very);
+    -webkit-backdrop-filter: blur(var(--surface-blur-sm));
+    backdrop-filter: blur(var(--surface-blur-sm));
+  }
+
+  .surface-backdrop-medium {
+    background-color: var(--surface-bg-medium);
+    -webkit-backdrop-filter: blur(var(--surface-blur-md));
+    backdrop-filter: blur(var(--surface-blur-md));
+  }
+
+  .surface-backdrop-opaque {
+    background-color: var(--surface-bg-opaque);
+    -webkit-backdrop-filter: blur(var(--surface-blur-lg));
+    backdrop-filter: blur(var(--surface-blur-lg));
+  }
+
+  /* backward-compatible aliases (existing code uses these names) */
+  .surface-backdrop-sm {
+    background-color: var(--surface-bg-opaque);
+    -webkit-backdrop-filter: blur(var(--surface-blur-sm));
+    backdrop-filter: blur(var(--surface-blur-sm));
+  }
+
+  .surface-backdrop-md {
+    background-color: var(--surface-bg-medium);
+    -webkit-backdrop-filter: blur(var(--surface-blur-md));
+    backdrop-filter: blur(var(--surface-blur-md));
+  }
 }

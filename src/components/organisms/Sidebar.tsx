@@ -16,10 +16,6 @@ interface SidebarProps {
   sections?: NavigationSectionConfig[];
   collapsed?: boolean;
   onToggleCollapse?: () => void;
-  userName?: string;
-  userRole?: string;
-  userAvatar?: string;
-  onLogout?: () => void;
   className?: string;
 }
 

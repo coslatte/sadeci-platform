@@ -127,15 +127,16 @@ function mapNavigationItem(
   const children = item.children?.map((child) =>
     mapNavigationItem(child, pathname),
   );
+
   const current = isCurrentRoute(item.href, pathname);
-  const hasActiveDescendant = children?.some((child) => child.active) ?? false;
+  const hasActiveDescendant =
+    children?.some((child) => child.active === true) ?? false;
+  const active =
+    current || isRouteActive(item.href, pathname) || hasActiveDescendant;
 
   return {
     ...item,
-    active:
-      current || isRouteActive(item.href, pathname) || hasActiveDescendant
-        ? true
-        : undefined,
+    active: active ? true : undefined,
     current: current ? true : undefined,
     icon: getNavigationIcon(item.iconKey),
     children,
@@ -163,7 +164,7 @@ function getDefaultNavigationIconKey(
     "/": "home",
     "/simulation": "activity",
     "/statistics": "barchart",
-    "/prediccion": "prediction",
+    "/prediction": "prediction",
     "/usuarios": "users",
     "/settings": "settings",
   };

@@ -21,6 +21,15 @@ interface TreeItemProps {
   onToggleManual?: (href: string) => void;
 }
 
+function getInitialManualExpandedState(): Record<string, boolean> {
+  try {
+    const raw = sessionStorage.getItem("saduci.sidebar.manualExpanded");
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
 function TreeItem({
   item,
   depth,
@@ -31,7 +40,19 @@ function TreeItem({
   const hasChildren = !!item.children?.length;
   const isRoot = depth === 0;
   const variant = isRoot ? "default" : "nested";
-  const shouldAutoExpand = !!item.active;
+  // Auto-expand when the item itself is the current route or any descendant
+  // is exactly the current route. We intentionally avoid using `item.active`
+  // because `active` may be true for parents if we previously marked them
+  // due to descendant activity. Relying on `current` keeps visual active
+  // styles separate from expansion behavior.
+  function hasCurrentDescendant(it: typeof item): boolean {
+    if (!it.children) return false;
+    return it.children.some(
+      (c) => c.current === true || hasCurrentDescendant(c),
+    );
+  }
+
+  const shouldAutoExpand = item.current === true || hasCurrentDescendant(item);
   const [localManuallySet, setLocalManuallySet] = useState<boolean | null>(
     null,
   );
@@ -119,14 +140,7 @@ export function SidebarSection({
   collapsed,
 }: SidebarSectionProps) {
   const [manualExpanded, setManualExpanded] = useState<Record<string, boolean>>(
-    function initManual() {
-      try {
-        const raw = sessionStorage.getItem("saduci.sidebar.manualExpanded");
-        return raw ? JSON.parse(raw) : {};
-      } catch {
-        return {};
-      }
-    },
+    getInitialManualExpandedState,
   );
 
   useEffect(() => {

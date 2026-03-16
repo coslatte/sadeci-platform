@@ -168,7 +168,7 @@ bun run lint ; bun run test
 
 ## Bun como runtime
 
-- En lugar de usar `pnpm`, `npm` o `yarn`, se utiliza `bun` como gestor de paquetes y runtime. Tener presente `bunx` como sustituto de `npx` para ejecutar scripts sin necesidad de instalarlos globalmente.
+- En lugar de usar `pnpm`, `npm` o `yarn`, se utiliza `bun` como gestor de paquetes y runtime. Tener presente `bunx` como sustituto de `npx` siempre para ejecutar scripts sin necesidad de instalarlos globalmente.
 
 ## Documentación nuevos componentes
 
