@@ -2,6 +2,7 @@ export type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 export type Variant =
   | "primary"
+  | "glass"
   | "secondary"
   | "outline"
   | "ghost"

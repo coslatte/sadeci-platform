@@ -27,17 +27,17 @@ export function SimulationPatientSection({
   handleNewPatient,
 }: SimulationPatientSectionProps) {
   return (
-    <>
+    <section className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5">
       <div className="flex items-center justify-between">
-        <h2 className="text-(length:--font-size-lg) font-semibold text-zinc-900">
+        <h2 className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
           {SIMULATION_PATIENT_SECTION_TITLE}
         </h2>
-        <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-400">
+        <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-700">
           ID: {patientId}
         </span>
       </div>
 
-      <div className="mb-8 flex flex-col items-end gap-4 md:flex-row">
+      <div className="flex flex-col items-end gap-4 md:flex-row">
         <div className="w-full md:w-1/3 flex flex-col gap-1.5">
           <Label htmlFor="patient-id">{ID_PATIENT_LABEL}</Label>
           <Input
@@ -61,6 +61,6 @@ export function SimulationPatientSection({
           {NEW_PATIENT_BUTTON}
         </Button>
       </div>
-    </>
+    </section>
   );
 }

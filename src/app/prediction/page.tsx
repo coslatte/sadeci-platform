@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Alert } from "@/components/molecules/Alert";
+import { Divider } from "@/components/atoms/Divider";
 import { Text } from "@/components/atoms/Text";
 import { Stack } from "@/components/layout/Stack";
 import { PredictionForm } from "./components/PredictionForm";
@@ -20,6 +21,7 @@ import {
   PREDICTION_PAGE_TITLE,
   PREDICTION_PAGE_SUBTITLE,
   PREDICTION_ERROR_TITLE,
+  PREDICTION_RESULT_EMPTY_STATE,
 } from "@/constants/constants";
 
 export default function PredictionPage() {
@@ -98,7 +100,7 @@ export default function PredictionPage() {
   }
 
   return (
-    <Stack space="lg">
+    <Stack space="lg" className="pb-1">
       <div>
         <Text as="h1" size="xl" weight="bold" className="text-zinc-900">
           {PREDICTION_PAGE_TITLE}
@@ -108,42 +110,56 @@ export default function PredictionPage() {
         </Text>
       </div>
 
-      <PredictionForm
-        edad={edad}
-        setEdad={setEdad}
-        diagIng1={diagIng1}
-        setDiagIng1={setDiagIng1}
-        diagIng2={diagIng2}
-        setDiagIng2={setDiagIng2}
-        diagEgr2={diagEgr2}
-        setDiagEgr2={setDiagEgr2}
-        apache={apache}
-        setApache={setApache}
-        tiempoVam={tiempoVam}
-        setTiempoVam={setTiempoVam}
-        loading={loadingPredict}
-        onPredict={handlePredict}
-      />
+      <Divider className="border-slate-200/80" />
 
-      {predictError && (
-        <Alert variant="danger" title={PREDICTION_ERROR_TITLE}>
-          {predictError}
-        </Alert>
-      )}
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
+          <PredictionForm
+            edad={edad}
+            setEdad={setEdad}
+            diagIng1={diagIng1}
+            setDiagIng1={setDiagIng1}
+            diagIng2={diagIng2}
+            setDiagIng2={setDiagIng2}
+            diagEgr2={diagEgr2}
+            setDiagEgr2={setDiagEgr2}
+            apache={apache}
+            setApache={setApache}
+            tiempoVam={tiempoVam}
+            setTiempoVam={setTiempoVam}
+            loading={loadingPredict}
+            onPredict={handlePredict}
+          />
+        </section>
 
-      {prediction && (
-        <PredictionResultCard probability={prediction.probability} />
-      )}
+        <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5">
+          {predictError && (
+            <Alert variant="danger" title={PREDICTION_ERROR_TITLE}>
+              {predictError}
+            </Alert>
+          )}
 
-      <ExplicacionPanel
-        hasPrediction={prediction !== null}
-        method={method}
-        setMethod={setMethod}
-        loading={loadingExplain}
-        onExplain={handleExplain}
-        result={explicacion}
-        error={explainError}
-      />
+          {prediction ? (
+            <PredictionResultCard probability={prediction.probability} />
+          ) : (
+            <div className="flex h-full min-h-44 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-center text-(length:--font-size-sm) text-slate-500">
+              {PREDICTION_RESULT_EMPTY_STATE}
+            </div>
+          )}
+        </section>
+      </div>
+
+      <section className="rounded-2xl border border-slate-200 bg-white p-5">
+        <ExplicacionPanel
+          hasPrediction={prediction !== null}
+          method={method}
+          setMethod={setMethod}
+          loading={loadingExplain}
+          onExplain={handleExplain}
+          result={explicacion}
+          error={explainError}
+        />
+      </section>
     </Stack>
   );
 }

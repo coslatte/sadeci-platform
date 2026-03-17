@@ -54,6 +54,15 @@ describe("Button", () => {
     expect(button.className.includes("bg-primary-600")).toBe(true);
   });
 
+  it("applies glass variant reusable classes", () => {
+    const { container } = render(<Button variant="glass">Explorar</Button>);
+    const button = container.querySelector("button");
+    expect(button).toBeTruthy();
+    if (!button) return;
+    expect(button.className.includes("glass-noise-primary")).toBe(true);
+    expect(button.className.includes("text-primary-950")).toBe(true);
+  });
+
   it("fires onClick when clicked", () => {
     let clicked = false;
     const { container } = render(

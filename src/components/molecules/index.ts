@@ -7,3 +7,4 @@ export * from "./NavItem";
 export * from "./NavbarProfile";
 export * from "./Popover";
 export * from "./NotificationsPanel";
+export * from "./DataTable";

@@ -1,6 +1,7 @@
 ﻿import { cn, dataDisabledProps } from "@/lib/utils";
-import React, { useId, useRef } from "react";
+import React, { useCallback, useEffect, useId, useRef, useState } from "react";
 import { FiChevronUp, FiChevronDown, FiInfo } from "react-icons/fi";
+import { HelpTooltipButton } from "@/components/atoms/HelpTooltipButton";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
@@ -32,9 +33,55 @@ export function Input({
   const inputType = type ?? "text";
   const hasNumberControls =
     inputType === "number" && showNumberControls && !disabled;
+  const hasHelp = Boolean(help);
+  const [isOutOfRange, setIsOutOfRange] = useState(false);
 
   // Support both React's onChange and native input events that tests may dispatch.
   const { onChange, id, ...restProps } = props;
+  const lastForwardedValueRef = useRef<string | null>(null);
+
+  function forwardChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (!onChange) return;
+
+    let currentValue = event.currentTarget.value;
+    if (
+      inputType === "number" &&
+      /^-?0\d+$/.test(currentValue) &&
+      !currentValue.includes(".")
+    ) {
+      currentValue = String(Number(currentValue));
+      event.currentTarget.value = currentValue;
+    }
+
+    if (lastForwardedValueRef.current === currentValue) return;
+
+    lastForwardedValueRef.current = currentValue;
+    queueMicrotask(() => {
+      lastForwardedValueRef.current = null;
+    });
+
+    onChange(event);
+  }
+
+  const updateOutOfRangeState = useCallback(
+    (inputElement: HTMLInputElement) => {
+      if (inputType !== "number") {
+        setIsOutOfRange(false);
+        return;
+      }
+
+      setIsOutOfRange(
+        inputElement.validity.rangeOverflow ||
+          inputElement.validity.rangeUnderflow,
+      );
+    },
+    [inputType],
+  );
+
+  useEffect(() => {
+    if (!ref.current) return;
+    updateOutOfRangeState(ref.current);
+  }, [props.max, props.min, props.value, updateOutOfRangeState]);
 
   return (
     <div className={cn("relative flex items-center", fullWidth && "w-full")}>
@@ -46,28 +93,37 @@ export function Input({
         type={type}
         className={cn(
           "h-9 rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors duration-150 input-transition focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-50",
-          hasNumberControls || info ? "pr-12" : "pr-3",
-          error
+          hasNumberControls && hasHelp
+            ? "pr-20"
+            : hasNumberControls || info || hasHelp
+              ? "pr-12"
+              : "pr-3",
+          error || isOutOfRange
             ? "border-red-400 focus:ring-red-500 focus:border-red-500"
             : "border-zinc-300",
           fullWidth && "w-full",
           className,
         )}
         disabled={disabled}
-        // forward React onChange
-        onChange={onChange}
-        // also forward native input events to the React onChange handler so tests
-        // that dispatch native `input` events update controlled components
-        onInput={(e) => {
-          if (onChange)
-            onChange(e as unknown as React.ChangeEvent<HTMLInputElement>);
+        onChange={(event) => {
+          updateOutOfRangeState(event.currentTarget);
+          forwardChange(event);
+        }}
+        onInput={(event) => {
+          const changeEvent =
+            event as unknown as React.ChangeEvent<HTMLInputElement>;
+          updateOutOfRangeState(changeEvent.currentTarget);
+          forwardChange(changeEvent);
         }}
         {...restProps}
       />
 
       {hasNumberControls && (
         <div
-          className="absolute right-2 flex flex-col h-[calc(100%-0.75rem)] justify-center"
+          className={cn(
+            "absolute flex flex-col h-[calc(100%-0.75rem)] justify-center",
+            hasHelp ? "right-9" : "right-2",
+          )}
           aria-hidden
         >
           <button
@@ -120,22 +176,11 @@ export function Input({
       )}
 
       {help && (
-        <div className="group/help absolute -top-2.5 -right-2.5 z-10">
-          <button
-            type="button"
-            aria-label="Información de ayuda del campo"
-            className="w-5 h-5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-500 text-[10px] font-bold flex items-center justify-center cursor-help hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-colors"
-          >
-            ?
-          </button>
-          <div
-            role="tooltip"
-            className="absolute bottom-full right-0 mb-2 w-60 max-w-xs rounded-lg bg-gray-800 px-3 py-2 text-(length:--font-size-xs) text-white opacity-0 transition-opacity pointer-events-none group-hover/help:opacity-100 group-focus-within/help:opacity-100 whitespace-normal"
-          >
-            {help}
-            <div className="absolute top-full right-3 border-4 border-transparent border-t-gray-800" />
-          </div>
-        </div>
+        <HelpTooltipButton
+          help={help}
+          className="absolute right-2 top-1/2 -translate-y-1/2"
+          buttonClassName="flex items-center justify-center cursor-help"
+        />
       )}
     </div>
   );

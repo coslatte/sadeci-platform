@@ -45,6 +45,12 @@ interface ChartEntry {
   importance: number;
 }
 
+function toExplanationMethod(value: string | number): ExplanationMethod {
+  const normalized = String(value);
+  const method = EXPLANATION_METHODS.find((item) => item === normalized);
+  return method ?? EXPLANATION_METHODS[0];
+}
+
 function formatChartValue(
   value: number | string | readonly (number | string)[] | undefined,
 ) {
@@ -107,7 +113,7 @@ export function ExplicacionPanel({
           <AccessibleSelect
             id="pred-method"
             value={method}
-            onChange={(v) => setMethod(v as ExplanationMethod)}
+            onChange={(value) => setMethod(toExplanationMethod(value))}
             options={methodOptions}
             fullWidth
           />

@@ -2,6 +2,10 @@ import AccessibleSelect from "@/components/atoms/AccessibleSelect";
 import { Label } from "@/components/atoms/Label";
 import {
   DIAGNOSES_TITLE,
+  HELP_DIAG_DISCHARGE,
+  HELP_DIAG_ING,
+  HELP_RESP_INSUF,
+  HELP_VENT_TYPE,
   SIMULATION_DIAG_DISCHARGE_LABEL,
   SIMULATION_DIAG_ING_LABEL,
   SIMULATION_RESP_INSUF_LABEL,
@@ -32,16 +36,18 @@ function SelectField({
   value,
   onChange,
   options,
+  help,
 }: {
   id: string;
   label: string;
   value: number;
   onChange: (value: number) => void;
   options: Array<{ value: string; label: string }>;
+  help: string;
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <Label htmlFor={id} className="text-slate-500">
+      <Label htmlFor={id} className="text-zinc-800">
         {label}
       </Label>
       <AccessibleSelect
@@ -49,6 +55,7 @@ function SelectField({
         value={String(value)}
         onChange={(nextValue) => onChange(Number(nextValue))}
         options={options}
+        help={help}
         fullWidth
       />
     </div>
@@ -76,8 +83,8 @@ export function SimulationDiagnosesSection({
   setVentType,
 }: SimulationDiagnosesSectionProps) {
   return (
-    <div>
-      <p className="mb-4 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5">
+      <p className="mb-4 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
         {DIAGNOSES_TITLE}
       </p>
 
@@ -88,6 +95,7 @@ export function SimulationDiagnosesSection({
           value={diagIng1}
           onChange={setDiagIng1}
           options={diagData()}
+          help={HELP_DIAG_ING}
         />
         <SelectField
           id="diag-ing-2"
@@ -95,6 +103,7 @@ export function SimulationDiagnosesSection({
           value={diagIng2}
           onChange={setDiagIng2}
           options={diagData()}
+          help={HELP_DIAG_ING}
         />
         <SelectField
           id="diag-ing-3"
@@ -102,6 +111,7 @@ export function SimulationDiagnosesSection({
           value={diagIng3}
           onChange={setDiagIng3}
           options={diagData()}
+          help={HELP_DIAG_ING}
         />
         <SelectField
           id="diag-ing-4"
@@ -109,6 +119,7 @@ export function SimulationDiagnosesSection({
           value={diagIng4}
           onChange={setDiagIng4}
           options={diagData()}
+          help={HELP_DIAG_ING}
         />
       </div>
 
@@ -119,6 +130,7 @@ export function SimulationDiagnosesSection({
           value={respInsuf}
           onChange={setRespInsuf}
           options={respInsufData()}
+          help={HELP_RESP_INSUF}
         />
         <SelectField
           id="vent-type"
@@ -126,6 +138,7 @@ export function SimulationDiagnosesSection({
           value={ventType}
           onChange={setVentType}
           options={ventTypeData()}
+          help={HELP_VENT_TYPE}
         />
         <SelectField
           id="diag-egreso-2"
@@ -133,8 +146,9 @@ export function SimulationDiagnosesSection({
           value={diagEgreso2}
           onChange={setDiagEgreso2}
           options={diagData()}
+          help={HELP_DIAG_DISCHARGE}
         />
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,6 +1,7 @@
 import "../../setup";
 import { render, fireEvent } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
+import { useState } from "react";
 import { Input } from "@/components/atoms/Input";
 
 describe("Input", () => {
@@ -139,5 +140,29 @@ describe("Input", () => {
     const { container } = render(<Input disabled />);
     const input = container.querySelector("input") as HTMLInputElement;
     expect(input.disabled).toBe(true);
+  });
+
+  it("normalizes leading zeros in controlled number values after retyping", () => {
+    function ControlledNumberInput() {
+      const [value, setValue] = useState<number>(232);
+
+      return (
+        <Input
+          type="number"
+          value={value}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            setValue(Number(event.target.value))
+          }
+        />
+      );
+    }
+
+    const { container } = render(<ControlledNumberInput />);
+    const input = container.querySelector("input") as HTMLInputElement;
+
+    fireEvent.input(input, { target: { value: "" } });
+    fireEvent.input(input, { target: { value: "0232" } });
+
+    expect(input.value).toBe("232");
   });
 });

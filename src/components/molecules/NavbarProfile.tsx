@@ -3,8 +3,13 @@
 import Link from "next/link";
 import { Avatar } from "@/components/atoms/Avatar";
 import { Text } from "@/components/atoms/Text";
-import { NAVBAR_PROFILE_SETTINGS } from "@/constants/constants";
+import {
+  NAVBAR_MENU_LOGOUT,
+  NAVBAR_MENU_SETTINGS,
+  NAVBAR_PROFILE_SETTINGS,
+} from "@/constants/constants";
 import { cn } from "@/lib/utils";
+import { Popover } from "./Popover";
 
 export interface NavbarProfileProps {
   /** Display name of the current user. */
@@ -13,8 +18,10 @@ export interface NavbarProfileProps {
   userAvatar?: string;
   /** Label describing the current user status (e.g. "Sesión activa"). */
   roleLabel: string;
-  /** Link destination when clicking on the profile block. */
+  /** Link destination for the settings action. */
   href: string;
+  /** Optional callback for logout action. */
+  onLogout?: () => void;
   /** Optional aria-label for the profile link. */
   ariaLabel?: string;
   /** Optional additional className for the root element. */
@@ -42,24 +49,58 @@ export function NavbarProfile({
   userAvatar,
   roleLabel,
   href,
+  onLogout,
   ariaLabel = NAVBAR_PROFILE_SETTINGS,
   className,
 }: NavbarProfileProps) {
   return (
-    <Link
-      href={href}
-      aria-label={ariaLabel}
-      className={cn(
-        "group flex min-w-0 items-center transition-all p-1",
-        className,
-      )}
+    <Popover
+      align="right"
+      trigger={
+        <button
+          type="button"
+          aria-label={ariaLabel}
+          className={cn(
+            "group flex min-w-0 items-center rounded-full p-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300",
+            className,
+          )}
+        >
+          <Avatar
+            src={userAvatar}
+            name={userName}
+            alt={`Perfil de ${userName}`}
+            size="sm"
+          />
+        </button>
+      }
     >
-      <Avatar
-        src={userAvatar}
-        name={userName}
-        alt={`Perfil de ${userName}`}
-        size="sm"
-      />
-    </Link>
+      <div className="w-64 rounded-xl border border-slate-200 bg-white p-2 shadow-lg">
+        <div className="border-b border-slate-200 px-3 py-2">
+          <Text as="p" size="sm" weight="semibold" className="text-slate-900">
+            {userName}
+          </Text>
+          <Text as="p" size="xs" className="text-slate-500">
+            {roleLabel}
+          </Text>
+        </div>
+
+        <div className="flex flex-col gap-1 px-1 py-2">
+          <Link
+            href={href}
+            className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100"
+          >
+            {NAVBAR_MENU_SETTINGS}
+          </Link>
+
+          <button
+            type="button"
+            onClick={onLogout}
+            className="w-full rounded-md px-3 py-2 text-left text-sm font-medium text-red-600 transition-colors hover:bg-red-50"
+          >
+            {NAVBAR_MENU_LOGOUT}
+          </button>
+        </div>
+      </div>
+    </Popover>
   );
 }

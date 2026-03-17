@@ -19,7 +19,9 @@ describe("SimulationResultsSection", () => {
   it("renders simulation metrics and prediction summary", () => {
     const { container, getByText } = render(
       <SimulationResultsSection
-        result={simulationResponse}
+        results={[simulationResponse]}
+        activeIndex={0}
+        onActiveIndexChange={() => undefined}
         onDownload={() => undefined}
       />,
     );
@@ -39,7 +41,9 @@ describe("SimulationResultsSection", () => {
     const onDownload = mock(() => undefined);
     const { container } = render(
       <SimulationResultsSection
-        result={simulationResponse}
+        results={[simulationResponse]}
+        activeIndex={0}
+        onActiveIndexChange={() => undefined}
         onDownload={onDownload}
       />,
     );

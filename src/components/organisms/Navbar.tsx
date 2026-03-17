@@ -5,7 +5,6 @@ import { cn, dataDisabledProps } from "@/lib/utils";
 import {
   NAV_BRAND_SHORT,
   NAVBAR_PROFILE_SETTINGS,
-  SIDEBAR_LOGOUT,
   SIDEBAR_USER_STATUS,
 } from "@/constants/constants";
 import { NavBreadcrumb, NavbarProfile } from "@/components/molecules";
@@ -57,7 +56,7 @@ export function Navbar({
     <header
       {...dataDisabledProps(disabled)}
       className={cn(
-        "sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white/75 supports-backdrop-filter:bg-white/60 surface-backdrop-opaque px-8",
+        "sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white/75 supports-backdrop-filter:bg-white/80 surface-backdrop-full px-8",
         className,
       )}
     >
@@ -74,6 +73,7 @@ export function Navbar({
             userAvatar={userAvatar}
             roleLabel={roleLabel}
             href={routes.settings}
+            onLogout={onLogout}
             ariaLabel={NAVBAR_PROFILE_SETTINGS}
           />
         </div>

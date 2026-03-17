@@ -127,6 +127,8 @@ export default function UserSettingsPage() {
         </label>
       </div>
 
+      <Divider className="mb-6 border-slate-200/80" />
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-1 flex flex-col gap-4 border-b border-slate-100 pb-6 md:border-b-0 md:border-r md:pr-6">
           <div className="flex items-center gap-2 text-zinc-700">

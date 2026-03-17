@@ -26,20 +26,26 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  const variantClass =
-    variant === "primary"
-      ? "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500"
-      : variant === "secondary"
-        ? "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400"
-        : variant === "outline"
-          ? "border border-zinc-300 bg-transparent text-zinc-700 hover:bg-zinc-50 active:bg-zinc-100 focus-visible:ring-zinc-400"
-          : variant === "ghost"
-            ? "bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:ring-zinc-400"
-            : variant === "danger"
-              ? "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500"
-              : variant === "success"
-                ? "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus-visible:ring-green-500"
-                : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400";
+  const variantClass = (() => {
+    switch (variant) {
+      case "primary":
+        return "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500";
+      case "glass":
+        return "glass-noise-primary text-slate-100 focus-visible:ring-primary-400";
+      case "secondary":
+        return "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400";
+      case "outline":
+        return "border border-zinc-300 bg-transparent text-zinc-700 hover:bg-zinc-50 active:bg-zinc-100 focus-visible:ring-zinc-400";
+      case "ghost":
+        return "bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:ring-zinc-400";
+      case "danger":
+        return "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500";
+      case "success":
+        return "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus-visible:ring-green-500";
+      default:
+        return "bg-zinc-100 text-zinc-700 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400";
+    }
+  })();
 
   const sizeClass =
     size === "xs"

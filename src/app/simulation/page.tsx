@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Divider } from "@/components/atoms/Divider";
 import { Alert } from "@/components/molecules/Alert";
 import SimulationInputs from "./components/SimulationInputs";
 import { SimulationPageHeader } from "./components/SimulationPageHeader";
@@ -42,12 +43,12 @@ export default function SimulacionPage() {
   const [simPercent, setSimPercent] = useState<number>(
     SIMULATION_LIMITS.simPercent.default,
   );
-  const [diagIng1, setDiagIng1] = useState<number>(0);
+  const [diagIng1, setDiagIng1] = useState<number>(2);
   const [diagIng2, setDiagIng2] = useState<number>(0);
   const [diagIng3, setDiagIng3] = useState<number>(0);
   const [diagIng4, setDiagIng4] = useState<number>(0);
-  const [diagEgreso2, setDiagEgreso2] = useState<number>(0);
-  const [respInsuf, setRespInsuf] = useState<number>(0);
+  const [diagEgreso2, setDiagEgreso2] = useState<number>(2);
+  const [respInsuf, setRespInsuf] = useState<number>(2);
   const [ventType, setVentType] = useState<number>(0);
 
   const [simRuns, setSimRuns] = useState<number>(
@@ -56,7 +57,8 @@ export default function SimulacionPage() {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<SimulationResponse | null>(null);
+  const [resultHistory, setResultHistory] = useState<SimulationResponse[]>([]);
+  const [activeResultIndex, setActiveResultIndex] = useState<number>(-1);
 
   useEffect(() => {
     setPatientId(generatePatientId());
@@ -64,7 +66,8 @@ export default function SimulacionPage() {
 
   function handleNewPatient(): void {
     setPatientId(generatePatientId());
-    setResult(null);
+    setResultHistory([]);
+    setActiveResultIndex(-1);
     setError(null);
   }
 
@@ -102,10 +105,14 @@ export default function SimulacionPage() {
     }
 
     setLoading(true);
-    setResult(null);
+    setActiveResultIndex(-1);
     try {
       const data = await runSimulation(payload);
-      setResult(data);
+      setResultHistory((previous) => {
+        const next = [...previous, data];
+        setActiveResultIndex(next.length - 1);
+        return next;
+      });
     } catch (err) {
       const message = formatErrorForUser(err);
       setError(message);
@@ -123,14 +130,16 @@ export default function SimulacionPage() {
   }
 
   function handleDownload(): void {
-    if (!result) return;
-    downloadSimulationCSV(result, patientId);
+    const selectedResult = resultHistory[activeResultIndex];
+    if (!selectedResult) return;
+    downloadSimulationCSV(selectedResult, patientId);
   }
   return (
     <>
       <SimulationPageHeader />
+      <Divider className="mb-6 border-slate-200/80" />
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         <SimulationInputs
           patientId={patientId}
           setPatientId={setPatientId}
@@ -175,9 +184,11 @@ export default function SimulacionPage() {
           </Alert>
         )}
 
-        {result && (
+        {resultHistory.length > 0 && activeResultIndex >= 0 && (
           <SimulationResultsSection
-            result={result}
+            results={resultHistory}
+            activeIndex={activeResultIndex}
+            onActiveIndexChange={setActiveResultIndex}
             onDownload={handleDownload}
           />
         )}

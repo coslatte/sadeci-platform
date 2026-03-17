@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { SidebarBrand } from "@/components/organisms/sidebar/SidebarBrand";
 import { SidebarCollapseToggle } from "@/components/organisms/sidebar/SidebarCollapseToggle";
 import { SidebarSection } from "@/components/organisms/sidebar/SidebarSection";
 import {
@@ -56,18 +55,16 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "relative flex h-full flex-col border-r border-slate-200/80 bg-slate-50/90 transition-[width,opacity] duration-300 ease-linear",
+        "relative flex h-full flex-col bg-slate-50/90 transition-[width] duration-300 ease-out",
         effectiveCollapsed
-          ? "w-4 overflow-visible bg-white/95"
-          : "w-72 opacity-100",
+          ? "w-0 overflow-visible border-r-0"
+          : "w-72 border-r border-slate-200/80",
         className,
       )}
     >
-      <SidebarBrand collapsed={effectiveCollapsed} />
-
       <nav
         className={cn(
-          "flex-1 overflow-x-hidden overflow-y-auto p-3 no-underline transition-opacity duration-200 ease-linear",
+          "flex-1 overflow-x-hidden overflow-y-auto p-3 no-underline transition-opacity duration-300 ease-out",
           effectiveCollapsed && "opacity-0 pointer-events-none",
         )}
         aria-label="Sidebar navigation"

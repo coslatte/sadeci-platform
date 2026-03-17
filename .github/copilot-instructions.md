@@ -176,3 +176,7 @@ bun run lint ; bun run test
   - Descripción breve del propósito del componente.
   - Lista de props con sus tipos y una breve descripción de cada una.
   - Ejemplo de uso básico del componente.
+
+## Aliases
+
+- Evitar el uso del keyword `as` a toda costa posible.

@@ -21,6 +21,8 @@ export const SIMULATION_PAGE_SUBTITLE =
 export const ID_PATIENT_LABEL = "ID Paciente";
 export const NEW_PATIENT_BUTTON = "Nuevo paciente";
 export const SIMULATION_PATIENT_SECTION_TITLE = "Datos del Paciente";
+export const SIMULATION_METRICS_SECTION_TITLE =
+  "Demográficos, tiempos y puntajes clínicos";
 export const DEMOGRAPHICS_TITLE = "Demográficos & Tiempos";
 export const CLINICAL_SCORES_TITLE = "Puntajes Clínicos";
 export const VENTILATION_TITLE = "Ventilación Mecánica";
@@ -32,16 +34,23 @@ export const DOWNLOAD_CSV = "Descargar CSV";
 export const ERROR_SIMULATION_TITLE = "Error en la simulación";
 export const ALERT_ERROR_TITLE = "Error";
 export const SIMULATION_RESULTS_TITLE = "Resultados de la Simulación";
+export const SIMULATION_RESULTS_RUN_HISTORY = "Historial de ejecuciones";
+export const SIMULATION_PAGINATION_PREVIOUS = "Anterior";
+export const SIMULATION_PAGINATION_NEXT = "Siguiente";
+export const SIMULATION_RESULTS_PAGE_SUMMARY = (
+  current: number,
+  total: number,
+) => `Ejecución ${current} de ${total}`;
 export const MODEL_PREDICTION_TITLE = "Predicción del modelo";
 export const PATIENT_SURVIVES = "Paciente no fallece";
 export const PATIENT_DIES = "Paciente fallece";
 export const PROB_DIE_PREFIX = "Probabilidad de fallecer: ";
 export const SIMULATION_AGE_LABEL = "Edad";
-export const SIMULATION_PREUTI_STAY_LABEL = "Tiempo Pre-UCI (h)";
-export const SIMULATION_APACHE_LABEL = "Apache II";
-export const SIMULATION_SIM_PERCENT_LABEL = "% Tiempo UCI";
-export const SIMULATION_VAM_TIME_LABEL = "Tiempo VA (h)";
-export const SIMULATION_UTI_STAY_LABEL = "Tiempo UCI (h)";
+export const SIMULATION_PREUTI_STAY_LABEL = "Tiempo en Pre-UCI (h)";
+export const SIMULATION_APACHE_LABEL = "APACHE";
+export const SIMULATION_SIM_PERCENT_LABEL = "Porciento Tiempo UCI";
+export const SIMULATION_VAM_TIME_LABEL = "Tiempo en VA (h)";
+export const SIMULATION_UTI_STAY_LABEL = "Tiempo en UCI (h)";
 export const SIMULATION_DIAG_ING_LABEL = (index: number) =>
   `Diag. Ingreso ${index}`;
 export const SIMULATION_RESP_INSUF_LABEL = "Insuf. Respiratoria";
@@ -87,6 +96,9 @@ export const SIDEBAR_SECTION_COLLAPSE = (label: string) =>
 export const NAVBAR_PROFILE_SETTINGS = "Ir a ajustes de perfil";
 export const NAVBAR_USER_STATUS = "Sesión activa";
 export const NAVBAR_LOGOUT = "Cerrar sesión";
+export const NAVBAR_MENU_SETTINGS = "Configuraciones";
+export const NAVBAR_MENU_LOGOUT = "Cerrar Sesión";
+export const FIELD_HELP_ARIA_LABEL = "Información de ayuda del campo";
 
 // Simulation validation messages
 export const VALIDATION_MISSING_DIAG =
@@ -227,6 +239,8 @@ export const PREDICTION_TIEMPO_VAM_LABEL = "TiempoVAM";
 export const PREDICTION_PREDICT_BUTTON = "Predecir";
 export const PREDICTION_PREDICTING_BUTTON = "Prediciendo...";
 export const PREDICTION_RESULT_TITLE = "Probabilidad de No Supervivencia";
+export const PREDICTION_RESULT_EMPTY_STATE =
+  "Realice una predicción para visualizar el resultado del modelo.";
 export const PREDICTION_PATIENT_SURVIVES = "Paciente no fallece";
 export const PREDICTION_PATIENT_DIES = "Paciente fallece";
 export const PREDICTION_EXPLAIN_SECTION_TITLE = "Explicabilidad";
@@ -297,3 +311,13 @@ export const HELP_PREDICTION_METRIC =
   "La predicción se realiza mediante un modelo de Inteligencia Artificial entrenado con datos de pacientes UCI. Intervienen variables como Diagnóstico Ingreso 1, Diagnóstico Ingreso 2, Diagnóstico Egreso 2, Tiempo en VAM, Apache y Edad.";
 export const HELP_VAM_TIME =
   "Tiempo en Ventilación Asistida Mecánica (VAM) en horas.";
+export const HELP_AGE =
+  "Edad del paciente en años cumplidos al momento de la evaluación clínica.";
+export const HELP_DIAG_ING =
+  "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial.";
+export const HELP_RESP_INSUF =
+  "Clasificación del tipo de insuficiencia respiratoria presente en el paciente.";
+export const HELP_VENT_TYPE =
+  "Tipo de soporte de ventilación mecánica aplicado durante la atención del paciente.";
+export const HELP_DIAG_DISCHARGE =
+  "Diagnóstico clínico al egreso del paciente. Se usa para contextualizar la evolución y el desenlace.";

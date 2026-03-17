@@ -1,9 +1,14 @@
 import type React from "react";
-import { Input } from "@/components/atoms/Input";
-import { Label } from "@/components/atoms/Label";
+import { NumberInputField } from "@/components/molecules/NumberInputField";
 import {
   CLINICAL_SCORES_TITLE,
-  DEMOGRAPHICS_TITLE,
+  DEMOGRAPHICS_TITLE as SIMULATION_DEMOGRAPHICS_TITLE,
+  HELP_AGE,
+  HELP_APACHE,
+  HELP_PREUTI_STAY,
+  HELP_SIM_PERCENT,
+  HELP_UTI_STAY,
+  HELP_VAM_TIME,
   SIMULATION_AGE_LABEL,
   SIMULATION_APACHE_LABEL,
   SIMULATION_PREUTI_STAY_LABEL,
@@ -29,38 +34,23 @@ interface SimulationMetricGroupsProps {
   setSimPercent: (value: number) => void;
 }
 
-// per current styling guideline, keep classes inline where used
+interface MetricSectionProps {
+  title: string;
+  children: React.ReactNode;
+}
 
-function NumberField({
-  id,
-  label,
-  min,
-  max,
-  value,
-  onChange,
-}: {
-  id: string;
-  label: string;
-  min: number;
-  max: number;
-  value: number;
-  onChange: (value: number) => void;
-}) {
+/**
+ * Groups related simulation fields under a titled visual section.
+ * Used in X case: composing demographics, scores, and ventilation blocks.
+ */
+function MetricSection({ title, children }: MetricSectionProps) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <Label htmlFor={id}>{label}</Label>
-      <Input
-        id={id}
-        type="number"
-        min={min}
-        max={max}
-        value={value}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          onChange(Number(event.target.value))
-        }
-        fullWidth
-      />
-    </div>
+    <section className="flex flex-col h-full gap-3 lg:px-6 lg:first:pl-0 lg:last:pr-0">
+      <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
+        {title}
+      </p>
+      {children}
+    </section>
   );
 }
 
@@ -83,72 +73,69 @@ export function SimulationMetricGroups({
   setSimPercent,
 }: SimulationMetricGroupsProps) {
   return (
-    <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <div className="flex flex-col gap-4">
-        <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
-          {DEMOGRAPHICS_TITLE}
-        </p>
-        <NumberField
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-slate-200/80">
+      <MetricSection title={SIMULATION_DEMOGRAPHICS_TITLE}>
+        <NumberInputField
           id="age"
           label={SIMULATION_AGE_LABEL}
           min={SIMULATION_LIMITS.age.min}
           max={SIMULATION_LIMITS.age.max}
           value={age}
           onChange={setAge}
+          help={HELP_AGE}
         />
-        <NumberField
+        <NumberInputField
           id="preuti-stay"
           label={SIMULATION_PREUTI_STAY_LABEL}
           min={SIMULATION_LIMITS.preutiStay.min}
           max={SIMULATION_LIMITS.preutiStay.max}
           value={preutiStay}
           onChange={setPreutiStay}
+          help={HELP_PREUTI_STAY}
         />
-      </div>
+      </MetricSection>
 
-      <div className="flex flex-col gap-4">
-        <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
-          {CLINICAL_SCORES_TITLE}
-        </p>
-        <NumberField
+      <MetricSection title={CLINICAL_SCORES_TITLE}>
+        <NumberInputField
           id="apache"
           label={SIMULATION_APACHE_LABEL}
           min={SIMULATION_LIMITS.apache.min}
           max={SIMULATION_LIMITS.apache.max}
           value={apache}
           onChange={setApache}
+          help={HELP_APACHE}
         />
-        <NumberField
+        <NumberInputField
           id="sim-percent"
           label={SIMULATION_SIM_PERCENT_LABEL}
           min={SIMULATION_LIMITS.simPercent.min}
           max={SIMULATION_LIMITS.simPercent.max}
           value={simPercent}
           onChange={setSimPercent}
+          help={HELP_SIM_PERCENT}
         />
-      </div>
+      </MetricSection>
 
-      <div className="flex flex-col gap-4">
-        <p className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-400">
-          {VENTILATION_TITLE}
-        </p>
-        <NumberField
+      <MetricSection title={VENTILATION_TITLE}>
+        <NumberInputField
           id="vam-time"
           label={SIMULATION_VAM_TIME_LABEL}
           min={SIMULATION_LIMITS.vamTime.min}
           max={SIMULATION_LIMITS.vamTime.max}
           value={vamTime}
           onChange={setVamTime}
+          help={HELP_VAM_TIME}
         />
-        <NumberField
+        <NumberInputField
           id="uti-stay"
           label={SIMULATION_UTI_STAY_LABEL}
           min={SIMULATION_LIMITS.utiStay.min}
           max={SIMULATION_LIMITS.utiStay.max}
           value={utiStay}
           onChange={setUtiStay}
+          help={HELP_UTI_STAY}
         />
-      </div>
+      </MetricSection>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
@@ -22,23 +22,29 @@ mock.module("next/link", () => ({
 import { NavbarProfile } from "@/components/molecules/NavbarProfile";
 
 describe("NavbarProfile", () => {
-  it("renders user info and navigates to given href", () => {
-    const { container, getByRole } = render(
+  it("opens user menu with settings and logout actions", () => {
+    const onLogout = mock(() => {});
+    const { getByRole } = render(
       <NavbarProfile
         userName="Eva Gómez"
         roleLabel="SESION ACTIVA"
         href="/settings"
+        onLogout={onLogout}
       />,
     );
 
-    const link = getByRole("link", { name: /ir a ajustes de perfil/i });
-    expect(link).toBeTruthy();
-    expect(link.getAttribute("href")).toBe("/settings");
+    const trigger = getByRole("button", { name: /ir a ajustes de perfil/i });
+    fireEvent.click(trigger);
 
-    expect(container.textContent).toContain("Eva Gómez");
-    expect(container.textContent).toContain("SESION ACTIVA");
-    expect(
-      container.querySelector("[data-slot='navbar-user-online-indicator']"),
-    ).toBeTruthy();
+    const settingsAction = getByRole("link", { name: /configuraciones/i });
+    expect(settingsAction).toBeTruthy();
+    expect(settingsAction.getAttribute("href")).toBe("/settings");
+
+    const logoutAction = getByRole("button", { name: /cerrar sesión/i });
+    fireEvent.click(logoutAction);
+    expect(onLogout).toHaveBeenCalledTimes(1);
+
+    expect(getByRole("dialog").textContent).toContain("Eva Gómez");
+    expect(getByRole("dialog").textContent).toContain("SESION ACTIVA");
   });
 });

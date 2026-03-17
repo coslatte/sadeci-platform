@@ -45,7 +45,7 @@ export function LinkCard({
     >
       <Card
         className={cn(
-          "group flex gap-4 transition-all hover:border-primary-500 hover:shadow-md",
+          "group flex gap-4 transition-all hover:border-primary-500",
           iconPosition === "left"
             ? "flex-row items-start"
             : "flex-col items-center text-center",

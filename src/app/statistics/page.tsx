@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { Divider } from "@/components/atoms/Divider";
 import {
   EXPERIMENT_VARIABLE_LABELS,
   runWilcoxonTest,
@@ -131,6 +132,7 @@ export default function StatisticsPage() {
   return (
     <>
       <StatisticsPageHeader />
+      <Divider className="mb-6 border-slate-200/80" />
 
       <div className="flex flex-col gap-6">
         <StatisticsTabs activeTab={activeTab} onChange={setActiveTab} />

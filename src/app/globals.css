@@ -51,6 +51,7 @@
   --surface-bg-very: rgba(255, 255, 255, 0.05); /* bastante transparente */
   --surface-bg-medium: rgba(255, 255, 255, 0.10); /* medio */
   --surface-bg-opaque: rgba(255, 255, 255, 0.75); /* poco transparente */
+  --surface-bg-full: rgba(255, 255, 255, 0.95); /* casi opaco, más fuerte que opaque */
   --surface-blur-sm: 4px;
   --surface-blur-md: 8px;
   --surface-blur-lg: 12px;
@@ -132,6 +133,13 @@ input[type="number"] {
     backdrop-filter: blur(var(--surface-blur-lg));
   }
 
+  /* stronger glass surface used for primary chrome like navbar/sidebar */
+  .surface-backdrop-full {
+    background-color: var(--surface-bg-full);
+    -webkit-backdrop-filter: blur(var(--surface-blur-lg));
+    backdrop-filter: blur(var(--surface-blur-lg));
+  }
+
   /* backward-compatible aliases (existing code uses these names) */
   .surface-backdrop-sm {
     background-color: var(--surface-bg-opaque);
@@ -176,5 +184,79 @@ input[type="number"] {
 
   .surface-noise-strong::before {
     opacity: var(--surface-noise-opacity-strong);
+  }
+
+  /* Reusable modern button glassmorphism style with subtle grain noise */
+  .glass-noise-primary {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in oklab, var(--color-primary-700) 88%, white 12%) 0%,
+        color-mix(in oklab, var(--color-primary-500) 78%, white 22%) 100%
+      );
+    border: 1px solid color-mix(in oklab, var(--color-primary-400) 70%, white 30%);
+    -webkit-backdrop-filter: blur(10px) saturate(145%);
+    backdrop-filter: blur(10px) saturate(145%);
+    box-shadow:
+      0 8px 22px -12px color-mix(in oklab, var(--color-primary-700) 45%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      filter 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .glass-noise-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-repeat: repeat;
+    background-position: 0 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' fill='white' opacity='0.03'/></svg>");
+    opacity: 0.05;
+  }
+
+  .glass-noise-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% -10%, rgba(255, 255, 255, 0.5) 0%, transparent 55%),
+      radial-gradient(circle at 90% 120%, rgba(13, 148, 136, 0.18) 0%, transparent 55%);
+    opacity: 0.45;
+    transition: opacity 180ms ease;
+  }
+
+  .glass-noise-primary:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--color-primary-400) 74%, white 26%);
+    box-shadow:
+      0 14px 28px -14px color-mix(in oklab, var(--color-primary-700) 52%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    filter: saturate(150%);
+  }
+
+  .glass-noise-primary:hover::after {
+    opacity: 0.72;
+  }
+
+  .glass-noise-primary:active {
+    transform: translateY(0);
+    box-shadow:
+      0 8px 18px -12px color-mix(in oklab, var(--color-primary-700) 40%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-noise-primary,
+    .glass-noise-primary::after {
+      transition: none;
+    }
   }
 }

@@ -1,4 +1,5 @@
 import { Alert } from "@/components/molecules/Alert";
+import { DataTable } from "@/components/molecules/DataTable";
 import type { StatisticalTestResult } from "@/lib/statistics";
 import {
   STATS_INFO_P_VALUE,
@@ -17,42 +18,45 @@ interface StatisticsResultSectionProps {
 }
 
 function StatisticsResultTable({ result }: { result: StatisticalTestResult }) {
+  const columns = [
+    {
+      key: "metric",
+      label: STATS_TABLE_METRIC_HEADER,
+      align: "left" as const,
+      headerClassName:
+        "pr-4 text-(length:--font-size-sm) text-zinc-500 font-medium",
+      cellClassName:
+        "pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500",
+    },
+    {
+      key: "value",
+      label: STATS_TABLE_VALUE_HEADER,
+      align: "right" as const,
+      headerClassName:
+        "pl-4 text-(length:--font-size-sm) text-zinc-700 font-medium",
+      cellClassName:
+        "pl-4 text-right text-(length:--font-size-sm) font-semibold tabular-nums text-zinc-900",
+    },
+  ];
+
+  const rows = [
+    {
+      metric: STATS_STATISTIC_LABEL,
+      value: result.statistic.toFixed(4),
+    },
+    {
+      metric: STATS_P_VALUE_LABEL,
+      value: result.p_value.toFixed(4),
+    },
+  ];
+
   return (
-    <div className="overflow-x-auto">
-      <table
-        className="w-full text-(length:--font-size-sm)"
-        aria-label={STATS_RESULTS_TITLE}
-      >
-        <thead>
-          <tr className="border-b border-zinc-200">
-            <th className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
-              {STATS_TABLE_METRIC_HEADER}
-            </th>
-            <th className="py-2 pl-4 text-right text-(length:--font-size-sm) font-medium text-zinc-700">
-              {STATS_TABLE_VALUE_HEADER}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-b border-zinc-100">
-            <td className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
-              {STATS_STATISTIC_LABEL}
-            </td>
-            <td className="py-2 pl-4 text-right text-(length:--font-size-sm) font-semibold tabular-nums text-zinc-900">
-              {result.statistic.toFixed(4)}
-            </td>
-          </tr>
-          <tr>
-            <td className="py-2 pr-4 text-left text-(length:--font-size-sm) font-medium text-zinc-500">
-              {STATS_P_VALUE_LABEL}
-            </td>
-            <td className="py-2 pl-4 text-right text-(length:--font-size-sm) font-semibold tabular-nums text-zinc-900">
-              {result.p_value.toFixed(4)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      ariaLabel={STATS_RESULTS_TITLE}
+      columns={columns}
+      rows={rows}
+      bodyRowClassName={(_, index) => (index === 0 ? "" : "last:border-0")}
+    />
   );
 }
 

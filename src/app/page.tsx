@@ -5,6 +5,7 @@ import LinkCard from "@/components/molecules/LinkCard";
 import { useAuth } from "@/lib/auth";
 import { Text } from "@/components/atoms/Text";
 import { Divider } from "@/components/atoms/Divider";
+import { DashboardInfoSection } from "@/app/components/DashboardInfoSection";
 import {
   HOME_DEFAULT_GREETING,
   HOME_WELCOME_SUBTITLE,
@@ -22,23 +23,13 @@ export default function Home() {
     : HOME_DEFAULT_GREETING;
 
   return (
-    <div className="flex flex-col w-full max-w-6xl gap-8 mx-auto">
-      <section className="px-6 py-8 bg-white border rounded-2xl border-slate-200/80 md:px-8">
-        <div>
-          <Text
-            as="h1"
-            size="2xl"
-            weight="bold"
-            tracking="tight"
-            className="md:text-(length:--font-size-3xl)"
-          >
-            {greeting}
-          </Text>
-          <Text size="sm" muted className="mt-2 text-justify">
-            {HOME_WELCOME_SUBTITLE}
-          </Text>
-        </div>
-
+    <div className="mx-auto flex w-full max-w-6xl flex-col divide-y divide-slate-200/80">
+      <DashboardInfoSection
+        className="pb-8"
+        titleAs="h1"
+        title={greeting}
+        description={HOME_WELCOME_SUBTITLE}
+      >
         <div className="flex flex-col gap-4 mt-6">
           <div className="flex items-center gap-3">
             <FiBox className="size-5 text-primary-600" />
@@ -55,28 +46,19 @@ export default function Home() {
             </Text>
           </div>
         </div>
-      </section>
+      </DashboardInfoSection>
 
-      <section className="flex flex-col px-6 py-8 border-t-4 min-h-80 rounded-2xl border-slate-700/25 bg-slate-50 md:px-8">
-        <header className="mb-6 text-center">
-          <Text
-            as="h2"
-            size="lg"
-            weight="semibold"
-            tracking="tight"
-            className="text-slate-100"
-          >
-            {HOME_DOCUMENTATION_SECTION_TITLE}
-          </Text>
-        </header>
-
-        <Text size="sm" className="text-justify text-slate-200">
+      <DashboardInfoSection
+        title={HOME_DOCUMENTATION_SECTION_TITLE}
+        className="pt-8"
+      >
+        <Text size="sm" muted className="text-justify">
           {HOME_DOCUMENTATION_SECTION_DESCRIPTION}
         </Text>
 
-        <Divider className="my-6 border-slate-600/80" />
+        <Divider className="my-6 border-slate-200/80" />
 
-        <div className="grid gap-4 mt-auto sm:mx-auto sm:w-full sm:max-w-4xl sm:grid-cols-2">
+        <div className="grid gap-4 sm:mx-auto sm:w-full sm:max-w-4xl sm:grid-cols-2">
           {PROJECT_LINKS.map((link) => (
             <LinkCard
               key={link.href}
@@ -94,7 +76,7 @@ export default function Home() {
             />
           ))}
         </div>
-      </section>
+      </DashboardInfoSection>
     </div>
   );
 }

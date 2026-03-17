@@ -69,4 +69,39 @@ describe("AccessibleSelect", () => {
     fireEvent.keyDown(btn, { key: "Enter" });
     expect(val).toBe("1");
   });
+
+  it("renders help icon with (?) when help text is provided", () => {
+    const { container } = render(
+      <AccessibleSelect
+        value="0"
+        onChange={() => {}}
+        options={OPTIONS}
+        help="Ayuda del campo"
+      />,
+    );
+
+    const helpButton = container.querySelector(
+      '[aria-label="Información de ayuda del campo"]',
+    ) as HTMLButtonElement;
+    expect(helpButton).toBeTruthy();
+    expect(helpButton.textContent).toBe("?");
+  });
+
+  it("shows help tooltip content on hover", () => {
+    const { container } = render(
+      <AccessibleSelect
+        value="0"
+        onChange={() => {}}
+        options={OPTIONS}
+        help="Ayuda del desplegable"
+      />,
+    );
+
+    const helpButton = container.querySelector(
+      '[aria-label="Información de ayuda del campo"]',
+    ) as HTMLButtonElement;
+    fireEvent.mouseOver(helpButton);
+
+    expect(container.textContent?.includes("Ayuda del desplegable")).toBe(true);
+  });
 });

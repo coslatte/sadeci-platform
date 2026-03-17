@@ -31,10 +31,7 @@ export function Card({
   return (
     <div
       {...dataDisabledProps(disabled)}
-      className={cn(
-        "rounded-xl border border-zinc-200 bg-white shadow-sm",
-        className,
-      )}
+      className={cn("rounded-xl border border-zinc-200 bg-white", className)}
     >
       {header && (
         <div className={cn("border-b px-5 py-4 border-zinc-200")}>{header}</div>

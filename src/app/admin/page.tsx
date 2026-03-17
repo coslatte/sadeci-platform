@@ -6,6 +6,7 @@ import { isAdmin } from "@/lib/adminGuard";
 import { usePageBuilder, PageBuilderProvider } from "@/context/pageBuilder";
 import { Card } from "@/components/molecules";
 import { Button } from "@/components/atoms";
+import { Divider } from "@/components/atoms/Divider";
 import { FiPlus, FiLayout, FiTrash2 } from "react-icons/fi";
 import Link from "next/link";
 
@@ -37,6 +38,8 @@ function AdminPageContent() {
           </Button>
         </Link>
       </div>
+
+      <Divider className="mb-6 border-slate-200/80" />
 
       {loading && <p className="text-sm text-slate-500">Cargando paginas...</p>}
 

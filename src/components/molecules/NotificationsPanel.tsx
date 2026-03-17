@@ -40,7 +40,7 @@ export function NotificationsPanel({
   return (
     <div
       className={cn(
-        "w-full max-w-xs rounded-xl bg-white border border-slate-200 shadow-lg z-20 overflow-hidden",
+        "w-full max-w-xs rounded-xl surface-backdrop-opaque border border-slate-200 shadow-lg z-20 overflow-hidden",
         className,
       )}
       role="dialog"

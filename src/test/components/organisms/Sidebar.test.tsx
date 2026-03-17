@@ -2,7 +2,6 @@ import "../../setup";
 import { act, fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import { Sidebar } from "@/components/organisms/Sidebar";
-import { SIDEBAR_BRAND_FULL } from "@/constants/constants";
 
 const sections = [
   {
@@ -73,11 +72,6 @@ describe("Sidebar", () => {
     // hidden via opacity-0 + max-h-0. Verify the wrapper carries those classes.
     const titleWrapper = container.querySelector(".opacity-0.max-h-0");
     expect(titleWrapper).toBeTruthy();
-  });
-
-  it("renders brand full name when not collapsed", () => {
-    const { container } = render(<Sidebar sections={sections} />);
-    expect(container.textContent?.includes(SIDEBAR_BRAND_FULL)).toBe(true);
   });
 
   it("marks the active route link with aria-current", () => {
@@ -191,14 +185,20 @@ describe("Sidebar", () => {
     expect(childLink.className.includes("no-underline")).toBe(true);
   });
 
-  it("applies narrow width when collapsed", () => {
+  it("hides full sidebar width when collapsed", () => {
     const { container } = render(
       <Sidebar sections={sections} collapsed={true} />,
     );
     const aside = container.querySelector("aside");
     expect(aside).toBeTruthy();
     if (!aside) return;
-    expect(aside.className.includes("w-4")).toBe(true);
+    expect(aside.className.includes("w-0")).toBe(true);
+    // The navigation area is faded out but the collapse toggle must remain
+    // visible and interactive so the user can expand again.
+    const toggle = container.querySelector(
+      "button[aria-label='Expandir barra lateral']",
+    );
+    expect(toggle).toBeTruthy();
   });
 
   it("fades out and disables collapsed navigation area", () => {

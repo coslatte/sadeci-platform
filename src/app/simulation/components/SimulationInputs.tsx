@@ -86,14 +86,14 @@ export default function SimulationInputs({
   onSimulate,
 }: Props) {
   return (
-    <>
-      <section className="flex flex-col gap-6 pb-8">
-        <SimulationPatientSection
-          patientId={patientId}
-          setPatientId={setPatientId}
-          handleNewPatient={handleNewPatient}
-        />
+    <section className="flex flex-col gap-5">
+      <SimulationPatientSection
+        patientId={patientId}
+        setPatientId={setPatientId}
+        handleNewPatient={handleNewPatient}
+      />
 
+      <section className="p-5 bg-white border rounded-2xl border-slate-200">
         <SimulationMetricGroups
           age={age}
           setAge={setAge}
@@ -108,24 +108,24 @@ export default function SimulationInputs({
           simPercent={simPercent}
           setSimPercent={setSimPercent}
         />
-
-        <SimulationDiagnosesSection
-          diagIng1={diagIng1}
-          setDiagIng1={setDiagIng1}
-          diagIng2={diagIng2}
-          setDiagIng2={setDiagIng2}
-          diagIng3={diagIng3}
-          setDiagIng3={setDiagIng3}
-          diagIng4={diagIng4}
-          setDiagIng4={setDiagIng4}
-          diagEgreso2={diagEgreso2}
-          setDiagEgreso2={setDiagEgreso2}
-          respInsuf={respInsuf}
-          setRespInsuf={setRespInsuf}
-          ventType={ventType}
-          setVentType={setVentType}
-        />
       </section>
+
+      <SimulationDiagnosesSection
+        diagIng1={diagIng1}
+        setDiagIng1={setDiagIng1}
+        diagIng2={diagIng2}
+        setDiagIng2={setDiagIng2}
+        diagIng3={diagIng3}
+        setDiagIng3={setDiagIng3}
+        diagIng4={diagIng4}
+        setDiagIng4={setDiagIng4}
+        diagEgreso2={diagEgreso2}
+        setDiagEgreso2={setDiagEgreso2}
+        respInsuf={respInsuf}
+        setRespInsuf={setRespInsuf}
+        ventType={ventType}
+        setVentType={setVentType}
+      />
 
       <SimulationRunConfiguration
         simRuns={simRuns}
@@ -133,6 +133,6 @@ export default function SimulationInputs({
         loading={loading}
         onSimulate={onSimulate}
       />
-    </>
+    </section>
   );
 }

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { inter } from "@/lib/fonts";
 import { FiChevronDown } from "react-icons/fi";
+import { HelpTooltipButton } from "@/components/atoms/HelpTooltipButton";
 
 interface Option {
   value: string;
@@ -17,6 +18,7 @@ interface AccessibleSelectProps {
   options: Option[];
   fullWidth?: boolean;
   className?: string;
+  help?: string;
 }
 
 /**
@@ -32,8 +34,10 @@ export function AccessibleSelect({
   options,
   fullWidth = false,
   className,
+  help,
 }: AccessibleSelectProps) {
   const [open, setOpen] = useState(false);
+  const hasHelp = Boolean(help);
   const [highlight, setHighlight] = useState<number>(() =>
     Math.max(
       0,
@@ -134,7 +138,8 @@ export function AccessibleSelect({
         onKeyDown={handleKeyDown}
         className={cn(
           inter.className,
-          "h-9 w-full rounded-lg border border-zinc-300 bg-white px-3 pr-9 text-left text-(length:--font-size-sm) text-zinc-800 shadow-xs",
+          "h-9 w-full rounded-lg border border-zinc-300 bg-white px-3 text-left text-(length:--font-size-sm) text-zinc-800 shadow-xs",
+          hasHelp ? "pr-16" : "pr-9",
           "focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500",
           "hover:border-zinc-400 transition-colors duration-150",
         )}
@@ -142,7 +147,8 @@ export function AccessibleSelect({
         <span className="block truncate">{selected?.label}</span>
         <FiChevronDown
           className={cn(
-            "absolute right-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-400 transition-transform duration-150 pointer-events-none",
+            "absolute top-1/2 -translate-y-1/2 size-4 text-zinc-400 transition-transform duration-150 pointer-events-none",
+            hasHelp ? "right-8" : "right-2.5",
             open && "rotate-180",
           )}
           aria-hidden
@@ -178,6 +184,14 @@ export function AccessibleSelect({
             </li>
           ))}
         </ul>
+      )}
+
+      {help && (
+        <HelpTooltipButton
+          help={help}
+          className="absolute right-2 top-1/2 -translate-y-1/2"
+          buttonClassName="flex items-center justify-center cursor-help"
+        />
       )}
     </div>
   );

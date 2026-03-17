@@ -8,6 +8,7 @@ interface FormFieldProps {
   required?: boolean;
   error?: string;
   hint?: string;
+  help?: string;
   className?: string;
   inputProps?: Omit<React.InputHTMLAttributes<HTMLInputElement>, "id">;
   disabled?: boolean;
@@ -24,6 +25,7 @@ interface FormFieldProps {
  * @param required - when true shows a required marker on the label
  * @param error - optional error string; when present it will be shown and set aria-invalid
  * @param hint - optional helper text shown when there is no error
+ * @param help - optional contextual tooltip text shown in the shared help button
  * @param inputProps - props forwarded to the underlying `Input` component
  * @param disabled - attach data-disabled for styling/testing
  * Used in X case: labeled form inputs with helper and validation messaging.
@@ -34,6 +36,7 @@ export function FormField({
   required,
   error,
   hint,
+  help,
   className,
   inputProps,
   disabled,
@@ -49,6 +52,7 @@ export function FormField({
       <Input
         id={id}
         error={!!error}
+        help={help}
         aria-describedby={
           error ? `${id}-error` : hint ? `${id}-hint` : undefined
         }
