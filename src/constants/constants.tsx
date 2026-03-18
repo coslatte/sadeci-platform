@@ -30,6 +30,20 @@ export const DIAGNOSES_TITLE = "Diagnósticos de Ingreso y Egreso";
 export const SIMULATION_CONFIG_TITLE = "Configuración de Simulación";
 export const RUNS_LABEL = "Corridas de la Simulación";
 export const SIMULATE_BUTTON = "Realizar Simulación";
+export const SIMULATION_CANCEL_BUTTON = "Cancelar simulación";
+export const SIMULATION_CANCEL_COOLDOWN_LABEL = (seconds: number) =>
+  `Enfriamiento activo: ${seconds}s`;
+export const SIMULATION_LONG_RUN_WARNING_TITLE = "Simulación extensa detectada";
+export const SIMULATION_LONG_RUN_WARNING_DESCRIPTION =
+  "Más de 10,000 iteraciones pueden tardar varios minutos. La simulación continuará hasta completar el proceso.";
+export const SIMULATION_PROGRESS_TITLE = "Progreso de simulación";
+export const SIMULATION_PROGRESS_RUNNING =
+  "Ejecutando simulación, por favor espere...";
+export const SIMULATION_PROGRESS_ELAPSED_PREFIX = "Transcurrido:";
+export const SIMULATION_PROGRESS_ESTIMATED_PREFIX = "Estimado:";
+export const SIMULATION_PROGRESS_PERCENT_PREFIX = "Avance estimado:";
+export const SIMULATION_CANCELLED_MESSAGE =
+  "La simulación fue cancelada por el usuario.";
 export const DOWNLOAD_CSV = "Descargar CSV";
 export const ERROR_SIMULATION_TITLE = "Error en la simulación";
 export const ALERT_ERROR_TITLE = "Error";
@@ -220,6 +234,23 @@ export const STATS_CLICK_TO_SELECT_FILE =
   "Haz clic para seleccionar un archivo CSV";
 export const STATS_CLICK_TO_SELECT_FILES =
   "Haz clic para seleccionar archivos CSV (mínimo 3)";
+export const STATS_DRAG_DROP_SINGLE_HINT = "o arrastra un CSV aquí";
+export const STATS_DRAG_DROP_MULTI_HINT = "o arrastra CSV aquí";
+export const STATS_DRAG_DROP_ACTIVE_SINGLE = "Suelta el archivo CSV aquí";
+export const STATS_DRAG_DROP_ACTIVE_MULTI = "Suelta los archivos CSV aquí";
+export const STATS_DROP_INVALID_FILES =
+  "Solo se aceptan archivos con extensión .csv";
+export const STATS_ERROR_COLUMN_NOT_FOUND_IN_FILE = (
+  column: string,
+  fileName: string,
+  availableColumns: string,
+) =>
+  `La columna "${column}" no existe en "${fileName}". Columnas detectadas: ${availableColumns}.`;
+export const STATS_ERROR_COLUMN_NOT_FOUND_IN_FILES = (
+  column: string,
+  availableColumns: string,
+) =>
+  `La columna "${column}" no se encontró en suficientes archivos CSV. Columnas detectadas: ${availableColumns}.`;
 export const STATS_TABLE_METRIC_HEADER = "Métrica";
 export const STATS_TABLE_VALUE_HEADER = "Valor";
 export const STATS_LOADING = "Ejecutando...";

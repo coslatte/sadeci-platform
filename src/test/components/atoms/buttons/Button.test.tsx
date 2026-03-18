@@ -60,7 +60,7 @@ describe("Button", () => {
     expect(button).toBeTruthy();
     if (!button) return;
     expect(button.className.includes("glass-noise-primary")).toBe(true);
-    expect(button.className.includes("text-primary-950")).toBe(true);
+    expect(button.className.includes("text-slate-100")).toBe(true);
   });
 
   it("fires onClick when clicked", () => {
@@ -87,6 +87,6 @@ describe("Button", () => {
     expect(button).toBeTruthy();
     if (!button) return;
     expect(button.className.includes("border")).toBe(true);
-    expect(button.className.includes("border-zinc-300")).toBe(true);
+    expect(button.className.includes("border-slate-300")).toBe(true);
   });
 });

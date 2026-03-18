@@ -23,7 +23,7 @@ export default function Home() {
     : HOME_DEFAULT_GREETING;
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col divide-y divide-slate-200/80">
+    <div className="flex flex-col w-full max-w-6xl mx-auto divide-y divide-slate-200/80">
       <DashboardInfoSection
         className="pb-8"
         titleAs="h1"
@@ -55,8 +55,6 @@ export default function Home() {
         <Text size="sm" muted className="text-justify">
           {HOME_DOCUMENTATION_SECTION_DESCRIPTION}
         </Text>
-
-        <Divider className="my-6 border-slate-200/80" />
 
         <div className="grid gap-4 sm:mx-auto sm:w-full sm:max-w-4xl sm:grid-cols-2">
           {PROJECT_LINKS.map((link) => (

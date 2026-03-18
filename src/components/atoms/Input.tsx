@@ -92,7 +92,7 @@ export function Input({
         aria-describedby={infoId}
         type={type}
         className={cn(
-          "h-9 rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors duration-150 input-transition focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-50",
+          "h-9 rounded-lg border bg-white px-3 text-(length:--font-size-sm) text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors duration-300 input-transition focus:outline-none focus:ring-2 focus:ring-primary-400 focus:border-primary-400 disabled:cursor-not-allowed disabled:opacity-50",
           hasNumberControls && hasHelp
             ? "pr-20"
             : hasNumberControls || info || hasHelp
@@ -129,34 +129,34 @@ export function Input({
           <button
             type="button"
             aria-label="Incrementar valor"
-            className="flex items-center justify-center w-8 h-1/2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-t-lg input-transition"
+            className="flex items-center justify-center w-8 text-gray-400 rounded-t-lg h-1/2 hover:text-primary-600 hover:bg-primary-50 input-transition"
             onClick={() => ref.current?.stepUp()}
           >
-            <FiChevronUp className="h-4 w-4" aria-hidden />
+            <FiChevronUp className="w-4 h-4" aria-hidden />
           </button>
-          <div className="h-px w-6 bg-gray-100 mx-auto" />
+          <div className="w-6 h-px mx-auto bg-gray-100" />
           <button
             type="button"
             aria-label="Disminuir valor"
-            className="flex items-center justify-center w-8 h-1/2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-b-lg input-transition"
+            className="flex items-center justify-center w-8 text-gray-400 rounded-b-lg h-1/2 hover:text-primary-600 hover:bg-primary-50 input-transition"
             onClick={() => ref.current?.stepDown()}
           >
-            <FiChevronDown className="h-4 w-4" aria-hidden />
+            <FiChevronDown className="w-4 h-4" aria-hidden />
           </button>
         </div>
       )}
 
       {info && (
         <div
-          className="absolute right-2 flex items-center"
+          className="absolute flex items-center right-2"
           style={{ right: hasNumberControls ? 38 : 8 }}
         >
-          <div className="group relative flex items-center">
+          <div className="relative flex items-center group">
             <button
               type="button"
               aria-label="Más información"
               aria-describedby={infoId}
-              className="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-primary-600 hover:bg-primary-50 input-transition"
+              className="flex items-center justify-center text-gray-400 rounded-full w-7 h-7 hover:text-primary-600 hover:bg-primary-50 input-transition"
             >
               <FiInfo className="w-4 h-4" aria-hidden />
             </button>
@@ -168,7 +168,7 @@ export function Input({
                 className="absolute bottom-full right-1/2 mb-2 translate-x-1/2 whitespace-nowrap rounded-lg bg-gray-800 px-3 py-1 text-(length:--font-size-xs) text-white opacity-0 transition-opacity pointer-events-none group-hover:opacity-100 group-focus:opacity-100"
               >
                 {info}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800" />
+                <div className="absolute -translate-x-1/2 border-4 border-transparent top-full left-1/2 border-t-gray-800" />
               </div>
             )}
           </div>
@@ -178,7 +178,7 @@ export function Input({
       {help && (
         <HelpTooltipButton
           help={help}
-          className="absolute right-2 top-1/2 -translate-y-1/2"
+          className="absolute -translate-y-1/2 right-2 top-1/2"
           buttonClassName="flex items-center justify-center cursor-help"
         />
       )}

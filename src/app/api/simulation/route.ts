@@ -16,31 +16,26 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30_000);
-
   try {
     const upstream = await fetch(`${CORE_API_URL}/simulation`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-      signal: controller.signal,
+      signal: req.signal,
     });
 
     const data: unknown = await upstream.json();
 
     return NextResponse.json(data, { status: upstream.status });
   } catch (err) {
-    const isTimeout = err instanceof Error && err.name === "AbortError";
+    const isAborted = err instanceof Error && err.name === "AbortError";
     return NextResponse.json(
       {
-        error: isTimeout
-          ? "El servidor de simulación tardó demasiado en responder."
+        error: isAborted
+          ? "La solicitud de simulación fue cancelada."
           : "No se pudo conectar con el servidor de simulación.",
       },
-      { status: isTimeout ? 504 : 502 },
+      { status: isAborted ? 499 : 502 },
     );
-  } finally {
-    clearTimeout(timeout);
   }
 }

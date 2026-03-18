@@ -31,15 +31,15 @@ export function Button({
       case "primary":
         return "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus-visible:ring-primary-500";
       case "glass":
-        return "glass-noise-primary text-slate-100 focus-visible:ring-primary-400";
+        return "glass-noise-primary text-slate-100 border-primary-700 focus:ring-primary-300";
       case "secondary":
-        return "bg-zinc-100 text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300 focus-visible:ring-zinc-400";
+        return "bg-slate-200 text-slate-900 hover:bg-slate-100 active:bg-slate-300 focus-visible:ring-slate-400 focus-visible:border-slate-100";
       case "outline":
-        return "border border-zinc-300 bg-transparent text-zinc-700 hover:bg-zinc-50 active:bg-zinc-100 focus-visible:ring-zinc-400";
+        return "border border-slate-300 bg-transparent text-slate-700 hover:bg-slate-50 active:bg-slate-100 focus-visible:ring-slate-400";
       case "ghost":
-        return "bg-transparent text-zinc-700 hover:bg-zinc-100 active:bg-zinc-200 focus-visible:ring-zinc-400";
+        return "bg-transparent text-slate-700 hover:bg-slate-100 active:bg-slate-200 focus-visible:ring-slate-400";
       case "danger":
-        return "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500";
+        return "bg-red-500 text-white hover:bg-red-600 active:bg-red-700 focus-visible:ring-red-400";
       case "success":
         return "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 focus-visible:ring-green-500";
       default:

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Divider } from "@/components/atoms/Divider";
 import { Alert } from "@/components/molecules/Alert";
 import SimulationInputs from "./components/SimulationInputs";
@@ -20,10 +20,22 @@ import {
 } from "./helpers/index";
 import {
   ERROR_SIMULATION_TITLE,
+  SIMULATION_CANCELLED_MESSAGE,
   VALIDATION_MISSING_DIAG,
   VALIDATION_SELECT_RESP,
 } from "@/constants/constants";
 import { sileo } from "sileo";
+
+const LONG_SIMULATION_THRESHOLD = 10_000;
+const CANCEL_COOLDOWN_MS = 1_000;
+const BASE_ESTIMATED_SIMULATION_MS = 1_200;
+const ESTIMATED_MS_PER_RUN = 2.8;
+
+function estimateSimulationDurationMs(simRuns: number): number {
+  const estimated =
+    BASE_ESTIMATED_SIMULATION_MS + simRuns * ESTIMATED_MS_PER_RUN;
+  return Math.max(BASE_ESTIMATED_SIMULATION_MS, Math.round(estimated));
+}
 
 export default function SimulacionPage() {
   const [patientId, setPatientId] = useState<string>("");
@@ -59,10 +71,47 @@ export default function SimulacionPage() {
   const [error, setError] = useState<string | null>(null);
   const [resultHistory, setResultHistory] = useState<SimulationResponse[]>([]);
   const [activeResultIndex, setActiveResultIndex] = useState<number>(-1);
+  const [simulationStartedAt, setSimulationStartedAt] = useState<number | null>(
+    null,
+  );
+  const [elapsedMs, setElapsedMs] = useState<number>(0);
+  const [clockNowMs, setClockNowMs] = useState<number>(Date.now());
+  const [cancelCooldownEndsAt, setCancelCooldownEndsAt] = useState<number>(0);
+  const simulationController = useRef<AbortController | null>(null);
+
+  const estimatedDurationMs = useMemo(
+    () => estimateSimulationDurationMs(simRuns),
+    [simRuns],
+  );
+
+  const estimatedProgressPercent = loading
+    ? Math.min((elapsedMs / estimatedDurationMs) * 100, 95)
+    : 0;
+  const cancelOnCooldown = loading && clockNowMs < cancelCooldownEndsAt;
+  const cancelCooldownSeconds = cancelOnCooldown
+    ? Math.ceil((cancelCooldownEndsAt - clockNowMs) / 1000)
+    : 0;
 
   useEffect(() => {
     setPatientId(generatePatientId());
   }, []);
+
+  useEffect(() => {
+    const shouldTick = loading || Date.now() < cancelCooldownEndsAt;
+    if (!shouldTick) return;
+
+    const intervalId = window.setInterval(() => {
+      const now = Date.now();
+      setClockNowMs(now);
+      if (loading && simulationStartedAt !== null) {
+        setElapsedMs(now - simulationStartedAt);
+      }
+    }, 200);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [loading, simulationStartedAt, cancelCooldownEndsAt]);
 
   function handleNewPatient(): void {
     setPatientId(generatePatientId());
@@ -72,6 +121,7 @@ export default function SimulacionPage() {
   }
 
   async function handleSimulate(): Promise<void> {
+    if (loading) return;
     setError(null);
 
     const payload: SimulationRequest = {
@@ -105,9 +155,17 @@ export default function SimulacionPage() {
     }
 
     setLoading(true);
+    const startedAt = Date.now();
+    setSimulationStartedAt(startedAt);
+    setClockNowMs(startedAt);
+    setElapsedMs(0);
     setActiveResultIndex(-1);
+
+    const controller = new AbortController();
+    simulationController.current = controller;
+
     try {
-      const data = await runSimulation(payload);
+      const data = await runSimulation(payload, { signal: controller.signal });
       setResultHistory((previous) => {
         const next = [...previous, data];
         setActiveResultIndex(next.length - 1);
@@ -116,17 +174,24 @@ export default function SimulacionPage() {
     } catch (err) {
       const message = formatErrorForUser(err);
       setError(message);
-      // Log error for debugging
       console.error("Simulación fallida:", err);
-      // Try to display the error via sileo if available
       try {
         sileo.error({ title: "Error en la simulación", description: message });
-      } catch {
-        // ignore if sileo is not available
-      }
+      } catch {}
     } finally {
+      simulationController.current = null;
+      setSimulationStartedAt(null);
+      setElapsedMs(0);
       setLoading(false);
     }
+  }
+
+  function handleCancelSimulation(): void {
+    if (!loading || !simulationController.current || cancelOnCooldown) return;
+
+    simulationController.current.abort();
+    setError(SIMULATION_CANCELLED_MESSAGE);
+    setCancelCooldownEndsAt(Date.now() + CANCEL_COOLDOWN_MS);
   }
 
   function handleDownload(): void {
@@ -174,6 +239,13 @@ export default function SimulacionPage() {
           setSimRuns={setSimRuns}
           loading={loading}
           onSimulate={handleSimulate}
+          onCancel={handleCancelSimulation}
+          showLongRunWarning={simRuns > LONG_SIMULATION_THRESHOLD}
+          estimatedSeconds={Math.round(estimatedDurationMs / 1000)}
+          elapsedSeconds={Math.round(elapsedMs / 1000)}
+          estimatedProgressPercent={estimatedProgressPercent}
+          cancelOnCooldown={cancelOnCooldown}
+          cancelCooldownSeconds={cancelCooldownSeconds}
         />
 
         {error && (

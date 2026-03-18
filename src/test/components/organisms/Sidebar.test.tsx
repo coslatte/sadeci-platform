@@ -55,8 +55,11 @@ describe("Sidebar", () => {
       await new Promise((resolve) => setTimeout(resolve, 250));
     });
 
-    const tooltip = within(document.body).getByRole("tooltip");
-    expect(tooltip.textContent?.includes("Dashboard")).toBe(true);
+    // In collapsed mode the nav is non-interactive, so no tooltip should appear.
+    const tooltip = within(container)
+      .queryAllByRole("tooltip")
+      .find((node) => node.textContent?.includes("Dashboard"));
+    expect(tooltip).toBeFalsy();
   });
 
   it("renders section title when not collapsed", () => {
@@ -114,6 +117,20 @@ describe("Sidebar", () => {
       sidebarNav.querySelector("[aria-hidden='false']") ??
       sidebarNav.querySelector(".max-h-96");
     expect(expandedWrapper).toBeTruthy();
+  });
+
+  it("renders tree toggle as a sibling control, not inside the parent link", () => {
+    const { container } = render(<Sidebar sections={nestedSections} />);
+    const sidebarScope = within(container);
+
+    const parentLink = sidebarScope.getByRole("link", {
+      name: /simulación/i,
+    });
+    const toggleButton = sidebarScope.getByRole("button", {
+      name: /(expandir|contraer) sección simulación/i,
+    });
+
+    expect(parentLink.contains(toggleButton)).toBe(false);
   });
 
   it("hides nested children when collapsed", () => {

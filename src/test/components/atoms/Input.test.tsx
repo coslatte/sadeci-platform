@@ -1,5 +1,5 @@
 import "../../setup";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import { useState } from "react";
 import { Input } from "@/components/atoms/Input";
@@ -52,9 +52,9 @@ describe("Input", () => {
   });
 
   it("shows number controls for type=number by default", () => {
-    const { getByLabelText } = render(<Input type="number" />);
-    expect(getByLabelText("Incrementar valor")).toBeTruthy();
-    expect(getByLabelText("Disminuir valor")).toBeTruthy();
+    const { container } = render(<Input type="number" />);
+    expect(within(container).getByLabelText("Incrementar valor")).toBeTruthy();
+    expect(within(container).getByLabelText("Disminuir valor")).toBeTruthy();
   });
 
   it("hides number controls when showNumberControls=false", () => {
@@ -93,10 +93,10 @@ describe("Input", () => {
   });
 
   it("shows help badge when help prop is provided", () => {
-    const { getByLabelText } = render(
-      <Input help="Texto de ayuda del campo" />,
-    );
-    expect(getByLabelText("Información de ayuda del campo")).toBeTruthy();
+    const { container } = render(<Input help="Texto de ayuda del campo" />);
+    expect(
+      within(container).getByLabelText("Información de ayuda del campo"),
+    ).toBeTruthy();
   });
 
   it("does not render help badge when help is not provided", () => {

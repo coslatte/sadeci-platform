@@ -56,6 +56,7 @@ export function NavbarProfile({
   return (
     <Popover
       align="right"
+      openOnHover
       trigger={
         <button
           type="button"

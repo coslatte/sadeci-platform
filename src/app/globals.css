@@ -204,7 +204,6 @@ input[type="number"] {
       0 8px 22px -12px color-mix(in oklab, var(--color-primary-700) 45%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.45);
     transition:
-      transform 180ms ease,
       box-shadow 180ms ease,
       filter 180ms ease,
       border-color 180ms ease;
@@ -234,7 +233,7 @@ input[type="number"] {
   }
 
   .glass-noise-primary:hover {
-    transform: translateY(-2px);
+    /* Removed translateY hover movement to keep element stationary */
     border-color: color-mix(in oklab, var(--color-primary-400) 74%, white 26%);
     box-shadow:
       0 14px 28px -14px color-mix(in oklab, var(--color-primary-700) 52%, transparent),
@@ -247,7 +246,7 @@ input[type="number"] {
   }
 
   .glass-noise-primary:active {
-    transform: translateY(0);
+    /* Ensure no transform is applied on active */
     box-shadow:
       0 8px 18px -12px color-mix(in oklab, var(--color-primary-700) 40%, transparent),
       inset 0 1px 0 rgba(255, 255, 255, 0.4);

@@ -1,8 +1,10 @@
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import type { MouseEvent } from "react";
 import {
   SIDEBAR_SECTION_COLLAPSE,
   SIDEBAR_SECTION_EXPAND,
 } from "@/constants/constants";
+import { Button } from "@/components/atoms";
 
 interface SidebarTreeToggleButtonProps {
   expanded: boolean;
@@ -34,20 +36,27 @@ export function SidebarTreeToggleButton({
     ? SIDEBAR_SECTION_COLLAPSE(label)
     : SIDEBAR_SECTION_EXPAND(label);
 
+  function handleClick(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    onToggle();
+  }
+
   return (
-    <button
+    <Button
       type="button"
-      onClick={onToggle}
+      onClick={handleClick}
       aria-expanded={expanded}
       aria-label={actionLabel}
       title={actionLabel}
-      className="absolute inline-flex items-center justify-center overflow-hidden -translate-y-1/2 rounded-lg right-3 top-1/2 size-10 glass-noise-primary text-primary-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+      variant="secondary"
+      className="inline-flex items-center justify-center w-8 h-8 p-0 border rounded-lg shadow-sm border-slate-200 bg-white/95 text-slate-700 hover:bg-white"
     >
       {expanded ? (
-        <FiChevronUp className="size-4" aria-hidden="true" />
+        <FiChevronUp className="size-4 shrink-0" aria-hidden="true" />
       ) : (
-        <FiChevronDown className="size-4" aria-hidden="true" />
+        <FiChevronDown className="size-4 shrink-0" aria-hidden="true" />
       )}
-    </button>
+    </Button>
   );
 }

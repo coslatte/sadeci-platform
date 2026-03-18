@@ -1,6 +1,7 @@
 "use client";
 
 import React, {
+  useCallback,
   useEffect,
   useId,
   useLayoutEffect,
@@ -16,6 +17,8 @@ interface PopoverProps {
   align?: "left" | "right" | "center";
   className?: string;
   closeOnSelect?: boolean;
+  /** If true, open the popover on hover instead of click */
+  openOnHover?: boolean;
 }
 
 /**
@@ -45,6 +48,7 @@ export function Popover({
   align = "right",
   className,
   closeOnSelect = true,
+  openOnHover = false,
 }: PopoverProps) {
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -59,6 +63,36 @@ export function Popover({
     relative?: boolean;
   } | null>(null);
   const [usePortal, setUsePortal] = useState(true);
+  const [hoverTimeoutId, setHoverTimeoutId] = useState<number | null>(null);
+  const [pinnedByClick, setPinnedByClick] = useState(false);
+
+  const openPopover = () => {
+    if (!open) {
+      setEntering(true);
+      setOpen(true);
+    }
+  };
+
+  const clearHoverCloseTimeout = useCallback(() => {
+    if (hoverTimeoutId !== null) {
+      window.clearTimeout(hoverTimeoutId);
+      setHoverTimeoutId(null);
+    }
+  }, [hoverTimeoutId]);
+
+  const scheduleHoverClose = useCallback(() => {
+    clearHoverCloseTimeout();
+    const timeoutId = window.setTimeout(() => setExiting(true), 120);
+    setHoverTimeoutId(timeoutId);
+  }, [clearHoverCloseTimeout]);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutId !== null) {
+        window.clearTimeout(hoverTimeoutId);
+      }
+    };
+  }, [hoverTimeoutId]);
 
   useEffect(() => {
     function onDocDown(e: MouseEvent) {
@@ -67,11 +101,15 @@ export function Popover({
       if (wrapperRef.current.contains(target)) return;
       if (contentRef.current && contentRef.current.contains(target)) return;
       // trigger closing animation
+      setPinnedByClick(false);
       setExiting(true);
     }
 
     function onEsc(e: KeyboardEvent) {
-      if (e.key === "Escape") setExiting(true);
+      if (e.key === "Escape") {
+        setPinnedByClick(false);
+        setExiting(true);
+      }
     }
 
     document.addEventListener("mousedown", onDocDown);
@@ -105,14 +143,8 @@ export function Popover({
 
     function compute() {
       if (!wrapperRef.current) return;
-      // Use the trigger element if present (aria-controls points to the popover id)
-      const triggerEl = document.querySelector(
-        `[aria-controls="${id}"]`,
-      ) as HTMLElement | null;
-      const rect =
-        triggerEl?.getBoundingClientRect() ??
-        wrapperRef.current.getBoundingClientRect();
-      const PANEL_WIDTH = 320;
+      const rect = wrapperRef.current.getBoundingClientRect();
+      const PANEL_WIDTH = contentRef.current?.offsetWidth ?? 320;
       let left = rect.right - PANEL_WIDTH;
       if (align === "left") left = rect.left;
       if (align === "center")
@@ -179,7 +211,7 @@ export function Popover({
       window.removeEventListener("resize", compute);
       window.removeEventListener("scroll", compute as EventListener);
     };
-  }, [open, align, id]);
+  }, [open, align]);
 
   // clear entering state after one frame to trigger CSS transition
   useEffect(() => {
@@ -195,6 +227,7 @@ export function Popover({
     const t = setTimeout(() => {
       setExiting(false);
       setOpen(false);
+      setPinnedByClick(false);
       setPosition(null);
     }, 180);
     return () => clearTimeout(t);
@@ -215,7 +248,7 @@ export function Popover({
       style={
         position
           ? {
-              position: "fixed",
+              position: position.relative ? "absolute" : "fixed",
               top: position.top,
               bottom: position.bottom,
               left: position.left,
@@ -248,13 +281,19 @@ export function Popover({
         // ignore
       }
 
-      if (open) setExiting(true);
-      else {
-        // open first so the content can be rendered and measured
-        // position will be resolved in the useLayoutEffect below once
-        // the portal/content DOM node exists.
-        setEntering(true);
-        setOpen(true);
+      if (!open) {
+        setPinnedByClick(true);
+        clearHoverCloseTimeout();
+        openPopover();
+        return;
+      }
+
+      if (!pinnedByClick) {
+        setPinnedByClick(true);
+        clearHoverCloseTimeout();
+      } else {
+        setPinnedByClick(false);
+        setExiting(true);
       }
     };
 
@@ -298,6 +337,57 @@ export function Popover({
       </button>
     );
   };
+
+  // when using hover, keep popover open while pointer is over trigger/content
+  useEffect(() => {
+    if (!openOnHover) return;
+    const triggerEl = wrapperRef.current;
+    const el = contentRef.current;
+    if (!triggerEl || !el) return;
+
+    function onTriggerEnter() {
+      openPopover();
+      clearHoverCloseTimeout();
+    }
+
+    function onTriggerLeave() {
+      if (pinnedByClick) return;
+      scheduleHoverClose();
+    }
+
+    function onEnter() {
+      clearHoverCloseTimeout();
+    }
+
+    function onLeave() {
+      if (pinnedByClick) return;
+      scheduleHoverClose();
+    }
+
+    triggerEl.addEventListener("mouseenter", onTriggerEnter);
+    triggerEl.addEventListener("mouseleave", onTriggerLeave);
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      triggerEl.removeEventListener("mouseenter", onTriggerEnter);
+      triggerEl.removeEventListener("mouseleave", onTriggerLeave);
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, [
+    clearHoverCloseTimeout,
+    open,
+    openOnHover,
+    openPopover,
+    pinnedByClick,
+    scheduleHoverClose,
+  ]);
+
+  useEffect(() => {
+    if (!openOnHover || !pinnedByClick) return;
+    clearHoverCloseTimeout();
+  }, [openOnHover, pinnedByClick]);
 
   return (
     <div className={cn("relative inline-block", className)} ref={wrapperRef}>

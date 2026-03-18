@@ -1,10 +1,15 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Label } from "@/components/atoms/Label";
 import {
   STATS_CLICK_TO_SELECT_FILE,
   STATS_CLICK_TO_SELECT_FILES,
+  STATS_DRAG_DROP_ACTIVE_MULTI,
+  STATS_DRAG_DROP_ACTIVE_SINGLE,
+  STATS_DRAG_DROP_MULTI_HINT,
+  STATS_DRAG_DROP_SINGLE_HINT,
+  STATS_DROP_INVALID_FILES,
   STATS_EXPERIMENT_LABEL,
 } from "@/constants/constants";
 import { cn } from "@/lib/utils";
@@ -29,6 +34,28 @@ export function StatisticsFileDropzone({
   onChange,
 }: StatisticsFileDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dropError, setDropError] = useState<string | null>(null);
+
+  function hasCSVExtension(file: File): boolean {
+    return file.name.toLowerCase().endsWith(".csv");
+  }
+
+  function handleFileSelection(selected: File[]): void {
+    const csvFiles = selected.filter(hasCSVExtension);
+
+    if (csvFiles.length !== selected.length) {
+      setDropError(STATS_DROP_INVALID_FILES);
+    } else {
+      setDropError(null);
+    }
+
+    if (csvFiles.length === 0) {
+      return;
+    }
+
+    onChange(multiple ? csvFiles : [csvFiles[0]]);
+  }
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -40,9 +67,30 @@ export function StatisticsFileDropzone({
         className={cn(
           "flex flex-col items-center justify-center gap-2",
           "cursor-pointer rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 px-4 py-6 text-center transition-colors hover:border-primary-400",
+          isDragging && "border-primary-500 bg-primary-100",
           files.length > 0 && "border-primary-300 bg-primary-50",
         )}
         onClick={() => inputRef.current?.click()}
+        onDragEnter={(event) => {
+          event.preventDefault();
+          setIsDragging(true);
+        }}
+        onDragOver={(event) => {
+          event.preventDefault();
+          setIsDragging(true);
+        }}
+        onDragLeave={(event) => {
+          event.preventDefault();
+          if (event.currentTarget === event.target) {
+            setIsDragging(false);
+          }
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          setIsDragging(false);
+          const droppedFiles = Array.from(event.dataTransfer.files ?? []);
+          handleFileSelection(droppedFiles);
+        }}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
             inputRef.current?.click();
@@ -60,7 +108,7 @@ export function StatisticsFileDropzone({
             const selected = event.target.files
               ? Array.from(event.target.files)
               : [];
-            onChange(selected);
+            handleFileSelection(selected);
           }}
         />
 
@@ -77,13 +125,30 @@ export function StatisticsFileDropzone({
             ))}
           </ul>
         ) : (
-          <span className="text-(length:--font-size-sm) text-zinc-400">
-            {multiple
-              ? STATS_CLICK_TO_SELECT_FILES
-              : STATS_CLICK_TO_SELECT_FILE}
-          </span>
+          <div className="flex flex-col gap-1">
+            <span className="text-(length:--font-size-sm) text-zinc-400">
+              {isDragging
+                ? multiple
+                  ? STATS_DRAG_DROP_ACTIVE_MULTI
+                  : STATS_DRAG_DROP_ACTIVE_SINGLE
+                : multiple
+                  ? STATS_CLICK_TO_SELECT_FILES
+                  : STATS_CLICK_TO_SELECT_FILE}
+            </span>
+            {!isDragging && (
+              <span className="text-(length:--font-size-xs) text-zinc-400">
+                {multiple
+                  ? STATS_DRAG_DROP_MULTI_HINT
+                  : STATS_DRAG_DROP_SINGLE_HINT}
+              </span>
+            )}
+          </div>
         )}
       </div>
+
+      {dropError && (
+        <p className="text-(length:--font-size-xs) text-red-600">{dropError}</p>
+      )}
     </div>
   );
 }

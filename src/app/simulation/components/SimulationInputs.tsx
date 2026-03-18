@@ -44,6 +44,13 @@ interface Props {
 
   loading?: boolean;
   onSimulate: () => void;
+  onCancel: () => void;
+  showLongRunWarning: boolean;
+  estimatedSeconds: number;
+  elapsedSeconds: number;
+  estimatedProgressPercent: number;
+  cancelOnCooldown: boolean;
+  cancelCooldownSeconds: number;
 }
 
 /**
@@ -84,6 +91,13 @@ export default function SimulationInputs({
   setSimRuns,
   loading = false,
   onSimulate,
+  onCancel,
+  showLongRunWarning,
+  estimatedSeconds,
+  elapsedSeconds,
+  estimatedProgressPercent,
+  cancelOnCooldown,
+  cancelCooldownSeconds,
 }: Props) {
   return (
     <section className="flex flex-col gap-5">
@@ -132,6 +146,13 @@ export default function SimulationInputs({
         setSimRuns={setSimRuns}
         loading={loading}
         onSimulate={onSimulate}
+        onCancel={onCancel}
+        showLongRunWarning={showLongRunWarning}
+        estimatedSeconds={estimatedSeconds}
+        elapsedSeconds={elapsedSeconds}
+        estimatedProgressPercent={estimatedProgressPercent}
+        cancelOnCooldown={cancelOnCooldown}
+        cancelCooldownSeconds={cancelCooldownSeconds}
       />
     </section>
   );

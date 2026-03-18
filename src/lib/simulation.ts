@@ -111,22 +111,22 @@ export interface SimulationResponse {
   };
 }
 
+export interface RunSimulationOptions {
+  signal?: AbortSignal;
+}
+
 // ─── API client ────────────────────────────────────────────────────────────────
 
 export async function runSimulation(
   data: SimulationRequest,
+  options: RunSimulationOptions = {},
 ): Promise<SimulationResponse> {
-  // Add a timeout to detect when the API does not respond
-  const controller = new AbortController();
-  const timeoutMs = 15_000; // 15 seconds
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
   try {
     const response = await fetch("/api/simulation", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
-      signal: controller.signal,
+      signal: options.signal,
     });
 
     if (!response.ok) {
@@ -137,17 +137,11 @@ export async function runSimulation(
 
     return response.json() as Promise<SimulationResponse>;
   } catch (err: unknown) {
-    // Normalize abort / timeout errors
     if (err instanceof Error && err.name === "AbortError") {
-      throw new Error(
-        "La solicitud de simulación ha excedido el tiempo de espera.",
-      );
+      throw new Error("La simulación fue cancelada por el usuario.");
     }
-    // Re-throw preserving original error when possible
     if (err instanceof Error) throw err;
     throw new Error(String(err));
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 

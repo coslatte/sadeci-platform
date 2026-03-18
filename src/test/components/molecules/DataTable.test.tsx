@@ -1,11 +1,11 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { DataTable } from "@/components/molecules/DataTable";
 
 describe("DataTable", () => {
   it("renders columns and rows", () => {
-    const { getByText } = render(
+    const { container } = render(
       <DataTable
         ariaLabel="Tabla de prueba"
         columns={[
@@ -16,14 +16,14 @@ describe("DataTable", () => {
       />,
     );
 
-    expect(getByText("Métrica")).toBeTruthy();
-    expect(getByText("Valor")).toBeTruthy();
-    expect(getByText("Estadístico")).toBeTruthy();
-    expect(getByText("4.1250")).toBeTruthy();
+    expect(within(container).getByText("Métrica")).toBeTruthy();
+    expect(within(container).getByText("Valor")).toBeTruthy();
+    expect(within(container).getByText("Estadístico")).toBeTruthy();
+    expect(within(container).getByText("4.1250")).toBeTruthy();
   });
 
   it("renders shared help button when help text is provided", () => {
-    const { container, getByText } = render(
+    const { container } = render(
       <DataTable
         ariaLabel="Tabla de resultados"
         help="Interpretación de la tabla"
@@ -35,6 +35,8 @@ describe("DataTable", () => {
     expect(
       container.querySelector('[aria-label="Información de ayuda del campo"]'),
     ).toBeTruthy();
-    expect(getByText("Interpretación de la tabla")).toBeTruthy();
+    expect(
+      within(container).getByText("Interpretación de la tabla"),
+    ).toBeTruthy();
   });
 });

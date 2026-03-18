@@ -1,1 +1,1 @@
-// This files is for TailwindCSS `headwind` extension use only.
+// This files is for TailwindCSS `headwind` VSCode extension use only.

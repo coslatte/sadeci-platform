@@ -1,11 +1,11 @@
 import "../../setup";
-import { render } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 import { FormField } from "@/components/molecules/FormField";
 
 describe("FormField", () => {
   it("renders label and input", () => {
-    const { getByLabelText } = render(
+    const { container } = render(
       <FormField
         id="patient-age"
         label="Edad"
@@ -13,7 +13,7 @@ describe("FormField", () => {
       />,
     );
 
-    expect(getByLabelText("Edad")).toBeTruthy();
+    expect(within(container).getByLabelText("Edad")).toBeTruthy();
   });
 
   it("renders shared help button when help is provided", () => {

@@ -150,8 +150,8 @@ export function PredictionForm({
           }}
         />
       </div>
-      <div className="mt-5 flex justify-end">
-        <Button variant="primary" disabled={loading} onClick={onPredict}>
+      <div className="flex justify-end mt-5">
+        <Button variant="glass" disabled={loading} onClick={onPredict}>
           {loading ? PREDICTION_PREDICTING_BUTTON : PREDICTION_PREDICT_BUTTON}
         </Button>
       </div>

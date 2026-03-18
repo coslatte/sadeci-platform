@@ -103,7 +103,7 @@ export function WilcoxonSection({
       </div>
 
       <Button
-        variant="primary"
+        variant="glass"
         fullWidth
         onClick={onRun}
         disabled={loading}
@@ -196,7 +196,7 @@ export function FriedmanSection({
       </div>
 
       <Button
-        variant="primary"
+        variant="glass"
         fullWidth
         onClick={onRun}
         disabled={loading}

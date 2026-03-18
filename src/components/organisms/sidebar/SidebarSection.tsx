@@ -68,7 +68,7 @@ function TreeItem({
 
   return (
     <li className="relative">
-      <div className="relative group">
+      <div className="relative flex items-center gap-2 overflow-visible">
         <NavItem
           href={item.href}
           label={item.label}
@@ -77,10 +77,10 @@ function TreeItem({
           current={item.current}
           collapsed={collapsed && isRoot}
           variant={variant}
+          disableIconHoverScale={true}
           className={cn(
             depth > 0 && "min-h-10",
-            collapsed && isRoot ? "mx-auto flex-none" : "flex-1",
-            hasChildren && !collapsed && "pr-11",
+            collapsed && isRoot ? "mx-auto flex-none" : "flex-1 min-w-0",
           )}
           labelClassName={cn(depth > 0 && "text-sm font-medium")}
         />
@@ -104,15 +104,15 @@ function TreeItem({
         <div
           aria-hidden={!showChildren}
           className={cn(
-            "ml-7 overflow-hidden border-l border-slate-200/80 pl-4 transition-[max-height,opacity,margin] duration-300",
+            "ml-7 overflow-hidden border-l border-slate-200/80 pl-4 pr-1 transition-[max-height,opacity,margin,padding] duration-300",
             depth > 0 && "ml-5",
-            showChildren ? "mt-0.5" : "mt-0",
+            showChildren ? "mt-1 py-1" : "mt-0 py-0",
             showChildren
               ? "max-h-96 opacity-100"
               : "max-h-0 opacity-0 pointer-events-none",
           )}
         >
-          <ul className="flex flex-col gap-1.5">
+          <ul className="flex flex-col gap-2">
             {item.children!.map((child) => (
               <TreeItem
                 key={child.href}

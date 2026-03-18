@@ -19,6 +19,10 @@ describe("SidebarTreeToggleButton", () => {
       name: /expandir sección simulación/i,
     });
 
+    expect(
+      button.querySelector("svg")?.getAttribute("class")?.includes("size-4"),
+    ).toBe(true);
+
     fireEvent.click(button);
 
     expect(onToggle).toHaveBeenCalledTimes(1);
@@ -38,6 +42,6 @@ describe("SidebarTreeToggleButton", () => {
     });
 
     expect(button.getAttribute("aria-expanded")).toBe("true");
-    expect(button.className.includes("glass-noise-primary")).toBe(true);
+    expect(button.className.includes("border-slate-200")).toBe(true);
   });
 });

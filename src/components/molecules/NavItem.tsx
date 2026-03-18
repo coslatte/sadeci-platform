@@ -24,6 +24,10 @@ interface NavItemProps {
   labelClassName?: string;
   iconClassName?: string;
   disabled?: boolean;
+  /**
+   * When true prevent the icon from scaling on parent hover (used by tree items)
+   */
+  disableIconHoverScale?: boolean;
 }
 
 /**
@@ -45,6 +49,7 @@ export function NavItem({
   labelClassName,
   iconClassName,
   disabled,
+  disableIconHoverScale = false,
 }: NavItemProps) {
   const isNested = variant === "nested";
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -68,14 +73,14 @@ export function NavItem({
 
     if (collapsed) {
       if (current)
-        return "text-primary-700 bg-primary-50 border-primary-200/50 shadow-sm shadow-primary-800/20 active:bg-primary-100";
+        return "text-primary-700 bg-primary-500/15 border-primary-500/50 shadow-sm shadow-primary-500/25 active:bg-primary-500/20";
       if (active)
         return "text-slate-700 bg-slate-100 border-transparent hover:bg-slate-200 active:bg-slate-200";
       return "text-zinc-600 hover:bg-slate-100 hover:text-zinc-900 border-transparent active:bg-slate-200";
     }
 
     if (current)
-      return "border-primary-400 bg-white text-primary-700 shadow-sm shadow-primary-700/30 active:bg-primary-700/90 active:text-white";
+      return "border-primary-500/60 bg-primary-500/15 text-primary-700 shadow-sm shadow-primary-500/25 active:bg-primary-500/20";
     if (active) return "border-slate-300 bg-white text-slate-800 shadow-sm";
     return "text-zinc-600 hover:border-slate-200 hover:bg-white hover:text-zinc-900";
   })();
@@ -152,11 +157,13 @@ export function NavItem({
           className={cn(
             isNested
               ? "flex size-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors group-hover:bg-slate-200 group-hover:text-slate-700"
-              : "flex size-9 shrink-0 items-center justify-center rounded-xl text-current transform transition-transform duration-200 ease-out will-change-transform group-hover:scale-105",
+              : [
+                  "flex size-9 shrink-0 items-center justify-center rounded-xl text-current transform transition-transform duration-200 ease-out will-change-transform",
+                  !disableIconHoverScale && "group-hover:scale-105",
+                ],
             // For non-nested items, when collapsed avoid the white bg / shadow
             // so the sidebar remains compact. When not collapsed, show bg and
             // subtle ring. For the current (selected) icon use a stronger
-            // ring with 50% opacity and thicker width (ring-2) plus a glow.
             !isNested &&
               (collapsed
                 ? current
@@ -187,8 +194,10 @@ export function NavItem({
       {trailingContent && (
         <span
           className={cn(
-            "flex-none overflow-hidden transition-all duration-200",
-            collapsed ? "w-0 opacity-0" : "opacity-100",
+            "flex-none transition-all duration-200",
+            collapsed
+              ? "w-0 opacity-0 overflow-hidden"
+              : "opacity-100 overflow-visible",
           )}
         >
           {trailingContent}
@@ -196,7 +205,6 @@ export function NavItem({
       )}
     </>
   );
-
   return (
     <div
       ref={wrapperRef}

@@ -1,5 +1,5 @@
 import "../../setup";
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, fireEvent, act, within } from "@testing-library/react";
 import { describe, expect, it, mock, afterEach } from "bun:test";
 import {
   generatePatientId,
@@ -92,7 +92,7 @@ import { Alert } from "@/components/molecules/Alert";
 
 describe("simulacion page — smoke tests", () => {
   it("Select renders PREUCI_DIAG options", () => {
-    const { getByText } = render(
+    const { container } = render(
       <Select>
         {Object.entries(PREUCI_DIAG).map(([k, v]) => (
           <option key={k} value={k}>
@@ -101,15 +101,17 @@ describe("simulacion page — smoke tests", () => {
         ))}
       </Select>,
     );
-    expect(getByText("Vacío")).toBeTruthy();
-    expect(getByText("Sepsis grave")).toBeTruthy();
+    expect(within(container).getAllByText("Vacío").length).toBeGreaterThan(0);
+    expect(
+      within(container).getAllByText("Sepsis grave").length,
+    ).toBeGreaterThan(0);
   });
 
   it("Badge shows success status for surviving patient", () => {
-    const { getByText } = render(
+    const { container } = render(
       <Badge status="success">Paciente no fallece</Badge>,
     );
-    const badge = getByText("Paciente no fallece");
+    const [badge] = within(container).getAllByText("Paciente no fallece");
     expect(badge).toBeTruthy();
     expect(badge.className.includes("text-primary-700")).toBe(true);
   });
@@ -235,69 +237,47 @@ describe("runSimulation — API client", () => {
     const originalConsoleError = console.error;
     console.error = mock(() => {});
 
-    let toastCalled = false;
-
-    // Mock sileo
-    mock.module("sileo", () => ({
-      Toaster: () => null,
-      sileo: {
-        error: () => {
-          toastCalled = true;
-        },
-      },
-    }));
-
-    // Mock simulation module exports minimally for the page
-    mock.module("@/lib/simulation", () => ({
-      SIMULATION_LIMITS: {
-        age: { min: 14, max: 100, default: 22 },
-        apache: { min: 0, max: 36, default: 12 },
-        vamTime: { min: 24, max: 700, default: 24 },
-        utiStay: { min: 0, max: 200, default: 24 },
-        preutiStay: { min: 0, max: 34, default: 10 },
-        simRuns: { min: 50, max: 100000, default: 200, step: 50 },
-        simPercent: { min: 0, max: 10, default: 3 },
-      },
-      PREUCI_DIAG: { 0: "Vacío", 1: "X" },
-      RESP_INSUF: { 0: "Vacío", 1: "Respiratorias" },
-      VENTILATION_TYPE: { 0: "Tubo" },
-      TIME_VARIABLE_LABELS: {
-        pre_vam: "pre",
-        vam: "vam",
-        post_vam: "post_vam",
-        uci: "uci",
-        post_uci: "post_uci",
-      },
-      generatePatientId: () => "TESTID",
-      runSimulation: async () => {
-        throw new Error(
-          "La solicitud de simulación ha excedido el tiempo de espera.",
-        );
-      },
-    }));
+    globalThis.fetch = mock(
+      async () =>
+        new Response("Gateway Timeout", {
+          status: 504,
+          statusText: "Gateway Timeout",
+        }),
+    ) as unknown as typeof fetch;
 
     try {
       const { default: SimulacionPage } = await import("@/app/simulation/page");
 
-      const { getByLabelText, getByRole } = render(<SimulacionPage />);
+      const { container } = render(<SimulacionPage />);
+
+      const diagIngresoSelect = container.querySelector("#diag-ing-1");
+      if (!diagIngresoSelect) throw new Error("diag-ing-1 select not found");
+
+      const respInsufSelect = container.querySelector("#resp-insuf");
+      if (!respInsufSelect) throw new Error("resp-insuf select not found");
 
       // Fill required fields so validation passes
-      fireEvent.change(getByLabelText(/Diag. Ingreso 1/), {
+      fireEvent.change(diagIngresoSelect, {
         target: { value: "1" },
       });
-      fireEvent.change(getByLabelText(/Insuf. Respiratoria/), {
+      fireEvent.change(respInsufSelect, {
         target: { value: "1" },
       });
 
+      const [simulateButton] = within(container).getAllByRole("button", {
+        name: /Realizar simulaci[oó]n/i,
+      });
+      if (!simulateButton) throw new Error("simulate button not found");
+
       await act(async () => {
-        fireEvent.click(
-          getByRole("button", { name: /Realizar simulaci[oó]n/i }),
-        );
+        fireEvent.click(simulateButton);
         // Allow promise microtasks to run
         await new Promise((r) => setTimeout(r, 0));
       });
 
-      expect(toastCalled).toBe(true);
+      expect(
+        within(container).getByText(/error en la simulación/i),
+      ).toBeTruthy();
     } finally {
       console.error = originalConsoleError;
     }

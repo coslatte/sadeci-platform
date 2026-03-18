@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useState } from "react";
-import { Divider } from "@/components/atoms/Divider";
 import {
   EXPERIMENT_VARIABLE_LABELS,
   runWilcoxonTest,
@@ -9,6 +8,8 @@ import {
   type StatisticalTestResult,
 } from "@/lib/statistics";
 import {
+  STATS_ERROR_COLUMN_NOT_FOUND_IN_FILE,
+  STATS_ERROR_COLUMN_NOT_FOUND_IN_FILES,
   STATS_RUN_WILCOXON,
   STATS_RUN_FRIEDMAN,
   STATS_ERROR_WILCOXON_EMPTY,
@@ -25,6 +26,11 @@ import { StatisticsTabPanel } from "./components/StatisticsTabPanel";
 import { StatisticsTabs } from "./components/StatisticsTabs";
 import type { ActiveStatisticsTab } from "./components/types";
 import { readCSVFile, extractNumericColumn, adjustArraySizes } from "./helpers";
+
+function formatAvailableColumns(csv: Record<string, string[]>): string {
+  const columns = Object.keys(csv).filter((column) => column.trim().length > 0);
+  return columns.length > 0 ? columns.join(", ") : "No se detectaron columnas";
+}
 
 export default function StatisticsPage() {
   const [activeTab, setActiveTab] = useState<ActiveStatisticsTab>("wilcoxon");
@@ -69,7 +75,19 @@ export default function StatisticsPage() {
       const col2 = extractNumericColumn(csv2, wxColumn);
 
       if (col1.length === 0 || col2.length === 0) {
-        setWxError(STATS_ERROR_PARSE);
+        const missingFileName = col1.length === 0 ? wxFile1.name : wxFile2.name;
+        const missingFileColumns =
+          col1.length === 0
+            ? formatAvailableColumns(csv1)
+            : formatAvailableColumns(csv2);
+
+        setWxError(
+          STATS_ERROR_COLUMN_NOT_FOUND_IN_FILE(
+            wxColumn,
+            missingFileName,
+            missingFileColumns,
+          ),
+        );
         return;
       }
 
@@ -109,7 +127,17 @@ export default function StatisticsPage() {
 
       const validColumns = columns.filter((col) => col.length > 0);
       if (validColumns.length < 3) {
-        setFmError(STATS_ERROR_PARSE);
+        const availableColumns = Array.from(
+          new Set(csvData.flatMap((csv) => Object.keys(csv))),
+        );
+        setFmError(
+          STATS_ERROR_COLUMN_NOT_FOUND_IN_FILES(
+            fmColumn,
+            availableColumns.length > 0
+              ? availableColumns.join(", ")
+              : "No se detectaron columnas",
+          ),
+        );
         return;
       }
 
@@ -132,7 +160,6 @@ export default function StatisticsPage() {
   return (
     <>
       <StatisticsPageHeader />
-      <Divider className="mb-6 border-slate-200/80" />
 
       <div className="flex flex-col gap-6">
         <StatisticsTabs activeTab={activeTab} onChange={setActiveTab} />

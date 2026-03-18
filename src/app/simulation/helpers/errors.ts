@@ -1,6 +1,11 @@
+import { SIMULATION_CANCELLED_MESSAGE } from "@/constants/constants";
+
 export function formatErrorForUser(err: unknown): string {
   if (err instanceof Error) {
     const msg = err.message || String(err);
+    if (msg.toLowerCase().includes("cancel")) {
+      return SIMULATION_CANCELLED_MESSAGE;
+    }
     // Abort / timeout
     if (
       msg.toLowerCase().includes("exced") ||
@@ -9,7 +14,7 @@ export function formatErrorForUser(err: unknown): string {
       return "La solicitud de simulación ha excedido el tiempo de espera.";
     }
     // Network / fetch failures
-    if ((err as Error).name === "TypeError") {
+    if (err.name === "TypeError") {
       return "No se pudo conectar con el servidor de simulación. Verifique su conexión e intente nuevamente.";
     }
     // HTTP status-based messages coming from runSimulation

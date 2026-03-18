@@ -4,8 +4,8 @@ export const EXPERIMENT_VARIABLE_LABELS: string[] = [
   "Tiempo Pre VAM",
   "Tiempo VAM",
   "Tiempo Post VAM",
-  "Estadia UCI",
-  "Estadia Post UCI",
+  "Estadía UCI",
+  "Estadía Post UCI",
 ];
 
 // ─── Shared result ─────────────────────────────────────────────────────────────

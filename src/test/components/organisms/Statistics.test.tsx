@@ -26,8 +26,8 @@ describe("statistics lib — EXPERIMENT_VARIABLE_LABELS", () => {
       "Tiempo Pre VAM",
       "Tiempo VAM",
       "Tiempo Post VAM",
-      "Estadia UCI",
-      "Estadia Post UCI",
+      "Estadía UCI",
+      "Estadía Post UCI",
     ];
     expected.forEach((label) => {
       expect(EXPERIMENT_VARIABLE_LABELS).toContain(label);
@@ -279,6 +279,15 @@ describe("parseCSV", () => {
     expect(result["Col1"]).toEqual(["1", "3"]);
     expect(result["Col2"]).toEqual(["2", "4"]);
   });
+
+  it("parses simulation-export CSV with BOM and sep header", () => {
+    const csv =
+      "\uFEFFsep=,\r\nEstadístico,Tiempo Pre VAM,Estadía UCI\r\nPromedio,10.50,20.00\r\nDesviación Estándar,2.00,5.00";
+    const result = parseCSV(csv);
+
+    expect(result["Tiempo Pre VAM"]).toEqual(["10.50", "2.00"]);
+    expect(result["Estadía UCI"]).toEqual(["20.00", "5.00"]);
+  });
 });
 
 describe("extractNumericColumn", () => {
@@ -296,6 +305,11 @@ describe("extractNumericColumn", () => {
   it("returns empty array for missing column", () => {
     const csv = { Other: ["10.5"] };
     expect(extractNumericColumn(csv, "Tiempo VAM")).toEqual([]);
+  });
+
+  it("matches headers despite accent differences", () => {
+    const csv = { "Estadía UCI": ["20.0", "18.5"] };
+    expect(extractNumericColumn(csv, "Estadia UCI")).toEqual([20, 18.5]);
   });
 });
 

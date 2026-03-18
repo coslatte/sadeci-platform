@@ -1,5 +1,5 @@
 import "../../setup";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it } from "bun:test";
 
 import { NumberInputField } from "@/components/molecules/NumberInputField";
@@ -31,7 +31,7 @@ describe("NumberInputField", () => {
   });
 
   it("does not focus input when label is clicked by default", () => {
-    const { getByLabelText, getByText } = render(
+    const { container } = render(
       <NumberInputField
         id="apache"
         label="APACHE"
@@ -42,8 +42,9 @@ describe("NumberInputField", () => {
       />,
     );
 
-    const input = getByLabelText("APACHE") as HTMLInputElement;
-    const label = getByText("APACHE");
+    const input = container.querySelector("#apache");
+    if (!input) throw new Error("apache input not found");
+    const label = within(container).getByText("APACHE");
 
     fireEvent.click(label);
 
@@ -52,7 +53,7 @@ describe("NumberInputField", () => {
 
   it("forwards numeric value on input change", () => {
     let received = 0;
-    const { getByLabelText } = render(
+    const { container } = render(
       <NumberInputField
         id="runs"
         label="Número de corridas"
@@ -65,7 +66,8 @@ describe("NumberInputField", () => {
       />,
     );
 
-    const input = getByLabelText("Número de corridas") as HTMLInputElement;
+    const input = container.querySelector("#runs");
+    if (!input) throw new Error("runs input not found");
     fireEvent.input(input, { target: { value: "450" } });
 
     expect(received).toBe(450);

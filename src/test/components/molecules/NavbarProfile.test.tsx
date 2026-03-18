@@ -1,5 +1,5 @@
 import "../../setup";
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render, within } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
@@ -22,9 +22,9 @@ mock.module("next/link", () => ({
 import { NavbarProfile } from "@/components/molecules/NavbarProfile";
 
 describe("NavbarProfile", () => {
-  it("opens user menu with settings and logout actions", () => {
+  it("opens user menu with settings and logout actions", async () => {
     const onLogout = mock(() => {});
-    const { getByRole } = render(
+    const { container } = render(
       <NavbarProfile
         userName="Eva Gómez"
         roleLabel="SESION ACTIVA"
@@ -33,18 +33,33 @@ describe("NavbarProfile", () => {
       />,
     );
 
-    const trigger = getByRole("button", { name: /ir a ajustes de perfil/i });
+    const scope = within(container);
+    const trigger = scope.getByRole("button", {
+      name: /ir a ajustes de perfil/i,
+    });
     fireEvent.click(trigger);
 
-    const settingsAction = getByRole("link", { name: /configuraciones/i });
+    await act(async () => {
+      fireEvent.mouseEnter(trigger);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    const bodyScope = within(document.body);
+    const settingsAction = bodyScope.getByRole("link", {
+      name: /configuraciones/i,
+    });
     expect(settingsAction).toBeTruthy();
     expect(settingsAction.getAttribute("href")).toBe("/settings");
 
-    const logoutAction = getByRole("button", { name: /cerrar sesión/i });
+    const logoutAction = bodyScope.getByRole("button", {
+      name: /cerrar sesión/i,
+    });
     fireEvent.click(logoutAction);
     expect(onLogout).toHaveBeenCalledTimes(1);
 
-    expect(getByRole("dialog").textContent).toContain("Eva Gómez");
-    expect(getByRole("dialog").textContent).toContain("SESION ACTIVA");
+    expect(bodyScope.getByRole("dialog").textContent).toContain("Eva Gómez");
+    expect(bodyScope.getByRole("dialog").textContent).toContain(
+      "SESION ACTIVA",
+    );
   });
 });
