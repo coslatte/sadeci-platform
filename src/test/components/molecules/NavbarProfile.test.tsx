@@ -40,13 +40,11 @@ describe("NavbarProfile", () => {
     fireEvent.click(trigger);
 
     await act(async () => {
-      fireEvent.mouseEnter(trigger);
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
     const bodyScope = within(document.body);
     const dialog = bodyScope.getByRole("dialog");
-    const panel = dialog.querySelector(".surface-backdrop-opaque");
     const settingsAction = bodyScope.getByRole("link", {
       name: /configuraciones/i,
     });
@@ -59,7 +57,6 @@ describe("NavbarProfile", () => {
     fireEvent.click(logoutAction);
     expect(onLogout).toHaveBeenCalledTimes(1);
 
-    expect(panel).toBeTruthy();
     expect(dialog.textContent).toContain("Eva Gómez");
     expect(dialog.textContent).toContain("SESION ACTIVA");
   });

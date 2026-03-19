@@ -214,7 +214,7 @@ export function Popover({
       role="dialog"
       aria-modal={false}
       className={cn(
-        "pointer-events-auto transform-gpu transition-[opacity,transform] duration-150 z-50",
+        "pointer-events-auto inline-block w-fit transform-gpu transition-[opacity,transform] duration-150 z-50",
         align === "left" &&
           (placement === "above" ? "origin-bottom-left" : "origin-top-left"),
         align === "center" &&
@@ -370,7 +370,15 @@ export function Popover({
 
       {(open || exiting) &&
         createPortal(
-          <div className="fixed inset-0 z-50 pointer-events-none overflow-visible">
+          <div
+            className="fixed inset-0 z-50 pointer-events-auto overflow-visible"
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) {
+                setPinnedByClick(false);
+                setExiting(true);
+              }
+            }}
+          >
             {content}
           </div>,
           document.body,

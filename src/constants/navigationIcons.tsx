@@ -5,8 +5,8 @@ import {
   FiSettings,
   FiUsers,
   FiLayout,
-  FiCpu,
 } from "react-icons/fi";
+import { RiBrain2Line } from "react-icons/ri";
 
 export type NavigationIconKey =
   | "home"
@@ -24,5 +24,5 @@ export const NAVIGATION_ICON_REGISTRY = {
   users: FiUsers,
   settings: FiSettings,
   admin: FiLayout,
-  prediction: FiCpu,
+  prediction: RiBrain2Line,
 } as const;

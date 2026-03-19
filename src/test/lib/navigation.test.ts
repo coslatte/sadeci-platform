@@ -1,8 +1,10 @@
 import "../setup";
 import { describe, expect, it } from "bun:test";
+import { RiBrain2Line } from "react-icons/ri";
 import {
   getBreadcrumbSegments,
   getRouteNameForPath,
+  getNavigationIcon,
   isRouteActive,
   resolveSidebarSections,
 } from "@/lib/navigation";
@@ -52,5 +54,11 @@ describe("navigation helpers", () => {
     expect(simulationItem?.current).toBeUndefined();
     expect(statisticsItem?.active).toBe(true);
     expect(statisticsItem?.current).toBe(true);
+  });
+
+  it("uses the brain icon for prediction navigation", () => {
+    const icon = getNavigationIcon("prediction");
+
+    expect(icon?.type).toBe(RiBrain2Line);
   });
 });

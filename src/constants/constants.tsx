@@ -291,6 +291,29 @@ export const PREDICTION_FEATURE_IMPORTANCE_TITLE =
   "Relevancia de las Características";
 export const PREDICTION_POSITIVE = "Positiva (aumenta probabilidad)";
 export const PREDICTION_NEGATIVE = "Negativa (disminuye probabilidad)";
+export const PREDICTION_MODEL_INFO_TITLE = "Modelos usados en esta pantalla";
+export const PREDICTION_MODEL_INFO_SUBTITLE =
+  "El flujo combina un modelo principal de predicción con varios métodos de explicabilidad para interpretar el resultado.";
+export const PREDICTION_MODEL_PRIMARY_BADGE = "Predicción";
+export const PREDICTION_MODEL_PRIMARY_TITLE = "Riesgo Mortalidad";
+export const PREDICTION_MODEL_PRIMARY_DESCRIPTION =
+  "Modelo MLP que estima la probabilidad de no supervivencia del paciente a partir de edad, diagnósticos y APACHE II.";
+export const PREDICTION_MODEL_LIME_BADGE = "Explicabilidad local";
+export const PREDICTION_MODEL_LIME_TITLE = "LIME";
+export const PREDICTION_MODEL_LIME_DESCRIPTION =
+  "Aproxima el comportamiento del modelo en un caso puntual para explicar por qué ese paciente recibió esa probabilidad.";
+export const PREDICTION_MODEL_SHAP_BADGE = "Atribución global";
+export const PREDICTION_MODEL_SHAP_TITLE = "SHAP";
+export const PREDICTION_MODEL_SHAP_DESCRIPTION =
+  "Mide cuánto aporta cada variable al resultado usando valores de Shapley y muestra contribuciones positivas o negativas.";
+export const PREDICTION_MODEL_IG_BADGE = "Gradiente";
+export const PREDICTION_MODEL_IG_TITLE = "Gradientes integrados";
+export const PREDICTION_MODEL_IG_DESCRIPTION =
+  "Calcula la sensibilidad del modelo a cambios en la entrada integrando gradientes a lo largo de un recorrido de referencia.";
+export const PREDICTION_MODEL_SALIENCY_BADGE = "Mapa de calor";
+export const PREDICTION_MODEL_SALIENCY_TITLE = "Mapas de saliencia";
+export const PREDICTION_MODEL_SALIENCY_DESCRIPTION =
+  "Resalta qué variables empujan más la salida del modelo según la intensidad de su influencia sobre la predicción.";
 
 // Backwards compatibility aliases (Spanish identifiers)
 export const PREDICCION_PAGE_TITLE = PREDICTION_PAGE_TITLE;

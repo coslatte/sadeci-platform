@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
+type FetchLike = (
+  input: RequestInfo | URL,
+  init?: RequestInit,
+) => Promise<Response>;
+
 function resolveCoreApiUrl(): string {
   const raw =
     process.env.API_URL ??
@@ -10,7 +15,17 @@ function resolveCoreApiUrl(): string {
 }
 
 const CORE_API_URL = resolveCoreApiUrl();
-const CORE_EXPLAIN_PATH = "/prediccion/explain";
+const CORE_EXPLAIN_PATHS = [
+  "/api/predictions/explain",
+  "/predictions/explain",
+  "/prediccion/explain",
+] as const;
+
+type ExplainAttempt = {
+  response: Response;
+  data: unknown;
+  url: string;
+};
 
 function getUpstreamErrorMessage(data: unknown): string | null {
   if (typeof data === "string" && data.trim().length > 0) return data;
@@ -43,7 +58,10 @@ function getUpstreamErrorMessage(data: unknown): string | null {
   return null;
 }
 
-export async function POST(req: NextRequest) {
+export async function handlePredictionExplainRequest(
+  req: NextRequest,
+  fetchImpl: FetchLike = fetch,
+) {
   let body: unknown;
   try {
     body = await req.json();
@@ -58,32 +76,49 @@ export async function POST(req: NextRequest) {
   const timeout = setTimeout(() => controller.abort(), 30_000);
 
   try {
-    const upstream = await fetch(`${CORE_API_URL}${CORE_EXPLAIN_PATH}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
+    let lastNotFound: ExplainAttempt | null = null;
 
-    const contentType = upstream.headers.get("content-type") ?? "";
-    const data: unknown = contentType.includes("application/json")
-      ? await upstream.json()
-      : { error: await upstream.text() };
+    for (const path of CORE_EXPLAIN_PATHS) {
+      const url = `${CORE_API_URL}${path}`;
+      const response = await fetchImpl(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
 
-    if (upstream.status === 404) {
+      const contentType = response.headers.get("content-type") ?? "";
+      const data: unknown = contentType.includes("application/json")
+        ? await response.json()
+        : { error: await response.text() };
+
+      if (response.status === 404) {
+        lastNotFound = { response, data, url };
+        continue;
+      }
+
+      return NextResponse.json(data, { status: response.status });
+    }
+
+    if (lastNotFound) {
       return NextResponse.json(
         {
           error:
             "El backend activo no expone el endpoint /prediccion/explain. Verifica que saduci-core esté actualizado y desplegado con la versión compatible para explicabilidad.",
-          upstream_status: upstream.status,
-          upstream_url: `${CORE_API_URL}${CORE_EXPLAIN_PATH}`,
-          upstream_error: getUpstreamErrorMessage(data),
+          upstream_status: lastNotFound.response.status,
+          upstream_url: lastNotFound.url,
+          upstream_error: getUpstreamErrorMessage(lastNotFound.data),
         },
         { status: 502 },
       );
     }
 
-    return NextResponse.json(data, { status: upstream.status });
+    return NextResponse.json(
+      {
+        error: "No se pudo conectar con el servidor de explicabilidad.",
+      },
+      { status: 502 },
+    );
   } catch (err) {
     const isTimeout = err instanceof Error && err.name === "AbortError";
     return NextResponse.json(
@@ -97,4 +132,8 @@ export async function POST(req: NextRequest) {
   } finally {
     clearTimeout(timeout);
   }
+}
+
+export async function POST(req: NextRequest) {
+  return handlePredictionExplainRequest(req);
 }
