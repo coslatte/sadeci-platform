@@ -3,6 +3,7 @@
 import "../../setup";
 import { render } from "@testing-library/react";
 import { describe, expect, it, mock } from "bun:test";
+import { LOGIN_EMAIL_PLACEHOLDER, LOGIN_PROMPT } from "@/constants/constants";
 
 type ImageMockProps = {
   src: string;
@@ -52,5 +53,18 @@ describe("LoginPage", () => {
 
     expect(heroWrapper).toBeTruthy();
     expect(container.querySelector("img")).toBeTruthy();
+  });
+
+  it("renders generic login copy without admin-specific wording", () => {
+    const { container, getByText } = render(<LoginPage />);
+
+    expect(getByText(LOGIN_PROMPT)).toBeTruthy();
+    expect(container.textContent?.includes("administrador")).toBe(false);
+
+    const identifierInput = container.querySelector("#login-identifier");
+
+    expect(identifierInput?.getAttribute("placeholder")).toBe(
+      LOGIN_EMAIL_PLACEHOLDER,
+    );
   });
 });

@@ -9,16 +9,16 @@ export const LOGIN_DEFAULT_EMAIL = "";
 // used for authentication in production; prefer environment variables or config.
 export const LOGIN_DEFAULT_PASSWORD = "";
 
-export const LOGIN_PROMPT = "Inicie sesión con su usuario administrador";
+export const LOGIN_PROMPT = "Inicie sesión para acceder a la plataforma";
 export const LOGIN_BUTTON = "Iniciar sesión";
 export const LOGIN_ERROR_MSG =
   "No se pudo iniciar sesión. Verifique sus credenciales.";
 export const LOGIN_EMAIL_LABEL = "Usuario o correo electrónico";
-export const LOGIN_EMAIL_PLACEHOLDER = "admin o admin@saduci.com";
+export const LOGIN_EMAIL_PLACEHOLDER = "usuario@saduci.com";
 export const LOGIN_PASSWORD_LABEL = "Contraseña";
 export const LOGIN_PASSWORD_PLACEHOLDER = "••••••••";
 export const LOGIN_HELP_TEXT =
-  "El acceso depende del backend de saduci-core activo.";
+  "El acceso depende de las credenciales válidas de saduci-core.";
 
 // Simulation page
 export const SIMULATION_PAGE_TITLE = "Simulación de Paciente UCI";
