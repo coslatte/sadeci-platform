@@ -2,14 +2,18 @@
 
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { SidebarCollapseToggle } from "@/components/organisms/sidebar/SidebarCollapseToggle";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { SidebarSection } from "@/components/organisms/sidebar/SidebarSection";
 import {
   APP_NAVIGATION_SECTIONS,
   resolveSidebarSections,
   type NavigationSectionConfig,
 } from "@/lib/navigation";
+import {
+  SIDEBAR_COLLAPSE_COLLAPSE,
+  SIDEBAR_COLLAPSE_EXPAND,
+} from "@/constants/constants";
+import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   sections?: NavigationSectionConfig[];
@@ -62,30 +66,46 @@ export function Sidebar({
         className,
       )}
     >
-      <nav
+      <div
         className={cn(
-          "flex-1 overflow-x-hidden overflow-y-auto p-3 no-underline transition-opacity duration-300 ease-out",
+          "relative flex-1 overflow-x-hidden overflow-y-auto px-3 py-8 no-underline transition-opacity duration-300 ease-out",
           effectiveCollapsed && "opacity-0 pointer-events-none",
         )}
-        aria-label="Sidebar navigation"
       >
-        <div className="flex flex-col gap-6">
-          {sections.map((section) => (
-            <SidebarSection
-              key={section.title}
-              title={section.title}
-              items={section.items}
-              collapsed={effectiveCollapsed}
-              suppressLayoutAnimations={suppressLayoutAnimations}
-            />
-          ))}
-        </div>
-      </nav>
+        <button
+          type="button"
+          onClick={handleToggle}
+          className={cn(
+            "absolute left-0 top-1/2 -translate-y-1/2 z-50 flex h-10 w-4 items-center justify-center rounded-r-md border border-l-0 border-slate-200 bg-slate-50 text-slate-400 transition-all duration-200 hover:border-primary-500 hover:text-primary-500 hover:shadow-primary-500/20 hover:shadow-sm focus:outline-none",
+            !effectiveCollapsed && "bg-primary-500/10 hover:bg-primary-500/20",
+          )}
+          aria-label={
+            effectiveCollapsed
+              ? SIDEBAR_COLLAPSE_EXPAND
+              : SIDEBAR_COLLAPSE_COLLAPSE
+          }
+        >
+          {effectiveCollapsed ? (
+            <FiChevronRight className="size-3" />
+          ) : (
+            <FiChevronLeft className="size-3" />
+          )}
+        </button>
 
-      <SidebarCollapseToggle
-        collapsed={effectiveCollapsed}
-        onToggleCollapse={handleToggle}
-      />
+        <nav className="pl-3" aria-label="Sidebar navigation">
+          <div className="flex flex-col gap-6">
+            {sections.map((section) => (
+              <SidebarSection
+                key={section.title}
+                title={section.title}
+                items={section.items}
+                collapsed={effectiveCollapsed}
+                suppressLayoutAnimations={suppressLayoutAnimations}
+              />
+            ))}
+          </div>
+        </nav>
+      </div>
     </aside>
   );
 }

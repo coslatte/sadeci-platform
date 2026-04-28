@@ -11,9 +11,7 @@ function resolveCoreApiUrl(): string {
 
 const CORE_API_URL = resolveCoreApiUrl();
 const PREDICTION_ENDPOINTS = [
-  `${CORE_API_URL}/api/predictions`,
   `${CORE_API_URL}/prediction`,
-  `${CORE_API_URL}/prediccion`,
   "http://localhost:8002/predictions",
 ];
 

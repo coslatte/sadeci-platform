@@ -20,6 +20,26 @@ export const LOGIN_PASSWORD_PLACEHOLDER = "••••••••";
 export const LOGIN_HELP_TEXT =
   "El acceso depende de las credenciales válidas de saduci-core.";
 
+// Register
+export const REGISTER_TITLE = "Crear cuenta";
+export const REGISTER_PROMPT = "Regístrate para acceder a la plataforma";
+export const REGISTER_BUTTON = "Crear cuenta";
+export const REGISTER_SUCCESS = "Usuario creado correctamente. Ya puedes iniciar sesión.";
+export const REGISTER_ERROR_MSG =
+  "No se pudo completar el registro. Verifica los datos.";
+export const REGISTER_EMAIL_LABEL = "Correo electrónico";
+export const REGISTER_EMAIL_PLACEHOLDER = "correo@ejemplo.com";
+export const REGISTER_USERNAME_LABEL = "Nombre de usuario";
+export const REGISTER_USERNAME_PLACEHOLDER = "usuario";
+export const REGISTER_PASSWORD_LABEL = "Contraseña";
+export const REGISTER_PASSWORD_PLACEHOLDER = "••••••••";
+export const REGISTER_CONFIRM_PASSWORD_LABEL = "Confirmar contraseña";
+export const REGISTER_CONFIRM_PASSWORD_PLACEHOLDER = "••••••••";
+export const REGISTER_HAVE_ACCOUNT = "¿Ya tienes una cuenta?";
+export const REGISTER_LOGIN_LINK = "Iniciar sesión";
+export const REGISTER_NO_ACCOUNT = "¿No tienes una cuenta?";
+export const REGISTER_SIGNUP_LINK = "Regístrate";
+
 // Simulation page
 export const SIMULATION_PAGE_TITLE = "Simulación de Paciente UCI";
 export const SIMULATION_PAGE_SUBTITLE =

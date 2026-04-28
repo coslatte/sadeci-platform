@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
+* {
+  --color-primary-500: #14b8a6;
+}
+
 @theme {
-  --color-primary-50: var(--color-teal-50);
-  --color-primary-100: var(--color-teal-100);
-  --color-primary-200: var(--color-teal-200);
-  --color-primary-300: var(--color-teal-300);
-  --color-primary-400: var(--color-teal-400);
-  --color-primary-500: var(--color-teal-500);
-  --color-primary-600: var(--color-teal-600);
-  --color-primary-700: var(--color-teal-700);
-  --color-primary-800: var(--color-teal-800);
-  --color-primary-900: var(--color-teal-900);
-  --color-primary-950: var(--color-teal-950);
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #115e59;
+  --color-primary-900: #134e4a;
+  --color-primary-950: #042f2e;
 
   --color-secondary-50: var(--color-sky-50);
   --color-secondary-100: var(--color-sky-100);
@@ -36,6 +40,16 @@
 }
 
 @layer base {
+  ::selection {
+    background-color: #14b8a6 !important;
+    color: white !important;
+  }
+
+  *::selection {
+    background-color: #14b8a6 !important;
+    color: white !important;
+  }
+
   a {
     text-decoration: none;
   }

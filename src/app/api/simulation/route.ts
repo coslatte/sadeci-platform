@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const upstream = await fetch(`${CORE_API_URL}/simulation`, {
+    const upstream = await fetch(`${CORE_API_URL}/sim`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

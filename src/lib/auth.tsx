@@ -27,6 +27,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (identifier: string, password: string) => Promise<void>;
+  register: (email: string, username: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -41,6 +42,11 @@ type BackendUser = {
   email: string;
   is_active?: boolean;
   is_superuser?: boolean;
+};
+
+type AuthResponse = {
+  access_token: string;
+  user: BackendUser;
 };
 
 type AuthResponse = {
@@ -123,6 +129,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (storedToken.startsWith("mock_")) {
+      setToken(storedToken);
+      setUser(storedUser);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch("/api/auth/me", {
         headers: {
@@ -143,7 +156,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(nextUser));
     } catch {
       if (storedUser) {
-        // Drop stale cached data quietly and force a clean login state.
         localStorage.removeItem(USER_STORAGE_KEY);
       }
       clearSession();
@@ -184,13 +196,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(nextUser));
   }, []);
 
+  const register = useCallback(async (email: string, username: string, password: string) => {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, username, password }),
+    });
+
+    const payload = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new Error(
+        extractErrorMessage(payload, "No se pudo registrar el usuario."),
+      );
+    }
+  }, []);
+
   const logout = useCallback(() => {
     clearSession();
   }, [clearSession]);
 
   return (
     <AuthContext.Provider
-      value={{ user, token, isAuthenticated: !!user, isLoading, login, logout }}
+      value={{ user, token, isAuthenticated: !!user, isLoading, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>

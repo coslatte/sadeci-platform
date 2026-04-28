@@ -11,32 +11,23 @@ function resolveCoreApiUrl(): string {
 
 const CORE_API_URL = resolveCoreApiUrl();
 
-export async function GET(req: NextRequest) {
-  const authHeader = req.headers.get("authorization") ?? "";
+export async function POST(req: NextRequest) {
+  let body: unknown;
 
-  if (!authHeader) {
+  try {
+    body = await req.json();
+  } catch {
     return NextResponse.json(
-      { detail: "Credenciales de autenticación no enviadas." },
-      { status: 401 },
+      { error: "Cuerpo de la solicitud inválido." },
+      { status: 400 },
     );
   }
 
-  if (authHeader.startsWith("Bearer mock_")) {
-    return NextResponse.json({
-      id: 999,
-      username: "dev_user",
-      email: "dev@saduci.com",
-      is_active: true,
-      is_superuser: true,
-    });
-  }
-
   try {
-    const upstream = await fetch(`${CORE_API_URL}/auth/me`, {
-      method: "GET",
-      headers: {
-        Authorization: authHeader,
-      },
+    const upstream = await fetch(`${CORE_API_URL}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
       signal: req.signal,
     });
 
@@ -51,8 +42,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         error: isAborted
-          ? "La validación de la sesión tardó demasiado en responder."
-          : "No se pudo conectar con el servicio de autenticación.",
+          ? "El servicio de registro tardó demasiado en responder."
+          : "No se pudo conectar con el servicio de registro.",
       },
       { status: isAborted ? 504 : 502 },
     );
