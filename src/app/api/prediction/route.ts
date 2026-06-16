@@ -12,6 +12,7 @@ function resolveCoreApiUrl(): string {
 const CORE_API_URL = resolveCoreApiUrl();
 const PREDICTION_ENDPOINTS = [
   `${CORE_API_URL}/prediction`,
+  `${CORE_API_URL}/api/predictions`,
   "http://localhost:8002/predictions",
 ];
 
@@ -65,7 +66,7 @@ export async function handlePredictionRequest(
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15_000);
+  const timeout = setTimeout(() => controller.abort(), 30_000);
 
   try {
     let lastStatus = 502;

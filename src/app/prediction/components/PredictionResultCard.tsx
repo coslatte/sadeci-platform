@@ -1,9 +1,4 @@
 import { cn } from "@/lib/utils";
-import {
-  PREDICTION_RESULT_TITLE,
-  PREDICTION_PATIENT_SURVIVES,
-  PREDICTION_PATIENT_DIES,
-} from "@/constants/constants";
 
 interface PredictionResultCardProps {
   probability: number;
@@ -25,7 +20,7 @@ export function PredictionResultCard({
       className="flex flex-col gap-4"
     >
       <h2 id="prediction-result-title" className="font-semibold text-zinc-800">
-        {PREDICTION_RESULT_TITLE}
+        "Probabilidad de No Supervivencia"
       </h2>
       <div className="flex flex-col items-center gap-3 py-2">
         <p
@@ -42,7 +37,7 @@ export function PredictionResultCard({
             dies ? "text-red-500" : "text-emerald-500",
           )}
         >
-          {dies ? PREDICTION_PATIENT_DIES : PREDICTION_PATIENT_SURVIVES}
+          {dies ? "Paciente fallece" : "Paciente no fallece"}
         </p>
         <div className="w-full max-w-sm">
           <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-100">

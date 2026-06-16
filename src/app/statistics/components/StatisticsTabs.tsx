@@ -1,8 +1,3 @@
-import {
-  FRIEDMAN_SECTION_TITLE,
-  STATS_TABLIST_LABEL,
-  WILCOXON_SECTION_TITLE,
-} from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import type { ActiveStatisticsTab } from "./types";
 
@@ -20,7 +15,7 @@ export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
     <div
       className="flex overflow-x-auto border-b border-slate-200 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       role="tablist"
-      aria-label={STATS_TABLIST_LABEL}
+      aria-label="Pruebas estadísticas"
     >
       <button
         role="tab"
@@ -36,7 +31,7 @@ export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
         )}
         onClick={() => onChange("wilcoxon")}
       >
-        {WILCOXON_SECTION_TITLE}
+        Test de Wilcoxon
       </button>
       <button
         role="tab"
@@ -52,7 +47,7 @@ export function StatisticsTabs({ activeTab, onChange }: StatisticsTabsProps) {
         )}
         onClick={() => onChange("friedman")}
       >
-        {FRIEDMAN_SECTION_TITLE}
+        Test de Friedman
       </button>
     </div>
   );

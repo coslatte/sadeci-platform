@@ -3,11 +3,6 @@ import { FiRefreshCw } from "react-icons/fi";
 import { Button } from "@/components/atoms/Buttons";
 import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
-import {
-  ID_PATIENT_LABEL,
-  NEW_PATIENT_BUTTON,
-  SIMULATION_PATIENT_SECTION_TITLE,
-} from "@/constants/constants";
 
 interface SimulationPatientSectionProps {
   patientId: string;
@@ -30,7 +25,7 @@ export function SimulationPatientSection({
     <section className="flex flex-col gap-4 p-5 bg-white border rounded-2xl border-slate-200">
       <div className="flex items-center justify-between">
         <h2 className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
-          {SIMULATION_PATIENT_SECTION_TITLE}
+          {"Datos del Paciente"}
         </h2>
         <span className="font-mono text-(length:--font-size-xs) uppercase text-slate-700">
           ID: {patientId}
@@ -39,7 +34,7 @@ export function SimulationPatientSection({
 
       <div className="flex flex-col items-end gap-4 md:flex-row">
         <div className="w-full md:w-1/3 flex flex-col gap-1.5">
-          <Label htmlFor="patient-id">{ID_PATIENT_LABEL}</Label>
+          <Label htmlFor="patient-id">{"ID Paciente"}</Label>
           <Input
             id="patient-id"
             value={patientId}
@@ -58,7 +53,7 @@ export function SimulationPatientSection({
           aria-label="Generar nuevo ID de paciente"
         >
           <FiRefreshCw className="size-4" />
-          {NEW_PATIENT_BUTTON}
+          {"Nuevo paciente"}
         </Button>
       </div>
     </section>

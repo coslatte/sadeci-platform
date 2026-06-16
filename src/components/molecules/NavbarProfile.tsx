@@ -3,11 +3,6 @@
 import Link from "next/link";
 import { Avatar } from "@/components/atoms/Avatar";
 import { Text } from "@/components/atoms/Text";
-import {
-  NAVBAR_MENU_LOGOUT,
-  NAVBAR_MENU_SETTINGS,
-  NAVBAR_PROFILE_SETTINGS,
-} from "@/constants/constants";
 import { cn } from "@/lib/utils";
 import { Popover } from "./Popover";
 
@@ -50,54 +45,89 @@ export function NavbarProfile({
   roleLabel,
   href,
   onLogout,
-  ariaLabel = NAVBAR_PROFILE_SETTINGS,
+  ariaLabel = "Ir a ajustes de perfil",
   className,
 }: NavbarProfileProps) {
   return (
     <Popover
       align="right"
+      openOnHover
+      closeOnSelect
       trigger={
         <button
           type="button"
           aria-label={ariaLabel}
           className={cn(
-            "group flex min-w-0 items-center rounded-full p-1 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300",
+            "group flex h-full pr-2 m-2 items-center border border-transparent bg-transparent transition-all duration-200 hover:border-slate-200 hover:bg-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 pl-2 gap-2 rounded-xl",
             className,
           )}
         >
-          <Avatar
-            src={userAvatar}
-            name={userName}
-            alt={`Perfil de ${userName}`}
-            size="sm"
-          />
+          <div className="transition-transform duration-200 group-hover:scale-110 group-hover:rotate-3 group-active:scale-95">
+            <Avatar
+              src={userAvatar}
+              name={userName}
+              alt={`Perfil de ${userName}`}
+              size="md"
+            />
+          </div>
+          <div className="flex-col items-start hidden min-w-0 text-left sm:flex">
+            <Text
+              as="span"
+              size="sm"
+              weight="semibold"
+              className="truncate text-slate-900"
+            >
+              {userName}
+            </Text>
+            <Text as="span" size="xs" className="truncate text-slate-500">
+              {roleLabel}
+            </Text>
+          </div>
         </button>
       }
     >
-      <div className="w-64 p-2 bg-white border shadow-lg rounded-xl border-slate-200">
-        <div className="px-3 py-2 border-b border-slate-200">
-          <Text as="p" size="sm" weight="semibold" className="text-slate-900">
-            {userName}
-          </Text>
-          <Text as="p" size="xs" className="text-slate-500">
-            {roleLabel}
-          </Text>
+      <div className="w-84 overflow-hidden rounded-[1.35rem] border border-slate-200 bg-white shadow-xl">
+        <div className="p-4 border-b border-slate-200/80">
+          <div className="flex items-center gap-4">
+            <Avatar
+              src={userAvatar}
+              name={userName}
+              alt={`Perfil de ${userName}`}
+              size="xl"
+              className="shadow-lg"
+            />
+            <div className="min-w-0">
+              <Text
+                as="p"
+                size="base"
+                weight="semibold"
+                className="truncate text-slate-900"
+              >
+                {userName}
+              </Text>
+              <Text as="p" size="sm" className="truncate text-slate-500">
+                {roleLabel}
+              </Text>
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-1 px-1 py-2">
+        <div className="flex flex-col gap-1 px-2 py-2 text-center">
           <Link
             href={href}
-            className="w-full px-3 py-2 text-sm font-medium text-left transition-colors rounded-md text-slate-700 hover:bg-slate-100"
+            className="w-full px-3 py-2 text-sm font-medium text-center transition-colors rounded-xl text-slate-700 hover:bg-slate-100"
           >
-            {NAVBAR_MENU_SETTINGS}
+            {"Ajuste"}
           </Link>
 
           <button
             type="button"
-            onClick={onLogout}
-            className="w-full px-3 py-2 text-sm font-medium text-left text-red-600 transition-colors rounded-md hover:bg-red-50"
+            onClick={() => {
+              onLogout?.();
+            }}
+            className="w-full px-3 py-2 text-sm font-medium text-center text-red-600 transition-colors rounded-xl hover:bg-red-100 hover:text-red-900"
           >
-            {NAVBAR_MENU_LOGOUT}
+            {"Cerrar Sesión"}
           </button>
         </div>
       </div>

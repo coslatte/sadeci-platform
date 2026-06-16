@@ -1,133 +1,55 @@
-import type { IconType } from "react-icons";
 import { FiActivity, FiBarChart2, FiEye, FiShield } from "react-icons/fi";
 import { RiBrain2Line } from "react-icons/ri";
-import { cn } from "@/lib/utils";
-import {
-  PREDICTION_MODEL_INFO_TITLE,
-  PREDICTION_MODEL_INFO_SUBTITLE,
-  PREDICTION_MODEL_PRIMARY_BADGE,
-  PREDICTION_MODEL_PRIMARY_TITLE,
-  PREDICTION_MODEL_PRIMARY_DESCRIPTION,
-  PREDICTION_MODEL_LIME_BADGE,
-  PREDICTION_MODEL_LIME_TITLE,
-  PREDICTION_MODEL_LIME_DESCRIPTION,
-  PREDICTION_MODEL_SHAP_BADGE,
-  PREDICTION_MODEL_SHAP_TITLE,
-  PREDICTION_MODEL_SHAP_DESCRIPTION,
-  PREDICTION_MODEL_IG_BADGE,
-  PREDICTION_MODEL_IG_TITLE,
-  PREDICTION_MODEL_IG_DESCRIPTION,
-  PREDICTION_MODEL_SALIENCY_BADGE,
-  PREDICTION_MODEL_SALIENCY_TITLE,
-  PREDICTION_MODEL_SALIENCY_DESCRIPTION,
-} from "@/constants/constants";
+import { Text } from "@/components/atoms/Text";
 
-type ModelCardTone = "primary" | "accent" | "neutral";
-
-interface ModelInfoCard {
-  badge: string;
-  title: string;
-  description: string;
-  tone: ModelCardTone;
-  Icon: IconType;
-}
-
-const MODEL_INFO_CARDS: ModelInfoCard[] = [
+const methodHints = [
+  { method: "Predicción", info: "Riesgo mortalidad", icon: RiBrain2Line },
+  { method: "LIME", info: "Explicabilidad local", icon: FiEye },
+  { method: "SHAP", info: "Atribución global", icon: FiBarChart2 },
   {
-    badge: PREDICTION_MODEL_PRIMARY_BADGE,
-    title: PREDICTION_MODEL_PRIMARY_TITLE,
-    description: PREDICTION_MODEL_PRIMARY_DESCRIPTION,
-    tone: "primary",
-    Icon: RiBrain2Line,
+    method: "Gradientes Integrados",
+    info: "Sensibilidad por gradiente",
+    icon: FiActivity,
   },
-  {
-    badge: PREDICTION_MODEL_LIME_BADGE,
-    title: PREDICTION_MODEL_LIME_TITLE,
-    description: PREDICTION_MODEL_LIME_DESCRIPTION,
-    tone: "accent",
-    Icon: FiEye,
-  },
-  {
-    badge: PREDICTION_MODEL_SHAP_BADGE,
-    title: PREDICTION_MODEL_SHAP_TITLE,
-    description: PREDICTION_MODEL_SHAP_DESCRIPTION,
-    tone: "neutral",
-    Icon: FiBarChart2,
-  },
-  {
-    badge: PREDICTION_MODEL_IG_BADGE,
-    title: PREDICTION_MODEL_IG_TITLE,
-    description: PREDICTION_MODEL_IG_DESCRIPTION,
-    tone: "accent",
-    Icon: FiActivity,
-  },
-  {
-    badge: PREDICTION_MODEL_SALIENCY_BADGE,
-    title: PREDICTION_MODEL_SALIENCY_TITLE,
-    description: PREDICTION_MODEL_SALIENCY_DESCRIPTION,
-    tone: "neutral",
-    Icon: FiShield,
-  },
+  { method: "Mapas de Saliencia", info: "Mapa de calor", icon: FiShield },
 ];
 
-const TONE_CLASSES: Record<ModelCardTone, string> = {
-  primary: "bg-indigo-100 text-indigo-700",
-  accent: "bg-emerald-100 text-emerald-700",
-  neutral: "bg-slate-100 text-slate-700",
-};
-
-/**
- * Shows a compact guide to the prediction model and explanation methods.
- *
- * Props:
- * - None.
- *
- * Example:
- * - <PredictionModelInfo />
- */
 export function PredictionModelInfo() {
   return (
-    <section
-      aria-labelledby="prediction-model-info-title"
-      className="flex flex-col gap-4"
-    >
+    <section className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <h2
-          id="prediction-model-info-title"
-          className="font-semibold text-zinc-800"
-        >
-          {PREDICTION_MODEL_INFO_TITLE}
-        </h2>
-        <p className="text-sm text-zinc-500">
-          {PREDICTION_MODEL_INFO_SUBTITLE}
-        </p>
+        <Text as="h2" size="base" weight="semibold" className="text-zinc-800">
+          "Modelos usados en esta pantalla"
+        </Text>
+        <Text as="p" size="sm" className="text-zinc-500">
+          "El flujo combina un modelo principal de predicción con varios métodos
+          de explicabilidad para interpretar el resultado."
+        </Text>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        {MODEL_INFO_CARDS.map(({ badge, title, description, tone, Icon }) => (
-          <article
-            key={title}
-            className="flex flex-col h-full gap-3 p-4 border rounded-lg shadow-sm border-slate-200 bg-slate-50"
+      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+        {methodHints.map(({ method, info, icon: Icon }) => (
+          <div
+            key={method}
+            className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3 py-2"
           >
-            <div className="flex items-start justify-between gap-3">
-              <div
-                className={cn(
-                  "flex h-11 w-11 items-center justify-center rounded-xl",
-                  TONE_CLASSES[tone],
-                )}
-              >
-                <Icon aria-hidden="true" className="w-5 h-5" />
-              </div>
-              <span className="rounded-xl border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-                {badge}
+            <div className="flex items-center gap-2">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm">
+                <Icon className="size-4" />
               </span>
+              <Text
+                as="span"
+                size="sm"
+                weight="semibold"
+                className="text-slate-800"
+              >
+                {method}
+              </Text>
             </div>
-
-            <div className="flex flex-col gap-1">
-              <h3 className="font-semibold text-zinc-800">{title}</h3>
-              <p className="text-sm leading-6 text-zinc-600">{description}</p>
-            </div>
-          </article>
+            <Text as="span" size="xs" className="text-slate-500">
+              {info}
+            </Text>
+          </div>
         ))}
       </div>
     </section>

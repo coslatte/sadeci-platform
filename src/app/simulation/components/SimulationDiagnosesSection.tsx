@@ -1,16 +1,6 @@
 import AccessibleSelect from "@/components/atoms/AccessibleSelect";
 import { Label } from "@/components/atoms/Label";
-import {
-  DIAGNOSES_TITLE,
-  HELP_DIAG_DISCHARGE,
-  HELP_DIAG_ING,
-  HELP_RESP_INSUF,
-  HELP_VENT_TYPE,
-  SIMULATION_DIAG_DISCHARGE_LABEL,
-  SIMULATION_DIAG_ING_LABEL,
-  SIMULATION_RESP_INSUF_LABEL,
-  SIMULATION_VENT_TYPE_LABEL,
-} from "@/constants/constants";
+
 import { diagData, respInsufData, ventTypeData } from "../helpers";
 
 interface SimulationDiagnosesSectionProps {
@@ -85,68 +75,82 @@ export function SimulationDiagnosesSection({
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-5">
       <p className="mb-4 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
-        {DIAGNOSES_TITLE}
+        {"Diagnósticos de Ingreso y Egreso"}
       </p>
 
       <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2 lg:grid-cols-4">
         <SelectField
           id="diag-ing-1"
-          label={SIMULATION_DIAG_ING_LABEL(1)}
+          label={`Diag. Ingreso ${1}`}
           value={diagIng1}
           onChange={setDiagIng1}
           options={diagData()}
-          help={HELP_DIAG_ING}
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
         />
         <SelectField
           id="diag-ing-2"
-          label={SIMULATION_DIAG_ING_LABEL(2)}
+          label={`Diag. Ingreso ${2}`}
           value={diagIng2}
           onChange={setDiagIng2}
           options={diagData()}
-          help={HELP_DIAG_ING}
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
         />
         <SelectField
           id="diag-ing-3"
-          label={SIMULATION_DIAG_ING_LABEL(3)}
+          label={`Diag. Ingreso ${3}`}
           value={diagIng3}
           onChange={setDiagIng3}
           options={diagData()}
-          help={HELP_DIAG_ING}
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
         />
         <SelectField
           id="diag-ing-4"
-          label={SIMULATION_DIAG_ING_LABEL(4)}
+          label={`Diag. Ingreso ${4}`}
           value={diagIng4}
           onChange={setDiagIng4}
           options={diagData()}
-          help={HELP_DIAG_ING}
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
         />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <SelectField
           id="resp-insuf"
-          label={SIMULATION_RESP_INSUF_LABEL}
+          label={"Insuf. Respiratoria"}
           value={respInsuf}
           onChange={setRespInsuf}
           options={respInsufData()}
-          help={HELP_RESP_INSUF}
+          help={
+            "Clasificación del tipo de insuficiencia respiratoria presente en el paciente."
+          }
         />
         <SelectField
           id="vent-type"
-          label={SIMULATION_VENT_TYPE_LABEL}
+          label={"Ventilación Artificial"}
           value={ventType}
           onChange={setVentType}
           options={ventTypeData()}
-          help={HELP_VENT_TYPE}
+          help={
+            "Tipo de soporte de ventilación mecánica aplicado durante la atención del paciente."
+          }
         />
         <SelectField
           id="diag-egreso-2"
-          label={SIMULATION_DIAG_DISCHARGE_LABEL}
+          label={"Diagnóstico Egreso 2"}
           value={diagEgreso2}
           onChange={setDiagEgreso2}
           options={diagData()}
-          help={HELP_DIAG_DISCHARGE}
+          help={
+            "Diagnóstico clínico al egreso del paciente. Se usa para contextualizar la evolución y el desenlace."
+          }
         />
       </div>
     </section>

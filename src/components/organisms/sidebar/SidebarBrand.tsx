@@ -1,5 +1,5 @@
 import { Text } from "@/components/atoms/Text";
-import { SIDEBAR_BRAND_FULL } from "@/constants/constants";
+
 import { cn } from "@/lib/utils";
 
 interface SidebarBrandProps {
@@ -28,7 +28,7 @@ export function SidebarBrand({ collapsed }: SidebarBrandProps) {
           tracking="tight"
           className="block truncate text-slate-900"
         >
-          {SIDEBAR_BRAND_FULL}
+          {"Saduci Platform"}
         </Text>
       </div>
     </div>

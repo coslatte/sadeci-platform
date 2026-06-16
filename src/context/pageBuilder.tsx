@@ -149,8 +149,9 @@ export function PageBuilderProvider({ children }: { children: ReactNode }) {
       const tmp = sorted[idx].order;
       sorted[idx].order = sorted[swapIdx].order;
       sorted[swapIdx].order = tmp;
+      const reordered = sorted.map((b, i) => ({ ...b, order: i }));
       const updated = await pageConfigService.updatePage(pageId, {
-        blocks: sorted,
+        blocks: reordered,
       });
       setPages((prev) => prev.map((p) => (p.id === pageId ? updated : p)));
     },

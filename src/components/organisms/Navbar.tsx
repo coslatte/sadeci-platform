@@ -3,12 +3,7 @@
 import { usePathname } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
 import { cn, dataDisabledProps } from "@/lib/utils";
-import {
-  NAVBAR_OPEN_NAVIGATION,
-  NAV_BRAND_SHORT,
-  NAVBAR_PROFILE_SETTINGS,
-  SIDEBAR_USER_STATUS,
-} from "@/constants/constants";
+import { NAVBAR_OPEN_NAVIGATION, NAV_BRAND_SHORT } from "@/constants/constants";
 import { NavBreadcrumb, NavbarProfile } from "@/components/molecules";
 import { getBreadcrumbSegments, getRouteNameForPath } from "@/lib/navigation";
 import { routes } from "@/lib/routes";
@@ -58,17 +53,17 @@ export function Navbar({
   const currentPage = getRouteNameForPath(detectedPath) ?? NAV_BRAND_SHORT;
   const breadcrumbSegments = getBreadcrumbSegments(detectedPath);
   const showProfile = typeof userName === "string" && userName.length > 0;
-  const roleLabel = (userRole || SIDEBAR_USER_STATUS).toUpperCase();
+  const roleLabel = userRole || "Sesión activa";
 
   return (
     <header
       {...dataDisabledProps(disabled)}
       className={cn(
-        "sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-200/80 bg-white/75 px-3 supports-backdrop-filter:bg-white/80 surface-backdrop-full sm:px-4 lg:px-8",
+        "flex h-16 shrink-0 items-center justify-between gap-2 border-b border-slate-200/80 bg-white/75 pl-3 pr-0 supports-backdrop-filter:bg-white/80 surface-backdrop-full sm:pl-4 lg:pl-8",
         className,
       )}
     >
-      <div className="flex min-w-0 items-center gap-2">
+      <div className="flex items-center min-w-0">
         {showSidebarTrigger && (
           <button
             type="button"
@@ -76,7 +71,7 @@ export function Navbar({
             aria-label={NAVBAR_OPEN_NAVIGATION}
             aria-expanded={sidebarOpen}
             aria-controls="app-shell-sidebar-mobile"
-            className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 lg:hidden"
+            className="inline-flex items-center justify-center transition-colors bg-white border shadow-sm size-10 shrink-0 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-200 lg:hidden"
           >
             <FiMenu className="size-5" />
           </button>
@@ -91,14 +86,14 @@ export function Navbar({
       </div>
 
       {showProfile && (
-        <div className="ml-2 flex min-w-0 items-center gap-2 sm:ml-4">
+        <div className="flex items-center h-full">
           <NavbarProfile
             userName={userName}
             userAvatar={userAvatar}
             roleLabel={roleLabel}
             href={routes.settings}
             onLogout={onLogout}
-            ariaLabel={NAVBAR_PROFILE_SETTINGS}
+            ariaLabel="Ir a ajustes de perfil"
           />
         </div>
       )}

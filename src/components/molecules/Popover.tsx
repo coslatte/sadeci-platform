@@ -328,6 +328,7 @@ export function Popover({
     function onTriggerEnter() {
       openPopover();
       clearHoverCloseTimeout();
+      setPinnedByClick(true);
     }
 
     function onTriggerLeave() {

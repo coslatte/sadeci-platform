@@ -23,12 +23,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30_000);
+
   try {
     const upstream = await fetch(`${CORE_API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-      signal: req.signal,
+      signal: controller.signal,
     });
 
     const contentType = upstream.headers.get("content-type") ?? "";
@@ -47,5 +50,7 @@ export async function POST(req: NextRequest) {
       },
       { status: isAborted ? 504 : 502 },
     );
+  } finally {
+    clearTimeout(timeout);
   }
 }

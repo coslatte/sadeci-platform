@@ -1,6 +1,5 @@
 import { PREDICTION_LIMITS } from "@/lib/prediction";
 import { PREUCI_DIAG } from "@/lib/simulation";
-import { PREDICTION_DIAGNOSIS_OPTION_LABEL } from "@/constants/constants";
 
 export interface DiagnosisOption {
   value: string;
@@ -14,7 +13,9 @@ export function buildIndexOptions(min: number, max: number): DiagnosisOption[] {
 
     return {
       value: String(index),
-      label: PREDICTION_DIAGNOSIS_OPTION_LABEL(index, diagnosisLabel),
+      label: diagnosisLabel
+        ? `${index} — ${diagnosisLabel}`
+        : `Código ${index}`,
     };
   });
 }

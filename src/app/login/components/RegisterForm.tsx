@@ -8,21 +8,6 @@ import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
 import { Text } from "@/components/atoms/Text";
 import { Alert } from "@/components/molecules/Alert";
-import {
-  REGISTER_TITLE,
-  REGISTER_PROMPT,
-  REGISTER_BUTTON,
-  REGISTER_ERROR_MSG,
-  REGISTER_EMAIL_LABEL,
-  REGISTER_EMAIL_PLACEHOLDER,
-  REGISTER_USERNAME_LABEL,
-  REGISTER_USERNAME_PLACEHOLDER,
-  REGISTER_PASSWORD_LABEL,
-  REGISTER_PASSWORD_PLACEHOLDER,
-  REGISTER_CONFIRM_PASSWORD_LABEL,
-  REGISTER_CONFIRM_PASSWORD_PLACEHOLDER,
-  ALERT_ERROR_TITLE,
-} from "@/constants/constants";
 
 interface RegisterFormProps {
   onSwitchToLogin: () => void;
@@ -59,7 +44,9 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
       setSuccess(true);
     } catch (submitError) {
       setError(
-        submitError instanceof Error ? submitError.message : REGISTER_ERROR_MSG,
+        submitError instanceof Error
+          ? submitError.message
+          : "No se pudo completar el registro. Verifica los datos.",
       );
     } finally {
       setLoading(false);
@@ -110,22 +97,22 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
           tracking="tight"
           className="text-slate-900"
         >
-          {REGISTER_TITLE}
+          "Crear cuenta"
         </Text>
         <Text as="p" size="sm" muted className="mt-2">
-          {REGISTER_PROMPT}
+          "Regístrate para acceder a la plataforma"
         </Text>
       </div>
 
       {error && (
-        <Alert variant="danger" title={ALERT_ERROR_TITLE}>
+        <Alert variant="danger" title="Error">
           {error}
         </Alert>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="register-email">{REGISTER_EMAIL_LABEL}</Label>
+          <Label htmlFor="register-email">"Correo electrónico"</Label>
           <Input
             id="register-email"
             type="email"
@@ -133,14 +120,14 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setEmail(event.target.value)
             }
-            placeholder={REGISTER_EMAIL_PLACEHOLDER}
+            placeholder="correo@ejemplo.com"
             fullWidth
             autoFocus
             required
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="register-username">{REGISTER_USERNAME_LABEL}</Label>
+          <Label htmlFor="register-username">"Nombre de usuario"</Label>
           <Input
             id="register-username"
             type="text"
@@ -148,13 +135,13 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setUsername(event.target.value)
             }
-            placeholder={REGISTER_USERNAME_PLACEHOLDER}
+            placeholder="usuario"
             fullWidth
             required
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <Label htmlFor="register-password">{REGISTER_PASSWORD_LABEL}</Label>
+          <Label htmlFor="register-password">"Contraseña"</Label>
           <Input
             id="register-password"
             type="password"
@@ -162,14 +149,14 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setPassword(event.target.value)
             }
-            placeholder={REGISTER_PASSWORD_PLACEHOLDER}
+            placeholder="••••••••"
             fullWidth
             required
           />
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="register-confirm-password">
-            {REGISTER_CONFIRM_PASSWORD_LABEL}
+            "Confirmar contraseña"
           </Label>
           <Input
             id="register-confirm-password"
@@ -178,7 +165,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setConfirmPassword(event.target.value)
             }
-            placeholder={REGISTER_CONFIRM_PASSWORD_PLACEHOLDER}
+            placeholder="••••••••"
             fullWidth
             required
           />
@@ -190,7 +177,7 @@ export default function RegisterForm({ onSwitchToLogin }: RegisterFormProps) {
           className="w-full"
           size="lg"
         >
-          {REGISTER_BUTTON}
+          "Crear cuenta"
         </Button>
       </form>
 

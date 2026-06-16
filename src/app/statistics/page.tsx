@@ -7,19 +7,7 @@ import {
   runFriedmanTest,
   type StatisticalTestResult,
 } from "@/lib/statistics";
-import {
-  STATS_ERROR_COLUMN_NOT_FOUND_IN_FILE,
-  STATS_ERROR_COLUMN_NOT_FOUND_IN_FILES,
-  STATS_RUN_WILCOXON,
-  STATS_RUN_FRIEDMAN,
-  STATS_ERROR_WILCOXON_EMPTY,
-  STATS_ERROR_MIN_SAMPLES_FRIEDMAN,
-  STATS_ERROR_PARSE,
-  STATS_WARNING_SIZE_ADJUSTED,
-  STATS_UPLOAD_EXPERIMENT_1,
-  STATS_UPLOAD_EXPERIMENT_2,
-  STATS_UPLOAD_EXPERIMENTS,
-} from "@/constants/constants";
+
 import { StatisticsPageHeader } from "./components/StatisticsPageHeader";
 import { WilcoxonSection, FriedmanSection } from "./components/StatTestSection";
 import { StatisticsTabPanel } from "./components/StatisticsTabPanel";
@@ -60,7 +48,9 @@ export default function StatisticsPage() {
     setWxResult(null);
 
     if (!wxFile1 || !wxFile2) {
-      setWxError(STATS_ERROR_WILCOXON_EMPTY);
+      setWxError(
+        "Debe proporcionar dos muestras con datos para realizar el test de Wilcoxon.",
+      );
       return;
     }
 
@@ -82,11 +72,7 @@ export default function StatisticsPage() {
             : formatAvailableColumns(csv2);
 
         setWxError(
-          STATS_ERROR_COLUMN_NOT_FOUND_IN_FILE(
-            wxColumn,
-            missingFileName,
-            missingFileColumns,
-          ),
+          `La columna "${wxColumn}" no existe en "${missingFileName}". Columnas detectadas: ${missingFileColumns}.`,
         );
         return;
       }
@@ -98,13 +84,19 @@ export default function StatisticsPage() {
         const { adjusted, minSize } = adjustArraySizes([col1, col2]);
         x = adjusted[0];
         y = adjusted[1];
-        setWxWarning(`${STATS_WARNING_SIZE_ADJUSTED} (${minSize} filas)`);
+        setWxWarning(
+          `Para realizar correctamente la prueba se ajustaron los tamaños de muestra. Todas las columnas quedaron con el mismo número de filas. (${minSize} filas)`,
+        );
       }
 
-      const result = await runWilcoxonTest({ x, y });
+      const result = await runWilcoxonTest({ sample_a: x, sample_b: y });
       setWxResult(result);
     } catch (err: unknown) {
-      setWxError(err instanceof Error ? err.message : STATS_ERROR_PARSE);
+      setWxError(
+        err instanceof Error
+          ? err.message
+          : "Error al procesar los archivos CSV.",
+      );
     } finally {
       setWxLoading(false);
     }
@@ -116,7 +108,9 @@ export default function StatisticsPage() {
     setFmResult(null);
 
     if (fmFiles.length < 3) {
-      setFmError(STATS_ERROR_MIN_SAMPLES_FRIEDMAN);
+      setFmError(
+        "Debe proporcionar al menos 3 muestras para realizar el test de Friedman.",
+      );
       return;
     }
 
@@ -131,12 +125,11 @@ export default function StatisticsPage() {
           new Set(csvData.flatMap((csv) => Object.keys(csv))),
         );
         setFmError(
-          STATS_ERROR_COLUMN_NOT_FOUND_IN_FILES(
-            fmColumn,
+          `La columna "${fmColumn}" no se encontró en suficientes archivos CSV. Columnas detectadas: ${
             availableColumns.length > 0
               ? availableColumns.join(", ")
-              : "No se detectaron columnas",
-          ),
+              : "No se detectaron columnas"
+          }.`,
         );
         return;
       }
@@ -145,13 +138,23 @@ export default function StatisticsPage() {
 
       const originalMin = Math.min(...validColumns.map((c) => c.length));
       if (originalMin !== minSize || validColumns.length < columns.length) {
-        setFmWarning(`${STATS_WARNING_SIZE_ADJUSTED} (${minSize} filas)`);
+        setFmWarning(
+          `Para realizar correctamente la prueba se ajustaron los tamaños de muestra. Todas las columnas quedaron con el mismo número de filas. (${minSize} filas)`,
+        );
       }
 
-      const result = await runFriedmanTest({ samples: adjusted });
+      const groups: Record<string, number[]> = {};
+      adjusted.forEach((arr, i) => {
+        groups[`group_${String.fromCharCode(97 + i)}`] = arr;
+      });
+      const result = await runFriedmanTest({ groups });
       setFmResult(result);
     } catch (err: unknown) {
-      setFmError(err instanceof Error ? err.message : STATS_ERROR_PARSE);
+      setFmError(
+        err instanceof Error
+          ? err.message
+          : "Error al procesar los archivos CSV.",
+      );
     } finally {
       setFmLoading(false);
     }
@@ -181,9 +184,9 @@ export default function StatisticsPage() {
             onFile2Change={setWxFile2}
             onColumnChange={setWxColumn}
             onRun={handleRunWilcoxon}
-            runLabel={STATS_RUN_WILCOXON}
-            uploadLabel1={STATS_UPLOAD_EXPERIMENT_1}
-            uploadLabel2={STATS_UPLOAD_EXPERIMENT_2}
+            runLabel="Realizar prueba de Wilcoxon"
+            uploadLabel1="Experimento 1 (CSV)"
+            uploadLabel2="Experimento 2 (CSV)"
           />
         </StatisticsTabPanel>
 
@@ -202,8 +205,8 @@ export default function StatisticsPage() {
             onFilesChange={setFmFiles}
             onColumnChange={setFmColumn}
             onRun={handleRunFriedman}
-            runLabel={STATS_RUN_FRIEDMAN}
-            uploadLabel={STATS_UPLOAD_EXPERIMENTS}
+            runLabel="Realizar prueba de Friedman"
+            uploadLabel="Experimentos (CSV)"
           />
         </StatisticsTabPanel>
       </div>

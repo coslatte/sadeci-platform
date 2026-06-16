@@ -1,4 +1,3 @@
-import { FIELD_HELP_ARIA_LABEL } from "@/constants/constants";
 import { cn } from "@/lib/utils";
 
 interface HelpTooltipButtonProps {
@@ -27,7 +26,7 @@ export function HelpTooltipButton({
   className,
   buttonClassName,
   tooltipClassName,
-  ariaLabel = FIELD_HELP_ARIA_LABEL,
+  ariaLabel = "Información de ayuda del campo",
 }: HelpTooltipButtonProps) {
   return (
     <div className={cn("group/help z-10", className)}>

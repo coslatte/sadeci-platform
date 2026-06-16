@@ -33,13 +33,15 @@ export function NavBreadcrumb({
         className,
       )}
     >
-      <Link
-        href="/"
-        className="max-w-28 truncate select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline sm:max-w-none"
-        aria-label={`Ir al inicio — ${brandName}`}
-      >
-        {brandName}
-      </Link>
+      {brandName && (
+        <Link
+          href="/"
+          className="max-w-28 truncate select-none transition-colors hover:text-slate-800 focus:outline-none focus-visible:underline sm:max-w-none"
+          aria-label={`Ir al inicio — ${brandName}`}
+        >
+          {brandName}
+        </Link>
+      )}
       {segments?.map((seg) => (
         <span key={seg.href} className="hidden md:contents">
           <span aria-hidden="true" className="text-slate-300">
@@ -53,9 +55,11 @@ export function NavBreadcrumb({
           </Link>
         </span>
       ))}
-      <span aria-hidden="true" className="text-slate-300">
-        /
-      </span>
+      {(brandName || (segments && segments.length > 0)) && (
+        <span aria-hidden="true" className="text-slate-300">
+          /
+        </span>
+      )}
       <span
         className="max-w-36 truncate font-semibold text-primary-700 sm:max-w-52 md:max-w-none"
         aria-current="page"

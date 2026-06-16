@@ -7,15 +7,6 @@ export const PREDICTION_LIMITS = {
   tiempoVam: { min: 18, max: 40, default: 30 },
 } as const;
 
-export const PREDICTION_FEATURE_NAMES = [
-  "Edad",
-  "Diag.Ing1",
-  "Diag.Ing2",
-  "Diag.Egr2",
-  "APACHE",
-  "TiempoVAM",
-] as const;
-
 export type ExplanationMethod =
   | "LIME"
   | "SHAP"
@@ -40,6 +31,10 @@ export interface PredictionRequest {
 
 export interface PredictionResponse {
   probability: number;
+  probability_percent: number;
+  predicted_class: number;
+  predicted_label: string;
+  threshold: number;
 }
 
 export interface ExplicacionRequest extends PredictionRequest {
@@ -49,6 +44,20 @@ export interface ExplicacionRequest extends PredictionRequest {
 export interface ExplicacionResponse {
   feature_names: string[];
   importances: number[];
+  probability: number;
+  predicted_class: number;
+  predicted_label: string;
+  rows: ExplicacionRow[];
+}
+
+export interface ExplicacionRow {
+  feature_key: string;
+  feature_name: string;
+  patient_value: number;
+  patient_value_display: string;
+  baseline_value: number;
+  contribution: number;
+  direction: "increase_risk" | "decrease_risk" | "neutral";
 }
 
 function extractErrorMessage(payload: unknown): string | null {
@@ -128,7 +137,9 @@ function isPredictionResponse(value: unknown): value is PredictionResponse {
     !!value &&
     typeof value === "object" &&
     "probability" in value &&
-    typeof value.probability === "number"
+    typeof value.probability === "number" &&
+    "predicted_label" in value &&
+    typeof value.predicted_label === "string"
   );
 }
 
@@ -139,7 +150,9 @@ function isExplicacionResponse(value: unknown): value is ExplicacionResponse {
     "feature_names" in value &&
     Array.isArray(value.feature_names) &&
     "importances" in value &&
-    Array.isArray(value.importances)
+    Array.isArray(value.importances) &&
+    "rows" in value &&
+    Array.isArray(value.rows)
   );
 }
 

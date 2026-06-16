@@ -2,7 +2,7 @@
 
 export const SIMULATION_LIMITS = {
   age: { min: 14, max: 100, default: 22 },
-  apache: { min: 0, max: 36, default: 12 },
+  apache: { min: 0, max: 70, default: 12 },
   vamTime: { min: 24, max: 700, default: 24 },
   utiStay: { min: 0, max: 200, default: 24 },
   preutiStay: { min: 0, max: 34, default: 10 },

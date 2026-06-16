@@ -59,7 +59,7 @@ export function Avatar({
       <div
         {...dataDisabledProps(disabled)}
         className={cn(
-          "relative overflow-hidden rounded-full bg-zinc-200 border-2 border-transparent transition-all duration-150 transform group-hover:border-primary-600 group-hover:ring-2 group-hover:ring-primary-100 group-hover:scale-100",
+          "relative overflow-hidden rounded-[1.15rem] bg-zinc-200 border border-slate-200 transition-all duration-150 shadow-md",
           sizeClass,
           className,
         )}
@@ -73,7 +73,7 @@ export function Avatar({
     <div
       {...dataDisabledProps(disabled)}
       className={cn(
-        "inline-flex items-center justify-center rounded-full hover:border-primary-800 bg-primary-500 font-semibold  text-primary-950 transition-all duration-250 transform group-hover:scale-110 border-2 border-transparent group-hover:border-primary-900",
+        "inline-flex items-center justify-center rounded-[1.15rem] border border-primary-200/50 bg-[linear-gradient(135deg,#0d9488,#ea580c)] font-semibold text-white shadow-sm animate-avatar-gradient transition-all duration-250",
         sizeClass,
         className,
       )}

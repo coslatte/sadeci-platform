@@ -11,24 +11,6 @@ import { Alert } from "@/components/molecules/Alert";
 import { FormField } from "@/components/molecules/FormField";
 import { useAuth, type User } from "@/lib/auth";
 import { FiShield, FiUser } from "react-icons/fi";
-import {
-  SETTINGS_PAGE_TITLE,
-  SETTINGS_PAGE_SUBTITLE,
-  SETTINGS_PROFILE_SECTION,
-  SETTINGS_SECURITY_SECTION,
-  SETTINGS_CURRENT_PWD_LABEL,
-  SETTINGS_NEW_PWD_LABEL,
-  SETTINGS_CONFIRM_PWD_LABEL,
-  SETTINGS_SAVE_BTN,
-  SETTINGS_SAVING_BTN,
-  SETTINGS_PWD_MIN_HINT,
-  SETTINGS_PWD_EMPTY,
-  SETTINGS_PWD_TOO_SHORT,
-  SETTINGS_PWD_MISMATCH,
-  SETTINGS_PWD_SUCCESS,
-  SETTINGS_PWD_ERROR,
-  SETTINGS_NET_ERROR,
-} from "@/constants/constants";
 
 interface UserSettingsPageContentProps {
   user: User;
@@ -39,6 +21,7 @@ export function UserSettingsPageContent({
   user,
   token,
 }: UserSettingsPageContentProps) {
+  const { updateUserAvatar } = useAuth();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -47,6 +30,18 @@ export function UserSettingsPageContent({
   const [loading, setLoading] = useState(false);
   const [newPwdError, setNewPwdError] = useState<string | undefined>();
   const [confirmPwdError, setConfirmPwdError] = useState<string | undefined>();
+  const [avatarPreview, setAvatarPreview] = useState<string | undefined>(
+    user.avatar,
+  );
+
+  function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const nextPreview = URL.createObjectURL(file);
+    setAvatarPreview(nextPreview);
+    updateUserAvatar(nextPreview);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -57,15 +52,15 @@ export function UserSettingsPageContent({
     let valid = true;
 
     if (!newPassword) {
-      setNewPwdError(SETTINGS_PWD_EMPTY);
+      setNewPwdError("Este campo es requerido.");
       valid = false;
     } else if (newPassword.length < 8) {
-      setNewPwdError(SETTINGS_PWD_TOO_SHORT);
+      setNewPwdError("La contraseña debe tener al menos 8 caracteres.");
       valid = false;
     }
 
     if (!confirmPassword || newPassword !== confirmPassword) {
-      setConfirmPwdError(SETTINGS_PWD_MISMATCH);
+      setConfirmPwdError("Las contraseñas no coinciden.");
       valid = false;
     }
 
@@ -75,7 +70,7 @@ export function UserSettingsPageContent({
 
     try {
       if (!token) {
-        throw new Error(SETTINGS_NET_ERROR);
+        throw new Error("Error de red al cambiar la contraseña.");
       }
 
       const res = await fetch("/api/user/change-password", {
@@ -90,17 +85,17 @@ export function UserSettingsPageContent({
       const data = await res.json();
       if (res.ok) {
         setIsSuccess(true);
-        setMessage(data.message || SETTINGS_PWD_SUCCESS);
+        setMessage(data.message || "Contraseña actualizada correctamente.");
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
       } else {
         setIsSuccess(false);
-        setMessage(data.message || SETTINGS_PWD_ERROR);
+        setMessage(data.message || "Error al actualizar la contraseña.");
       }
     } catch {
       setIsSuccess(false);
-      setMessage(SETTINGS_NET_ERROR);
+      setMessage("Error de red al cambiar la contraseña.");
     } finally {
       setLoading(false);
     }
@@ -108,57 +103,73 @@ export function UserSettingsPageContent({
 
   return (
     <main className="p-0">
-      <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-col gap-3 mb-6 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <Text as="h1" size="2xl" weight="semibold" className="text-zinc-900">
-            {SETTINGS_PAGE_TITLE}
+            Ajustes de usuario
           </Text>
           <Text as="p" size="sm" muted className="mt-1">
-            {SETTINGS_PAGE_SUBTITLE}
+            Gestiona tu perfil y configuración de seguridad.
           </Text>
         </div>
       </div>
 
       <Divider className="mb-6 border-slate-200/80" />
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="md:col-span-1 flex flex-col gap-4 border-b border-slate-100 pb-6 md:border-b-0 md:border-r md:pr-6">
-          <div className="flex items-center gap-2 text-zinc-700">
+      <div className="flex flex-col gap-6">
+        <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-6">
+          <div className="flex items-center gap-2 text-zinc-700 mb-6">
             <FiUser size={14} />
             <Text as="span" size="sm" weight="medium" className="text-zinc-700">
-              {SETTINGS_PROFILE_SECTION}
+              Perfil
             </Text>
           </div>
-          <div className="flex flex-col items-center text-center gap-4 py-2">
-            <Avatar name={user.name} size="xl" />
-            <div>
+          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:justify-center">
+            <div className="flex flex-col items-center gap-3">
+              <Avatar
+                src={avatarPreview}
+                name={user.name}
+                size="xl"
+                className="shadow-xl size-20"
+              />
+              <label className="inline-flex cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-100">
+                Editar imagen
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleAvatarChange}
+                />
+              </label>
+            </div>
+            <div className="flex flex-col items-center gap-1 sm:items-start">
               <Text
                 as="p"
-                size="base"
+                size="xl"
                 weight="semibold"
                 className="leading-tight text-zinc-900"
               >
                 {user.name}
               </Text>
-              <Text as="p" size="sm" muted className="mt-0.5">
+              <Text as="p" size="sm" muted className="">
                 {user.email}
               </Text>
+              <Badge status="info" className="mt-1">{user.role}</Badge>
             </div>
-            <Badge status="info">{user.role}</Badge>
           </div>
         </div>
 
-        <div className="md:col-span-2 flex flex-col gap-4">
+        <div className="rounded-2xl border border-slate-100 bg-white p-4">
           <div className="flex items-center gap-2 text-zinc-700">
             <FiShield size={14} />
             <Text as="span" size="sm" weight="medium" className="text-zinc-700">
-              {SETTINGS_SECURITY_SECTION}
+              Seguridad de la cuenta
             </Text>
           </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <FormField
               id="current-password"
-              label={SETTINGS_CURRENT_PWD_LABEL}
+              label="Contraseña actual"
               inputProps={{
                 type: "password",
                 value: currentPassword,
@@ -172,8 +183,8 @@ export function UserSettingsPageContent({
 
             <FormField
               id="new-password"
-              label={SETTINGS_NEW_PWD_LABEL}
-              hint={SETTINGS_PWD_MIN_HINT}
+              label="Nueva contraseña"
+              hint="Mínimo 8 caracteres"
               error={newPwdError}
               inputProps={{
                 type: "password",
@@ -186,7 +197,7 @@ export function UserSettingsPageContent({
 
             <FormField
               id="confirm-password"
-              label={SETTINGS_CONFIRM_PWD_LABEL}
+              label="Confirmar nueva contraseña"
               error={confirmPwdError}
               inputProps={{
                 type: "password",
@@ -203,19 +214,20 @@ export function UserSettingsPageContent({
               </Alert>
             )}
 
-            <div className="flex justify-stretch pt-1 sm:justify-end">
+            <div className="flex pt-1 justify-stretch sm:justify-end">
               <Button
                 type="submit"
                 disabled={loading}
+                variant="glass"
                 className="w-full sm:w-auto"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">
                     <Spinner size="sm" />
-                    {SETTINGS_SAVING_BTN}
+                    Guardando...
                   </span>
                 ) : (
-                  SETTINGS_SAVE_BTN
+                  "Guardar cambios"
                 )}
               </Button>
             </div>

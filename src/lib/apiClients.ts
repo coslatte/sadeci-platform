@@ -7,7 +7,7 @@ function getStoredToken(): string | null {
 
 export async function apiClient<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   const token = getStoredToken();
 
@@ -33,14 +33,16 @@ export async function apiClient<T>(
 }
 
 export async function getUsers() {
-  return apiClient<Array<{
-    id: number;
-    username: string;
-    email: string;
-    is_active: boolean;
-    is_superuser: boolean;
-    created_at: string;
-  }>>("/admin/users", { method: "GET" });
+  return apiClient<
+    Array<{
+      id: number;
+      username: string;
+      email: string;
+      is_active: boolean;
+      is_superuser: boolean;
+      created_at: string;
+    }>
+  >("/admin/users", { method: "GET" });
 }
 
 export async function createUser(data: {
@@ -55,13 +57,12 @@ export async function createUser(data: {
     {
       method: "POST",
       body: JSON.stringify(data),
-    }
+    },
   );
 }
 
 export async function deleteUser(userId: number) {
-  return apiClient<{ message: string }>(
-    `/admin/users?id=${userId}`,
-    { method: "DELETE" }
-  );
+  return apiClient<{ message: string }>(`/admin/users?id=${userId}`, {
+    method: "DELETE",
+  });
 }

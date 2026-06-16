@@ -17,12 +17,7 @@ import {
   formatErrorForUser,
   downloadSimulationCSV,
 } from "./helpers/index";
-import {
-  ERROR_SIMULATION_TITLE,
-  SIMULATION_CANCELLED_MESSAGE,
-  VALIDATION_MISSING_DIAG,
-  VALIDATION_SELECT_RESP,
-} from "@/constants/constants";
+
 import { sileo } from "sileo";
 
 const LONG_SIMULATION_THRESHOLD = 10_000;
@@ -142,10 +137,14 @@ export default function SimulacionPage() {
 
     const validationErrors = validateSimulationInput(payload);
     if ([diagIng1, diagIng2, diagIng3, diagIng4].every((d) => d === 0)) {
-      validationErrors.unshift(VALIDATION_MISSING_DIAG);
+      validationErrors.unshift(
+        "Todos los diagnósticos de ingreso están vacíos. Incluya al menos uno para la simulación.",
+      );
     }
     if (respInsuf === 0) {
-      validationErrors.unshift(VALIDATION_SELECT_RESP);
+      validationErrors.unshift(
+        "Seleccione un tipo de Insuficiencia Respiratoria.",
+      );
     }
 
     if (validationErrors.length > 0) {
@@ -188,7 +187,7 @@ export default function SimulacionPage() {
     if (!loading || !simulationController.current || cancelOnCooldown) return;
 
     simulationController.current.abort();
-    setError(SIMULATION_CANCELLED_MESSAGE);
+    setError("La simulación fue cancelada por el usuario.");
     setCancelCooldownEndsAt(Date.now() + CANCEL_COOLDOWN_MS);
   }
 
@@ -246,10 +245,12 @@ export default function SimulacionPage() {
         />
 
         {error && (
-          <Alert variant="danger" title={ERROR_SIMULATION_TITLE}>
-            {error.split("\n").map((line, i) => (
-              <div key={i}>{line.trim()}</div>
-            ))}
+          <Alert variant="danger" title={"Error en la simulación"}>
+            {error
+              .split("\n")
+              .map((line, i) =>
+                line.trim() ? <div key={i}>{line.trim()}</div> : null,
+              )}
           </Alert>
         )}
 

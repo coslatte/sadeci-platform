@@ -3,22 +3,7 @@ import { FiClock, FiPlay, FiXCircle } from "react-icons/fi";
 import { Button } from "@/components/atoms/Buttons";
 import { Alert } from "@/components/molecules/Alert";
 import { NumberInputField } from "@/components/molecules/NumberInputField";
-import {
-  HELP_SIM_RUNS,
-  RUNS_LABEL,
-  SIMULATION_CANCEL_BUTTON,
-  SIMULATION_CANCEL_COOLDOWN_LABEL,
-  SIMULATE_BUTTON,
-  SIMULATION_CONFIG_TITLE,
-  SIMULATION_LONG_RUN_WARNING_DESCRIPTION,
-  SIMULATION_LONG_RUN_WARNING_TITLE,
-  SIMULATION_PROGRESS_ELAPSED_PREFIX,
-  SIMULATION_PROGRESS_ESTIMATED_PREFIX,
-  SIMULATION_PROGRESS_PERCENT_PREFIX,
-  SIMULATION_PROGRESS_RUNNING,
-  SIMULATION_PROGRESS_TITLE,
-  runsRangeText,
-} from "@/constants/constants";
+
 import { SIMULATION_LIMITS } from "@/lib/simulation";
 
 interface SimulationRunConfigurationProps {
@@ -62,48 +47,49 @@ export function SimulationRunConfiguration({
   return (
     <section className="flex flex-col gap-6 p-5 bg-white border rounded-2xl border-slate-200">
       <h2 className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
-        {SIMULATION_CONFIG_TITLE}
+        {"Configuración de Simulación"}
       </h2>
 
       <div className="flex flex-col items-center justify-between gap-6">
         <div className="w-full md:w-1/3 flex flex-col gap-1.5">
           <NumberInputField
             id="sim-runs"
-            label={RUNS_LABEL}
+            label={"Corridas de la Simulación"}
             min={SIMULATION_LIMITS.simRuns.min}
             max={SIMULATION_LIMITS.simRuns.max}
             step={SIMULATION_LIMITS.simRuns.step}
             value={simRuns}
             onChange={setSimRuns}
-            help={HELP_SIM_RUNS}
+            help={
+              "Cantidad de corridas de la simulación. Un número mayor mejora la precisión pero incrementa el tiempo de procesamiento. Se recomienda 200 corridas como punto de partida."
+            }
             labelClassName="text-center md:text-left"
             fullWidth
           />
           <p className="text-(length:--font-size-xs) text-slate-700 text-center md:text-left">
-            {runsRangeText(
-              SIMULATION_LIMITS.simRuns.min,
-              SIMULATION_LIMITS.simRuns.max,
-            )}
+            {`Mínimo ${SIMULATION_LIMITS.simRuns.min} — máximo ${SIMULATION_LIMITS.simRuns.max.toLocaleString()} iteraciones`}
           </p>
         </div>
 
         {showLongRunWarning && (
           <Alert
             variant="warning"
-            title={SIMULATION_LONG_RUN_WARNING_TITLE}
+            title={"Simulación extensa detectada"}
             className="w-full md:w-1/3"
           >
-            {SIMULATION_LONG_RUN_WARNING_DESCRIPTION}
+            {
+              "Más de 10,000 iteraciones pueden tardar varios minutos. La simulación continuará hasta completar el proceso."
+            }
           </Alert>
         )}
 
         {loading && (
           <section className="w-full md:w-1/3 rounded-xl border border-slate-200 bg-slate-50 p-3">
             <p className="text-(length:--font-size-xs) font-semibold uppercase tracking-wide text-slate-600">
-              {SIMULATION_PROGRESS_TITLE}
+              {"Progreso de simulación"}
             </p>
             <p className="mt-1 text-(length:--font-size-sm) text-slate-700">
-              {SIMULATION_PROGRESS_RUNNING}
+              {"Ejecutando simulación, por favor espere..."}
             </p>
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200">
               <div
@@ -116,16 +102,13 @@ export function SimulationRunConfiguration({
             </div>
             <div className="mt-2 grid grid-cols-1 gap-1 text-(length:--font-size-xs) text-slate-600">
               <p>
-                {SIMULATION_PROGRESS_ELAPSED_PREFIX}{" "}
-                {formatDuration(elapsedSeconds)}
+                {"Transcurrido:"} {formatDuration(elapsedSeconds)}
               </p>
               <p>
-                {SIMULATION_PROGRESS_ESTIMATED_PREFIX}{" "}
-                {formatDuration(estimatedSeconds)}
+                {"Estimado:"} {formatDuration(estimatedSeconds)}
               </p>
               <p>
-                {SIMULATION_PROGRESS_PERCENT_PREFIX}{" "}
-                {Math.round(estimatedProgressPercent)}%
+                {"Avance estimado:"} {Math.round(estimatedProgressPercent)}%
               </p>
             </div>
           </section>
@@ -141,13 +124,13 @@ export function SimulationRunConfiguration({
             variant="glass"
           >
             <FiPlay className="size-4" />
-            {SIMULATE_BUTTON}
+            {"Realizar Simulación"}
           </Button>
           {loading && (
             <Button
               onClick={onCancel}
               size="lg"
-              aria-label={SIMULATION_CANCEL_BUTTON}
+              aria-label={"Cancelar simulación"}
               className="w-full"
               variant="danger"
               disabled={cancelOnCooldown}
@@ -158,8 +141,8 @@ export function SimulationRunConfiguration({
                 <FiXCircle className="size-4" />
               )}
               {cancelOnCooldown
-                ? SIMULATION_CANCEL_COOLDOWN_LABEL(cancelCooldownSeconds)
-                : SIMULATION_CANCEL_BUTTON}
+                ? `Enfriamiento activo: ${cancelCooldownSeconds}s`
+                : "Cancelar simulación"}
             </Button>
           )}
         </div>

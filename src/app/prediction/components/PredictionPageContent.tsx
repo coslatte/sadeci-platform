@@ -7,7 +7,6 @@ import { Stack } from "@/components/layout/Stack";
 import { PredictionForm } from "./PredictionForm";
 import { PredictionResultCard } from "./PredictionResultCard";
 import { ExplicacionPanel } from "./ExplicacionPanel";
-import { PredictionModelInfo } from "./PredictionModelInfo";
 import {
   EXPLANATION_METHODS,
   PREDICTION_LIMITS,
@@ -17,12 +16,6 @@ import {
   type ExplanationMethod,
   type PredictionResponse,
 } from "@/lib/prediction";
-import {
-  PREDICTION_ERROR_TITLE,
-  PREDICTION_PAGE_SUBTITLE,
-  PREDICTION_PAGE_TITLE,
-  PREDICTION_RESULT_EMPTY_STATE,
-} from "@/constants/constants";
 
 /**
  * Renders the complete prediction workflow, including patient inputs,
@@ -118,19 +111,16 @@ export function PredictionPageContent() {
     <Stack space="lg" className="pb-1">
       <div>
         <Text as="h1" size="xl" weight="bold" className="text-zinc-900">
-          {PREDICTION_PAGE_TITLE}
+          "Predicción de No Supervivencia"
         </Text>
         <Text size="sm" className="mt-1 text-zinc-500">
-          {PREDICTION_PAGE_SUBTITLE}
+          "Herramienta de apoyo en la predicción de no supervivencia de
+          pacientes en UCI."
         </Text>
       </div>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5">
-        <PredictionModelInfo />
-      </section>
-
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-        <section className="border rounded-2xl border-slate-200 bg-white p-5">
+      <div className="flex flex-col gap-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
           <PredictionForm
             edad={edad}
             setEdad={setEdad}
@@ -149,9 +139,9 @@ export function PredictionPageContent() {
           />
         </section>
 
-        <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="rounded-2xl border border-slate-200 bg-white p-5">
           {predictError && (
-            <Alert variant="danger" title={PREDICTION_ERROR_TITLE}>
+            <Alert variant="danger" title="Error en la predicción">
               {predictError}
             </Alert>
           )}
@@ -160,7 +150,7 @@ export function PredictionPageContent() {
             <PredictionResultCard probability={prediction.probability} />
           ) : (
             <div className="flex h-full min-h-44 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-center text-(length:--font-size-sm) text-slate-500">
-              {PREDICTION_RESULT_EMPTY_STATE}
+              "Realice una predicción para visualizar el resultado del modelo."
             </div>
           )}
         </section>

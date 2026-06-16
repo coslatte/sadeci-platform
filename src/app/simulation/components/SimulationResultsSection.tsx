@@ -2,18 +2,7 @@ import { FiChevronLeft, FiChevronRight, FiDownload } from "react-icons/fi";
 import { Badge } from "@/components/atoms/Badge";
 import { Button } from "@/components/atoms/Buttons";
 import { Skeleton } from "@/components/atoms/Skeleton";
-import {
-  DOWNLOAD_CSV,
-  MODEL_PREDICTION_TITLE,
-  PATIENT_DIES,
-  PATIENT_SURVIVES,
-  PROB_DIE_PREFIX,
-  SIMULATION_PAGINATION_NEXT,
-  SIMULATION_PAGINATION_PREVIOUS,
-  SIMULATION_RESULTS_PAGE_SUMMARY,
-  SIMULATION_RESULTS_RUN_HISTORY,
-  SIMULATION_RESULTS_TITLE,
-} from "@/constants/constants";
+import { PATIENT_DIES, PATIENT_SURVIVES } from "@/constants/constants";
 import type { SimulationResponse } from "@/lib/simulation";
 import { SimulationResultTable } from "./SimulationResultTable";
 
@@ -60,7 +49,7 @@ export function SimulationResultsSection({
           <Skeleton className="h-4 w-48" />
         ) : (
           <h2 className="text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
-            {SIMULATION_RESULTS_TITLE}
+            {"Resultados de la Simulación"}
           </h2>
         )}
         {showSkeleton ? (
@@ -74,7 +63,7 @@ export function SimulationResultsSection({
             className="w-full sm:w-auto"
           >
             <FiDownload className="size-4" />
-            {DOWNLOAD_CSV}
+            {"Descargar CSV"}
           </Button>
         )}
       </div>
@@ -95,10 +84,10 @@ export function SimulationResultsSection({
           <>
             <div className="flex flex-col">
               <span className="text-(length:--font-size-xs) font-semibold uppercase tracking-wide text-slate-500">
-                {SIMULATION_RESULTS_RUN_HISTORY}
+                {"Historial de ejecuciones"}
               </span>
               <span className="text-(length:--font-size-sm) text-slate-700">
-                {SIMULATION_RESULTS_PAGE_SUMMARY(currentRun, totalRuns)}
+                {`Ejecución ${currentRun} de ${totalRuns}`}
               </span>
             </div>
             <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
@@ -107,21 +96,21 @@ export function SimulationResultsSection({
                 size="sm"
                 disabled={!canGoPrevious}
                 onClick={() => onActiveIndexChange(activeIndex - 1)}
-                aria-label={SIMULATION_PAGINATION_PREVIOUS}
+                aria-label={"Anterior"}
                 className="w-full sm:w-auto"
               >
                 <FiChevronLeft className="size-4" />
-                {SIMULATION_PAGINATION_PREVIOUS}
+                {"Anterior"}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 disabled={!canGoNext}
                 onClick={() => onActiveIndexChange(activeIndex + 1)}
-                aria-label={SIMULATION_PAGINATION_NEXT}
+                aria-label={"Siguiente"}
                 className="w-full sm:w-auto"
               >
-                {SIMULATION_PAGINATION_NEXT}
+                {"Siguiente"}
                 <FiChevronRight className="size-4" />
               </Button>
             </div>
@@ -165,14 +154,14 @@ export function SimulationResultsSection({
       ) : (
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
           <p className="mb-2 text-(length:--font-size-sm) font-semibold uppercase tracking-widest text-slate-700">
-            {MODEL_PREDICTION_TITLE}
+            {"Predicción del modelo"}
           </p>
           <div className="flex items-center gap-3">
             <Badge status={patientSurvives ? "success" : "danger"}>
               {patientSurvives ? PATIENT_SURVIVES : PATIENT_DIES}
             </Badge>
             <span className="text-(length:--font-size-sm) text-slate-600">
-              {PROB_DIE_PREFIX}
+              {"Probabilidad de fallecer: "}
               <strong>
                 {(currentResult.prediction.probability * 100).toFixed(0)}%
               </strong>

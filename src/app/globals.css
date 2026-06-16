@@ -41,12 +41,12 @@
 
 @layer base {
   ::selection {
-    background-color: #14b8a6 !important;
+    background-color: #1e293b !important;
     color: white !important;
   }
 
   *::selection {
-    background-color: #14b8a6 !important;
+    background-color: #1e293b !important;
     color: white !important;
   }
 
@@ -99,6 +99,25 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes avatarGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-avatar-gradient {
+  background-size: 200% 200%;
+  animation: avatarGradient 4s ease infinite;
 }
 
 [data-disabled="true"] {
@@ -205,6 +224,11 @@ input[type="number"] {
     opacity: var(--surface-noise-opacity-strong);
   }
 
+  @keyframes glassShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
   /* Reusable modern button glassmorphism style with subtle grain noise */
   .glass-noise-primary {
     position: relative;
@@ -213,8 +237,11 @@ input[type="number"] {
     background: linear-gradient(
       135deg,
       color-mix(in oklab, var(--color-primary-700) 88%, white 12%) 0%,
-      color-mix(in oklab, var(--color-primary-500) 78%, white 22%) 100%
+      color-mix(in oklab, var(--color-primary-500) 78%, white 22%) 50%,
+      color-mix(in oklab, var(--color-primary-600) 85%, white 15%) 100%
     );
+    background-size: 200% 200%;
+    animation: glassShift 6s ease-in-out infinite;
     border: 1px solid
       color-mix(in oklab, var(--color-primary-400) 70%, white 30%);
     -webkit-backdrop-filter: blur(10px) saturate(145%);

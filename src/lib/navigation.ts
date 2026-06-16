@@ -1,15 +1,54 @@
 import { createElement } from "react";
 import {
-  NAV_BRAND_SHORT,
-  ROUTE_BREADCRUMB_SEGMENTS,
-  ROUTE_NAMES_MAP,
-} from "@/constants/constants";
-import {
-  NAVIGATION_ICON_REGISTRY,
-  type NavigationIconKey,
-} from "@/constants/navigationIcons";
+  FiActivity,
+  FiBarChart2,
+  FiHome,
+  FiSettings,
+  FiUsers,
+  FiLayout,
+} from "react-icons/fi";
+import { RiBrain2Line } from "react-icons/ri";
+import { NAV_BRAND_SHORT } from "@/constants/constants";
 import { SIDEBAR_SECTIONS } from "@/lib/mockData";
 import type { NavItemType } from "@/lib/types";
+
+type NavigationIconKey =
+  | "home"
+  | "activity"
+  | "barchart"
+  | "users"
+  | "settings"
+  | "admin"
+  | "prediction";
+
+const NAVIGATION_ICON_REGISTRY: Record<
+  NavigationIconKey,
+  React.ComponentType<{ className?: string }>
+> = {
+  home: FiHome,
+  activity: FiActivity,
+  barchart: FiBarChart2,
+  users: FiUsers,
+  settings: FiSettings,
+  admin: FiLayout,
+  prediction: RiBrain2Line,
+} as const;
+
+const ROUTE_NAMES_MAP: Record<string, string> = {
+  "/": "Dashboard",
+  "/simulation": "Simulación",
+  "/statistics": "Pruebas Estadísticas",
+  "/prediction": "Predicción",
+  "/admin/users": "Usuarios",
+  "/settings": "Ajustes",
+};
+
+const ROUTE_BREADCRUMB_SEGMENTS: Record<
+  string,
+  { label: string; href: string }[]
+> = {
+  "/statistics": [{ label: "Simulación", href: "/simulation" }],
+};
 
 type NavigationLeaf = {
   href: string;

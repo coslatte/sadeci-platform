@@ -4,12 +4,6 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { Text } from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Buttons";
-import {
-  ERROR_PAGE_TITLE,
-  ERROR_PAGE_SUBTITLE,
-  ERROR_PAGE_RETRY_BUTTON,
-  ERROR_PAGE_BACK_BUTTON,
-} from "@/constants/constants";
 
 export interface GlobalErrorPageProps {
   error: Error & { digest?: string };
@@ -47,10 +41,11 @@ export default function GlobalErrorPage({
       <div className={styles.divider} role="presentation" />
       <div className={styles.textBlock}>
         <Text as="h1" size="2xl" weight="semibold" tracking="tight">
-          {ERROR_PAGE_TITLE}
+          "Ocurrió un error inesperado"
         </Text>
         <Text size="sm" muted>
-          {ERROR_PAGE_SUBTITLE}
+          "Algo salió mal al cargar esta sección. Puedes intentar de nuevo o
+          volver al inicio."
         </Text>
         {error.digest && (
           <Text size="xs" muted className={styles.digestText}>
@@ -60,10 +55,10 @@ export default function GlobalErrorPage({
       </div>
       <div className={styles.actions}>
         <Button variant="primary" onClick={reset}>
-          {ERROR_PAGE_RETRY_BUTTON}
+          "Reintentar"
         </Button>
         <Link href="/">
-          <Button variant="outline">{ERROR_PAGE_BACK_BUTTON}</Button>
+          <Button variant="outline">"Volver al inicio"</Button>
         </Link>
       </div>
     </div>

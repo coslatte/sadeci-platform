@@ -1,10 +1,8 @@
-import { SIMULATION_CANCELLED_MESSAGE } from "@/constants/constants";
-
 export function formatErrorForUser(err: unknown): string {
   if (err instanceof Error) {
     const msg = err.message || String(err);
     if (msg.toLowerCase().includes("cancel")) {
-      return SIMULATION_CANCELLED_MESSAGE;
+      return "La simulación fue cancelada por el usuario.";
     }
     // Abort / timeout
     if (

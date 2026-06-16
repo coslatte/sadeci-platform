@@ -13,13 +13,15 @@ export const EXPERIMENT_VARIABLE_LABELS: string[] = [
 export interface StatisticalTestResult {
   statistic: number;
   p_value: number;
+  interpretation?: string;
 }
 
 // ─── Wilcoxon ──────────────────────────────────────────────────────────────────
 
 export interface WilcoxonRequest {
-  x: number[];
-  y: number[];
+  sample_a: number[];
+  sample_b: number[];
+  alternative?: "two-sided" | "less" | "greater";
 }
 
 export type WilcoxonResponse = StatisticalTestResult;
@@ -28,7 +30,7 @@ export async function runWilcoxonTest(
   data: WilcoxonRequest,
 ): Promise<WilcoxonResponse> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15_000);
+  const timeoutId = setTimeout(() => controller.abort(), 30_000);
 
   try {
     const response = await fetch("/api/statistics/wilcoxon", {
@@ -61,7 +63,7 @@ export async function runWilcoxonTest(
 // ─── Friedman ──────────────────────────────────────────────────────────────────
 
 export interface FriedmanRequest {
-  samples: number[][];
+  groups: Record<string, number[]>;
 }
 
 export type FriedmanResponse = StatisticalTestResult;
@@ -70,7 +72,7 @@ export async function runFriedmanTest(
   data: FriedmanRequest,
 ): Promise<FriedmanResponse> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15_000);
+  const timeoutId = setTimeout(() => controller.abort(), 30_000);
 
   try {
     const response = await fetch("/api/statistics/friedman", {

@@ -5,12 +5,6 @@ import AccessibleSelect from "@/components/atoms/AccessibleSelect";
 import { Label } from "@/components/atoms/Label";
 import { EXPERIMENT_VARIABLE_LABELS } from "@/lib/statistics";
 import type { StatisticalTestResult } from "@/lib/statistics";
-import {
-  STATS_SELECT_COLUMN,
-  STATS_PREVIEW_LABEL,
-  STATS_EXPERIMENT_LABEL,
-  STATS_LOADING,
-} from "@/constants/constants";
 import { StatisticsFileDropzone } from "./StatisticsFileDropzone";
 import { StatisticsResultSection } from "./StatisticsResultSection";
 
@@ -71,7 +65,9 @@ export function WilcoxonSection({
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="wilcoxon-col-select">{STATS_SELECT_COLUMN}</Label>
+            <Label htmlFor="wilcoxon-col-select">
+              Seleccione una columna para comparar
+            </Label>
             <AccessibleSelect
               id="wilcoxon-col-select"
               value={selectedColumn}
@@ -87,15 +83,11 @@ export function WilcoxonSection({
           {file1 && file2 && (
             <details className="text-(length:--font-size-sm) text-zinc-500">
               <summary className="font-medium cursor-pointer text-zinc-700">
-                {STATS_PREVIEW_LABEL}
+                Vista previa
               </summary>
               <ul className="mt-2 list-disc list-inside">
-                <li>
-                  {STATS_EXPERIMENT_LABEL(1)}: {file1.name}
-                </li>
-                <li>
-                  {STATS_EXPERIMENT_LABEL(2)}: {file2.name}
-                </li>
+                <li>Experimento 1: {file1.name}</li>
+                <li>Experimento 2: {file2.name}</li>
               </ul>
             </details>
           )}
@@ -109,7 +101,7 @@ export function WilcoxonSection({
         disabled={loading}
         aria-label={runLabel}
       >
-        {loading ? STATS_LOADING : runLabel}
+        {loading ? "Ejecutando..." : runLabel}
       </Button>
 
       <StatisticsResultSection
@@ -165,7 +157,9 @@ export function FriedmanSection({
           />
 
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="friedman-col-select">{STATS_SELECT_COLUMN}</Label>
+            <Label htmlFor="friedman-col-select">
+              Seleccione una columna para comparar
+            </Label>
             <AccessibleSelect
               id="friedman-col-select"
               value={selectedColumn}
@@ -181,12 +175,12 @@ export function FriedmanSection({
           {files.length > 0 && (
             <details className="text-(length:--font-size-sm) text-zinc-500">
               <summary className="font-medium cursor-pointer text-zinc-700">
-                {STATS_PREVIEW_LABEL}
+                Vista previa
               </summary>
               <ul className="mt-2 list-disc list-inside">
                 {files.map((f, idx) => (
                   <li key={idx}>
-                    {STATS_EXPERIMENT_LABEL(idx + 1)}: {f.name}
+                    Experimento {idx + 1}: {f.name}
                   </li>
                 ))}
               </ul>
@@ -202,7 +196,7 @@ export function FriedmanSection({
         disabled={loading}
         aria-label={runLabel}
       >
-        {loading ? STATS_LOADING : runLabel}
+        {loading ? "Ejecutando..." : runLabel}
       </Button>
 
       <StatisticsResultSection

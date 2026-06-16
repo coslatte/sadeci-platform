@@ -25,10 +25,7 @@ export async function GET(req: NextRequest) {
   try {
     const token = await getTokenFromHeader(req);
     if (!token) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
     const upstream = await fetch(`${CORE_API_URL}/admin/users`, {
@@ -37,55 +34,6 @@ export async function GET(req: NextRequest) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-    });
-
-    const contentType = upstream.headers.get("content-type") ?? "";
-    const data: unknown = contentType.includes("application/json")
-      ? await upstream.json()
-      : { detail: await upstream.text() };
-
-    return NextResponse.json(data, { status: upstream.status });
-  } catch (err) {
-    const isAborted = err instanceof Error && err.name === "AbortError";
-    return NextResponse.json(
-      {
-        error: isAborted
-          ? "El servicio tardó demasiado en responder."
-          : "No se pudo conectar con el servicio.",
-      },
-      { status: isAborted ? 504 : 502 },
-    );
-  }
-}
-
-export async function POST(req: NextRequest) {
-  let body: unknown;
-
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json(
-      { error: "Cuerpo de la solicitud inválido." },
-      { status: 400 },
-    );
-  }
-
-  try {
-    const token = await getToken();
-    if (!token) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 },
-      );
-    }
-
-    const upstream = await fetch(`${CORE_API_URL}/admin/users`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
       signal: req.signal,
     });
 
@@ -120,12 +68,9 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    const token = await getToken();
+    const token = await getTokenFromHeader(req);
     if (!token) {
-      return NextResponse.json(
-        { error: "No autenticado" },
-        { status: 401 },
-      );
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
     const upstream = await fetch(`${CORE_API_URL}/admin/users/${userId}`, {

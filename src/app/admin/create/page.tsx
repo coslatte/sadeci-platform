@@ -9,7 +9,6 @@ import { Card } from "@/components/molecules";
 import { Button } from "@/components/atoms";
 import { Input } from "@/components/atoms";
 import { Label } from "@/components/atoms";
-import { ADMIN_CREATE_PAGE_SUBMIT_BUTTON } from "@/constants/constants";
 
 function CreatePageContent() {
   const { user } = useAuth();
@@ -139,7 +138,7 @@ function CreatePageContent() {
                 disabled={saving}
                 className="w-full sm:w-auto"
               >
-                {saving ? "Creando..." : ADMIN_CREATE_PAGE_SUBMIT_BUTTON}
+                {saving ? "Creando..." : "Crear página"}
               </Button>
               <Button
                 type="button"

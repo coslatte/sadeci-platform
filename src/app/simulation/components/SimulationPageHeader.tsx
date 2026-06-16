@@ -1,7 +1,3 @@
-import {
-  SIMULATION_PAGE_TITLE,
-  SIMULATION_PAGE_SUBTITLE,
-} from "@/constants/constants";
 import { Text } from "@/components/atoms/Text";
 
 /**
@@ -18,10 +14,12 @@ export function SimulationPageHeader() {
         tracking="tight"
         className="text-slate-900 md:text-3xl"
       >
-        {SIMULATION_PAGE_TITLE}
+        {"Simulación de Paciente UCI"}
       </Text>
       <Text as="p" size="sm" muted className="mt-2">
-        {SIMULATION_PAGE_SUBTITLE}
+        {
+          "Ingrese los datos clínicos del paciente para simular su evolución en la Unidad de Cuidados Intensivos."
+        }
       </Text>
     </div>
   );

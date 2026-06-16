@@ -9,21 +9,6 @@ import {
   PREDICTION_DIAG_ING2_OPTIONS,
   type DiagnosisOption,
 } from "@/lib/predictionDiagnoses";
-import {
-  HELP_AGE,
-  HELP_APACHE,
-  HELP_DIAG_ING,
-  HELP_VAM_TIME,
-  PREDICTION_PATIENT_SECTION_TITLE,
-  PREDICTION_EDAD_LABEL,
-  PREDICTION_DIAG_ING1_LABEL,
-  PREDICTION_DIAG_ING2_LABEL,
-  PREDICTION_DIAG_EGR2_LABEL,
-  PREDICTION_APACHE_LABEL,
-  PREDICTION_TIEMPO_VAM_LABEL,
-  PREDICTION_PREDICT_BUTTON,
-  PREDICTION_PREDICTING_BUTTON,
-} from "@/constants/constants";
 
 interface PredictionFormProps {
   edad: number;
@@ -119,13 +104,15 @@ export function PredictionForm({
         id="prediction-patient-section-title"
         className="font-semibold text-zinc-800"
       >
-        {PREDICTION_PATIENT_SECTION_TITLE}
+        "Características del Paciente"
       </h2>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <FormField
           id="pred-edad"
-          label={PREDICTION_EDAD_LABEL}
-          help={HELP_AGE}
+          label="Edad"
+          help={
+            "Edad del paciente en años cumplidos al momento de la evaluación clínica."
+          }
           inputProps={{
             type: "number",
             value: edad,
@@ -138,8 +125,10 @@ export function PredictionForm({
         />
         <FormField
           id="pred-apache"
-          label={PREDICTION_APACHE_LABEL}
-          help={HELP_APACHE}
+          label="APACHE II"
+          help={
+            "Valor del APACHE (Acute Physiology and Chronic Health Evaluation): puntaje clínico para cuidados intensivos que mide la gravedad del paciente crítico y estima su riesgo de mortalidad. Un riesgo bajo sería 0 y un riesgo alto sería 36."
+          }
           inputProps={{
             type: "number",
             value: apache,
@@ -152,8 +141,8 @@ export function PredictionForm({
         />
         <FormField
           id="pred-tiempo-vam"
-          label={PREDICTION_TIEMPO_VAM_LABEL}
-          help={HELP_VAM_TIME}
+          label="TiempoVAM"
+          help={"Tiempo en Ventilación Asistida Mecánica (VAM) en horas."}
           inputProps={{
             type: "number",
             value: tiempoVam,
@@ -166,24 +155,30 @@ export function PredictionForm({
         />
         <DiagnosisSelectField
           id="pred-diag-ing1"
-          label={PREDICTION_DIAG_ING1_LABEL}
-          help={HELP_DIAG_ING}
+          label="Diag.Ing1"
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
           value={diagIng1}
           onChange={setDiagIng1}
           options={PREDICTION_DIAG_ING1_OPTIONS}
         />
         <DiagnosisSelectField
           id="pred-diag-ing2"
-          label={PREDICTION_DIAG_ING2_LABEL}
-          help={HELP_DIAG_ING}
+          label="Diag.Ing2"
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
           value={diagIng2}
           onChange={setDiagIng2}
           options={PREDICTION_DIAG_ING2_OPTIONS}
         />
         <DiagnosisSelectField
           id="pred-diag-egr2"
-          label={PREDICTION_DIAG_EGR2_LABEL}
-          help={HELP_DIAG_ING}
+          label="Diag.Egr2"
+          help={
+            "Diagnóstico principal de ingreso del paciente a la unidad. Seleccione la categoría clínica que mejor describe el estado inicial."
+          }
           value={diagEgr2}
           onChange={setDiagEgr2}
           options={PREDICTION_DIAG_EGR2_OPTIONS}
@@ -191,7 +186,7 @@ export function PredictionForm({
       </div>
       <div className="flex justify-end mt-5">
         <Button variant="glass" disabled={loading} onClick={onPredict}>
-          {loading ? PREDICTION_PREDICTING_BUTTON : PREDICTION_PREDICT_BUTTON}
+          {loading ? "Prediciendo..." : "Predecir"}
         </Button>
       </div>
     </section>

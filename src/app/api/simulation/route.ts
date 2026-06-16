@@ -16,15 +16,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30_000);
+
   try {
-    const upstream = await fetch(`${CORE_API_URL}/sim`, {
+    const upstream = await fetch(`${CORE_API_URL}/simulations/icu`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-      signal: req.signal,
+      signal: controller.signal,
     });
 
-    const data: unknown = await upstream.json();
+    const contentType = upstream.headers.get("content-type") ?? "";
+    const data: unknown = contentType.includes("application/json")
+      ? await upstream.json()
+      : { error: await upstream.text() };
 
     return NextResponse.json(data, { status: upstream.status });
   } catch (err) {
@@ -35,7 +41,9 @@ export async function POST(req: NextRequest) {
           ? "La solicitud de simulación fue cancelada."
           : "No se pudo conectar con el servidor de simulación.",
       },
-      { status: isAborted ? 499 : 502 },
+      { status: isAborted ? 504 : 502 },
     );
+  } finally {
+    clearTimeout(timeout);
   }
 }

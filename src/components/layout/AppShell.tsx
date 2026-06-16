@@ -6,7 +6,8 @@ import { Toaster } from "sileo";
 import type { ReactNode } from "react";
 import { Navbar, Sidebar, Footer } from "@/components/organisms";
 import { NotificationsProvider } from "@/context/notifications";
-import { APP_SHELL_CLOSE_NAVIGATION } from "@/constants/constants";
+import { useOnlineStatus } from "@/lib/useOnlineStatus";
+
 import { cn } from "@/lib/utils";
 import {
   APP_NAVIGATION_SECTIONS,
@@ -39,7 +40,7 @@ export function AppShell({
   extraSections,
 }: AppShellProps) {
   const pathname = usePathname() ?? "/";
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const online = useOnlineStatus();
   const [mobileSidebarOpenPath, setMobileSidebarOpenPath] = useState<
     string | null
   >(null);
@@ -86,17 +87,22 @@ export function AppShell({
 
   return (
     <NotificationsProvider>
-      <div className="flex min-h-dvh overflow-hidden">
+      <div className="flex overflow-hidden min-h-dvh bg-slate-100/60">
+        {!online && (
+          <div className="fixed top-0 inset-x-0 z-50 flex items-center justify-center gap-2 bg-red-600 px-4 py-1.5 text-sm font-medium text-white shadow-lg">
+            <span className="inline-block size-1.5 rounded-full bg-white animate-pulse" />
+            Sin conexión a internet
+          </div>
+        )}
+
         <Sidebar
-          className="hidden lg:flex"
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed((s) => !s)}
+          className="fixed inset-y-0 left-0 z-30 hidden lg:flex"
           sections={sidebarSections}
         />
 
         <button
           type="button"
-          aria-label={APP_SHELL_CLOSE_NAVIGATION}
+          aria-label="Cerrar navegación"
           aria-hidden={!mobileSidebarOpen}
           tabIndex={mobileSidebarOpen ? 0 : -1}
           onClick={handleCloseMobileSidebar}
@@ -117,16 +123,13 @@ export function AppShell({
               : "-translate-x-full pointer-events-none",
           )}
         >
-          <Sidebar
-            sections={sidebarSections}
-            className="h-full shadow-2xl [&>button]:hidden"
-          />
+          <Sidebar sections={sidebarSections} className="h-full shadow-2xl" />
         </div>
 
         {/* Global Toaster for notifications */}
         <Toaster position="bottom-right" />
 
-        <div className="flex min-w-0 flex-1 flex-col overflow-y-auto bg-slate-100/60">
+        <div className="flex flex-col flex-1 min-w-0 lg:pl-72">
           <Navbar
             userName={userName}
             userRole={userRole}
@@ -135,11 +138,12 @@ export function AppShell({
             showSidebarTrigger
             sidebarOpen={mobileSidebarOpen}
             onOpenSidebar={handleOpenMobileSidebar}
+            className="fixed inset-x-0 top-0 z-20 lg:left-72"
           />
-          <main className="flex-1 min-w-0 bg-white/70 px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+          <main className="flex-1 min-w-0 min-h-0 px-4 pt-20 pb-24 overflow-y-auto bg-white/70 sm:px-6 sm:pb-28 sm:pt-20 lg:px-8 lg:pt-20">
             {children}
           </main>
-          <Footer />
+          <Footer className="fixed inset-x-0 bottom-0 z-20 lg:left-72" />
         </div>
       </div>
     </NotificationsProvider>

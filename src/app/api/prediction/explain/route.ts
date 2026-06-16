@@ -12,6 +12,7 @@ function resolveCoreApiUrl(): string {
 const CORE_API_URL = resolveCoreApiUrl();
 const EXPLAIN_ENDPOINTS = [
   `${CORE_API_URL}/prediction/explain`,
+  `${CORE_API_URL}/api/predictions/explain`,
   "http://localhost:8002/predictions/explain",
 ];
 

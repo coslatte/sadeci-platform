@@ -1,15 +1,6 @@
 import { Alert } from "@/components/molecules/Alert";
 import { DataTable } from "@/components/molecules/DataTable";
 import type { StatisticalTestResult } from "@/lib/statistics";
-import {
-  STATS_INFO_P_VALUE,
-  STATS_INFO_STATISTIC,
-  STATS_P_VALUE_LABEL,
-  STATS_RESULTS_TITLE,
-  STATS_STATISTIC_LABEL,
-  STATS_TABLE_METRIC_HEADER,
-  STATS_TABLE_VALUE_HEADER,
-} from "@/constants/constants";
 
 interface StatisticsResultSectionProps {
   result: StatisticalTestResult | null;
@@ -21,7 +12,7 @@ function StatisticsResultTable({ result }: { result: StatisticalTestResult }) {
   const columns = [
     {
       key: "metric",
-      label: STATS_TABLE_METRIC_HEADER,
+      label: "Métrica",
       align: "left" as const,
       headerClassName:
         "pr-4 text-(length:--font-size-sm) text-zinc-500 font-medium",
@@ -30,7 +21,7 @@ function StatisticsResultTable({ result }: { result: StatisticalTestResult }) {
     },
     {
       key: "value",
-      label: STATS_TABLE_VALUE_HEADER,
+      label: "Valor",
       align: "right" as const,
       headerClassName:
         "pl-4 text-(length:--font-size-sm) text-zinc-700 font-medium",
@@ -41,18 +32,18 @@ function StatisticsResultTable({ result }: { result: StatisticalTestResult }) {
 
   const rows = [
     {
-      metric: STATS_STATISTIC_LABEL,
+      metric: "Estadístico",
       value: result.statistic.toFixed(4),
     },
     {
-      metric: STATS_P_VALUE_LABEL,
+      metric: "Valor de P",
       value: result.p_value.toFixed(4),
     },
   ];
 
   return (
     <DataTable
-      ariaLabel={STATS_RESULTS_TITLE}
+      ariaLabel="Resultados"
       columns={columns}
       rows={rows}
       bodyRowClassName={(_, index) => (index === 0 ? "" : "last:border-0")}
@@ -77,13 +68,21 @@ export function StatisticsResultSection({
       {result && (
         <section className="flex flex-col gap-4 border-t border-slate-100 pt-6">
           <h3 className="border-b border-slate-200 pb-3 text-(length:--font-size-base) font-semibold text-slate-800">
-            {STATS_RESULTS_TITLE}
+            Resultados
           </h3>
           <div className="flex flex-col gap-4">
             <StatisticsResultTable result={result} />
             <div className="flex flex-col gap-1 rounded-lg border border-zinc-100 bg-zinc-50 p-3 text-(length:--font-size-sm) text-zinc-600">
-              <p>{STATS_INFO_STATISTIC}</p>
-              <p>{STATS_INFO_P_VALUE}</p>
+              <p>
+                **Statistic**: Indica cuánto difieren los datos entre sí
+                basándose en el orden de las diferencias; un valor más pequeño
+                sugiere mayores diferencias entre los grupos comparados.
+              </p>
+              <p>
+                **Valor de P**: Indica qué tan probable es que las diferencias
+                observadas se deban al azar; si es menor a 0.05, es probable que
+                las diferencias sean estadísticamente significativas.
+              </p>
             </div>
           </div>
         </section>

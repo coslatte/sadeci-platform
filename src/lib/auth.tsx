@@ -27,8 +27,13 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (identifier: string, password: string) => Promise<void>;
-  register: (email: string, username: string, password: string) => Promise<void>;
+  register: (
+    email: string,
+    username: string,
+    password: string,
+  ) => Promise<void>;
   logout: () => void;
+  updateUserAvatar: (avatar: string | null) => void;
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
@@ -44,15 +49,10 @@ type BackendUser = {
   is_superuser?: boolean;
 };
 
-type AuthResponse = {
+interface AuthResponse {
   access_token: string;
   user: BackendUser;
-};
-
-type AuthResponse = {
-  access_token: string;
-  user: BackendUser;
-};
+}
 
 function formatDisplayName(identifier: string): string {
   const base = identifier
@@ -65,15 +65,48 @@ function formatDisplayName(identifier: string): string {
 
 function mapBackendUser(user: BackendUser): User {
   const isAdmin = !!user.is_superuser;
+  const role: Role = isAdmin ? "Administrador" : "Médico";
 
   return {
     id: String(user.id),
     username: user.username,
     name: formatDisplayName(user.username),
     email: user.email,
-    role: isAdmin ? "Administrador" : "Analista",
+    role,
     isActive: user.is_active ?? true,
     isSuperuser: isAdmin,
+  };
+}
+
+function normalizeRole(role: string | undefined, isSuperuser?: boolean): Role {
+  if (isSuperuser) return "Administrador";
+  const normalized = (role ?? "").trim();
+
+  if (
+    normalized === "Administrador" ||
+    normalized === "Especialista" ||
+    normalized === "Médico"
+  ) {
+    return normalized;
+  }
+
+  const upper = normalized.toUpperCase();
+  if (upper === "ADMIN" || upper === "SYSTEM ADMIN") {
+    return "Administrador";
+  }
+  if (upper === "ESPECIALISTA") {
+    return "Especialista";
+  }
+  if (upper === "MEDICO") {
+    return "Médico";
+  }
+  return "Médico";
+}
+
+function normalizeUser(user: User): User {
+  return {
+    ...user,
+    role: normalizeRole(user.role, user.isSuperuser),
   };
 }
 
@@ -131,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (storedToken.startsWith("mock_")) {
       setToken(storedToken);
-      setUser(storedUser);
+      setUser(storedUser ? normalizeUser(storedUser) : storedUser);
       setIsLoading(false);
       return;
     }
@@ -151,9 +184,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const nextUser = mapBackendUser(backendUser);
 
       setToken(storedToken);
-      setUser(nextUser);
+      setUser(normalizeUser(nextUser));
       localStorage.setItem(TOKEN_STORAGE_KEY, storedToken);
-      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(nextUser));
+      localStorage.setItem(
+        USER_STORAGE_KEY,
+        JSON.stringify(normalizeUser(nextUser)),
+      );
     } catch {
       if (storedUser) {
         localStorage.removeItem(USER_STORAGE_KEY);
@@ -188,7 +224,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error("La respuesta de autenticación no es válida.");
     }
 
-    const nextUser = mapBackendUser(authResponse.user);
+    const nextUser = normalizeUser(mapBackendUser(authResponse.user));
 
     setToken(authResponse.access_token);
     setUser(nextUser);
@@ -196,29 +232,53 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(nextUser));
   }, []);
 
-  const register = useCallback(async (email: string, username: string, password: string) => {
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, username, password }),
-    });
+  const register = useCallback(
+    async (email: string, username: string, password: string) => {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, password }),
+      });
 
-    const payload = await response.json().catch(() => null);
+      const payload = await response.json().catch(() => null);
 
-    if (!response.ok) {
-      throw new Error(
-        extractErrorMessage(payload, "No se pudo registrar el usuario."),
-      );
-    }
-  }, []);
+      if (!response.ok) {
+        throw new Error(
+          extractErrorMessage(payload, "No se pudo registrar el usuario."),
+        );
+      }
+    },
+    [],
+  );
 
   const logout = useCallback(() => {
     clearSession();
   }, [clearSession]);
 
+  const updateUserAvatar = useCallback((avatar: string | null) => {
+    setUser((current) => {
+      if (!current) return current;
+
+      const nextUser = { ...current, avatar: avatar ?? undefined };
+      if (typeof window !== "undefined") {
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(nextUser));
+      }
+      return nextUser;
+    });
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ user, token, isAuthenticated: !!user, isLoading, login, register, logout }}
+      value={{
+        user,
+        token,
+        isAuthenticated: !!user,
+        isLoading,
+        login,
+        register,
+        logout,
+        updateUserAvatar,
+      }}
     >
       {children}
     </AuthContext.Provider>

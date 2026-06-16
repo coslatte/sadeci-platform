@@ -1,9 +1,5 @@
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { cn } from "@/lib/utils";
-import {
-  SIDEBAR_COLLAPSE_COLLAPSE,
-  SIDEBAR_COLLAPSE_EXPAND,
-} from "@/constants/constants";
 
 interface SidebarCollapseToggleProps {
   collapsed: boolean;
@@ -28,7 +24,7 @@ export function SidebarCollapseToggle({
           "ring-0 ring-primary-100/50 bg-zinc-50 border-3 hover:bg-primary-100",
       )}
       aria-label={
-        collapsed ? SIDEBAR_COLLAPSE_EXPAND : SIDEBAR_COLLAPSE_COLLAPSE
+        collapsed ? "Expandir barra lateral" : "Contraer barra lateral"
       }
     >
       {collapsed ? (

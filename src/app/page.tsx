@@ -5,21 +5,10 @@ import LinkCard from "@/components/molecules/LinkCard";
 import { useAuth } from "@/lib/auth";
 import { Text } from "@/components/atoms/Text";
 import { DashboardInfoSection } from "@/app/components/DashboardInfoSection";
-import {
-  HOME_DEFAULT_GREETING,
-  HOME_WELCOME_SUBTITLE,
-  HOME_DOCUMENTATION_SECTION_TITLE,
-  HOME_DOCUMENTATION_SECTION_DESCRIPTION,
-  ABOUT_TITLE,
-  ABOUT_DESC,
-  PROJECT_LINKS,
-} from "@/constants/constants";
 
 export default function Home() {
   const { user } = useAuth();
-  const greeting = user
-    ? `Hola, ${user.name.split(" ")[0]}`
-    : HOME_DEFAULT_GREETING;
+  const greeting = user ? `Hola, ${user.name.split(" ")[0]}` : "Bienvenido";
 
   return (
     <div className="flex flex-col w-full max-w-6xl mx-auto divide-y divide-slate-200/80">
@@ -27,13 +16,13 @@ export default function Home() {
         className="pb-8"
         titleAs="h1"
         title={greeting}
-        description={HOME_WELCOME_SUBTITLE}
+        description="Panel principal de Saduci Platform - sistema de simulación y análisis clínico para Unidades de Cuidados Intensivos."
       >
         <div className="flex flex-col gap-4 mt-6">
           <div className="flex items-center gap-3">
             <FiBox className="size-5 text-primary-600" />
             <Text as="h3" size="lg" weight="semibold">
-              {ABOUT_TITLE}
+              "Acerca de la Plataforma"
             </Text>
           </div>
           <div className="space-y-4">
@@ -41,7 +30,14 @@ export default function Home() {
               size="sm"
               className="leading-relaxed text-justify text-slate-600"
             >
-              {ABOUT_DESC}
+              <>
+                <strong>SADUCI</strong> es una plataforma para el apoyo en la
+                unidad clínica la evolución de pacientes en la Unidad de
+                Cuidados Intensivos (UCI).{" "}
+                {
+                  '"Saduci" significa "Sistema de Apoyo en la Decisión en la Unidad de Cuidado Intensivo".'
+                }
+              </>
             </Text>
           </div>
         </div>

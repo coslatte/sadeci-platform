@@ -14,7 +14,7 @@ import {
   FiUsers,
   FiPlus,
   FiTrash2,
-  Fi Shield,
+  FiShield,
   FiUser,
   FiX,
 } from "react-icons/fi";
@@ -283,10 +283,7 @@ export default function UsersPage() {
       {!loading && users.length > 0 && (
         <div className="grid gap-4">
           {users.map((u) => (
-            <Card
-              key={u.id}
-              className={!u.is_active ? "opacity-60" : ""}
-            >
+            <Card key={u.id} className={!u.is_active ? "opacity-60" : ""}>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100">

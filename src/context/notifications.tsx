@@ -36,22 +36,7 @@ export function NotificationsProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [notifications, setNotifications] = useState<NotificationItem[]>([
-    {
-      id: 1,
-      title: "Nueva tarea asignada",
-      body: "Tienes una nueva tarea.",
-      read: false,
-      type: "info",
-    },
-    {
-      id: 2,
-      title: "Informe listo",
-      body: "El informe semanal está disponible.",
-      read: true,
-      type: "success",
-    },
-  ]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   const markAsRead = useCallback((id: NotificationItem["id"]) => {
     setNotifications((prev) =>
@@ -104,15 +89,9 @@ export function NotificationsProvider({
 
 export function useNotifications() {
   const ctx = useContext(NotificationsContext);
-  if (!ctx) {
-    return {
-      notifications: [] as NotificationItem[],
-      unreadCount: 0,
-      markAsRead: () => {},
-      markAllAsRead: () => {},
-      addNotification: () => {},
-      removeNotification: () => {},
-    };
-  }
+  if (!ctx)
+    throw new Error(
+      "useNotifications must be used within NotificationsProvider",
+    );
   return ctx;
 }

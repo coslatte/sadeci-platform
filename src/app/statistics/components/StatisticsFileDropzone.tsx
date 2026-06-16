@@ -2,16 +2,6 @@
 
 import { useRef, useState } from "react";
 import { Label } from "@/components/atoms/Label";
-import {
-  STATS_CLICK_TO_SELECT_FILE,
-  STATS_CLICK_TO_SELECT_FILES,
-  STATS_DRAG_DROP_ACTIVE_MULTI,
-  STATS_DRAG_DROP_ACTIVE_SINGLE,
-  STATS_DRAG_DROP_MULTI_HINT,
-  STATS_DRAG_DROP_SINGLE_HINT,
-  STATS_DROP_INVALID_FILES,
-  STATS_EXPERIMENT_LABEL,
-} from "@/constants/constants";
 import { cn } from "@/lib/utils";
 
 interface StatisticsFileDropzoneProps {
@@ -45,7 +35,7 @@ export function StatisticsFileDropzone({
     const csvFiles = selected.filter(hasCSVExtension);
 
     if (csvFiles.length !== selected.length) {
-      setDropError(STATS_DROP_INVALID_FILES);
+      setDropError("Solo se aceptan archivos con extensión .csv");
     } else {
       setDropError(null);
     }
@@ -119,7 +109,7 @@ export function StatisticsFileDropzone({
                 key={`${file.name}-${index}`}
                 className="text-(length:--font-size-sm) font-medium text-primary-700"
               >
-                {multiple ? `${STATS_EXPERIMENT_LABEL(index + 1)}: ` : ""}
+                {multiple ? `Experimento ${index + 1}: ` : ""}
                 {file.name}
               </li>
             ))}
@@ -129,17 +119,15 @@ export function StatisticsFileDropzone({
             <span className="text-(length:--font-size-sm) text-zinc-400">
               {isDragging
                 ? multiple
-                  ? STATS_DRAG_DROP_ACTIVE_MULTI
-                  : STATS_DRAG_DROP_ACTIVE_SINGLE
+                  ? "Suelta los archivos CSV aquí"
+                  : "Suelta el archivo CSV aquí"
                 : multiple
-                  ? STATS_CLICK_TO_SELECT_FILES
-                  : STATS_CLICK_TO_SELECT_FILE}
+                  ? "Haz clic para seleccionar archivos CSV (mínimo 3)"
+                  : "Haz clic para seleccionar un archivo CSV"}
             </span>
             {!isDragging && (
               <span className="text-(length:--font-size-xs) text-zinc-400">
-                {multiple
-                  ? STATS_DRAG_DROP_MULTI_HINT
-                  : STATS_DRAG_DROP_SINGLE_HINT}
+                {multiple ? "o arrastra CSV aquí" : "o arrastra un CSV aquí"}
               </span>
             )}
           </div>

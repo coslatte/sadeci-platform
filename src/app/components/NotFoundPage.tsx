@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { Text } from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Buttons";
-import {
-  NOT_FOUND_CODE,
-  NOT_FOUND_TITLE,
-  NOT_FOUND_SUBTITLE,
-  NOT_FOUND_BACK_BUTTON,
-} from "@/constants/constants";
 
 const styles = {
   wrapper:
@@ -27,21 +21,21 @@ export default function NotFoundPage() {
     <div className={styles.wrapper}>
       <p
         className={`${styles.codeText} ${styles.codeSize}`}
-        aria-label={`Error ${NOT_FOUND_CODE}`}
+        aria-label="Error 404"
       >
-        {NOT_FOUND_CODE}
+        "404"
       </p>
       <div className={styles.divider} role="presentation" />
       <div className={styles.textBlock}>
         <Text as="h1" size="2xl" weight="semibold" tracking="tight">
-          {NOT_FOUND_TITLE}
+          "Página no encontrada"
         </Text>
         <Text size="sm" muted>
-          {NOT_FOUND_SUBTITLE}
+          "La ruta que intentas acceder no existe o no está disponible."
         </Text>
       </div>
       <Link href="/">
-        <Button variant="primary">{NOT_FOUND_BACK_BUTTON}</Button>
+        <Button variant="primary">"Volver al inicio"</Button>
       </Link>
     </div>
   );

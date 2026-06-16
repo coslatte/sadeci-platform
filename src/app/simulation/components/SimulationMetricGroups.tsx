@@ -1,22 +1,5 @@
 import type React from "react";
 import { NumberInputField } from "@/components/molecules/NumberInputField";
-import {
-  CLINICAL_SCORES_TITLE,
-  DEMOGRAPHICS_TITLE as SIMULATION_DEMOGRAPHICS_TITLE,
-  HELP_AGE,
-  HELP_APACHE,
-  HELP_PREUTI_STAY,
-  HELP_SIM_PERCENT,
-  HELP_UTI_STAY,
-  HELP_VAM_TIME,
-  SIMULATION_AGE_LABEL,
-  SIMULATION_APACHE_LABEL,
-  SIMULATION_PREUTI_STAY_LABEL,
-  SIMULATION_SIM_PERCENT_LABEL,
-  SIMULATION_UTI_STAY_LABEL,
-  SIMULATION_VAM_TIME_LABEL,
-  VENTILATION_TITLE,
-} from "@/constants/constants";
 import { SIMULATION_LIMITS } from "@/lib/simulation";
 
 interface SimulationMetricGroupsProps {
@@ -74,66 +57,76 @@ export function SimulationMetricGroups({
 }: SimulationMetricGroupsProps) {
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-slate-200/80">
-      <MetricSection title={SIMULATION_DEMOGRAPHICS_TITLE}>
+      <MetricSection title={"Demográficos & Tiempos"}>
         <NumberInputField
           id="age"
-          label={SIMULATION_AGE_LABEL}
+          label={"Edad"}
           min={SIMULATION_LIMITS.age.min}
           max={SIMULATION_LIMITS.age.max}
           value={age}
           onChange={setAge}
-          help={HELP_AGE}
+          help={
+            "Edad del paciente en años cumplidos al momento de la evaluación clínica."
+          }
         />
         <NumberInputField
           id="preuti-stay"
-          label={SIMULATION_PREUTI_STAY_LABEL}
+          label={"Tiempo en Pre-UCI (h)"}
           min={SIMULATION_LIMITS.preutiStay.min}
           max={SIMULATION_LIMITS.preutiStay.max}
           value={preutiStay}
           onChange={setPreutiStay}
-          help={HELP_PREUTI_STAY}
+          help={
+            "Tiempo de estadía pre Unidad de Terapia Intensiva (UTI) antes de ingresar a la unidad, en horas."
+          }
         />
       </MetricSection>
 
-      <MetricSection title={CLINICAL_SCORES_TITLE}>
+      <MetricSection title={"Puntajes Clínicos"}>
         <NumberInputField
           id="apache"
-          label={SIMULATION_APACHE_LABEL}
+          label={"APACHE"}
           min={SIMULATION_LIMITS.apache.min}
           max={SIMULATION_LIMITS.apache.max}
           value={apache}
           onChange={setApache}
-          help={HELP_APACHE}
+          help={
+            "Valor del APACHE (Acute Physiology and Chronic Health Evaluation): puntaje clínico para cuidados intensivos que mide la gravedad del paciente crítico y estima su riesgo de mortalidad. Un riesgo bajo sería 0 y un riesgo alto sería 36."
+          }
         />
         <NumberInputField
           id="sim-percent"
-          label={SIMULATION_SIM_PERCENT_LABEL}
+          label={"Porciento Tiempo UCI"}
           min={SIMULATION_LIMITS.simPercent.min}
           max={SIMULATION_LIMITS.simPercent.max}
           value={simPercent}
           onChange={setSimPercent}
-          help={HELP_SIM_PERCENT}
+          help={
+            "Proporción de tiempo dentro de la estancia UCI que se espera antes de entrar en Ventilación."
+          }
         />
       </MetricSection>
 
-      <MetricSection title={VENTILATION_TITLE}>
+      <MetricSection title={"Ventilación Mecánica"}>
         <NumberInputField
           id="vam-time"
-          label={SIMULATION_VAM_TIME_LABEL}
+          label={"Tiempo en VA (h)"}
           min={SIMULATION_LIMITS.vamTime.min}
           max={SIMULATION_LIMITS.vamTime.max}
           value={vamTime}
           onChange={setVamTime}
-          help={HELP_VAM_TIME}
+          help={"Tiempo en Ventilación Asistida Mecánica (VAM) en horas."}
         />
         <NumberInputField
           id="uti-stay"
-          label={SIMULATION_UTI_STAY_LABEL}
+          label={"Tiempo en UCI (h)"}
           min={SIMULATION_LIMITS.utiStay.min}
           max={SIMULATION_LIMITS.utiStay.max}
           value={utiStay}
           onChange={setUtiStay}
-          help={HELP_UTI_STAY}
+          help={
+            "Tiempo de estadía en Unidad de Terapia Intensiva (UTI) en horas."
+          }
         />
       </MetricSection>
     </div>
