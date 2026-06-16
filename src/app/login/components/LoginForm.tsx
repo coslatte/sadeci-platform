@@ -9,6 +9,19 @@ import { Input } from "@/components/atoms/Input";
 import { Label } from "@/components/atoms/Label";
 import { Text } from "@/components/atoms/Text";
 import { Alert } from "@/components/molecules/Alert";
+import {
+  APP_NAME,
+  LOGIN_PROMPT,
+  LOGIN_BUTTON,
+  LOGIN_ERROR_MSG,
+  LOGIN_EMAIL_LABEL,
+  LOGIN_EMAIL_PLACEHOLDER,
+  LOGIN_PASSWORD_LABEL,
+  LOGIN_PASSWORD_PLACEHOLDER,
+  LOGIN_HELP_TEXT,
+  LOGIN_REGISTER_LINK,
+  ALERT_ERROR_TITLE,
+} from "@/constants/constants";
 
 const MOCK_DEV_USER = {
   id: "999",
@@ -20,6 +33,13 @@ const MOCK_DEV_USER = {
   isSuperuser: true,
 };
 
+/**
+ * Handles credential input, authentication request, and login feedback states.
+ *
+ * @example
+ * <LoginForm />
+ */
+>>>>>>> agents/login-skip-authentication
 export default function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
@@ -340,5 +360,6 @@ function RegisterFormInternal({
         </Text>
       </div>
     </>
+
   );
 }

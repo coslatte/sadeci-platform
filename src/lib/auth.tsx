@@ -31,6 +31,7 @@ interface AuthState {
     email: string,
     username: string,
     password: string,
+    role?: string,
   ) => Promise<void>;
   logout: () => void;
   updateUserAvatar: (avatar: string | null) => void;
@@ -40,7 +41,6 @@ const AuthContext = createContext<AuthState | undefined>(undefined);
 
 const TOKEN_STORAGE_KEY = "saduci_token";
 const USER_STORAGE_KEY = "saduci_user";
-
 type BackendUser = {
   id: number | string;
   username: string;
@@ -119,16 +119,19 @@ function safeJsonParse<T>(value: string | null): T | null {
   }
 }
 
-function extractErrorMessage(payload: unknown, fallback: string): string {
-  if (payload && typeof payload === "object") {
-    const record = payload as Record<string, unknown>;
-    const candidate = record.detail ?? record.error ?? record.message;
-    if (typeof candidate === "string" && candidate.trim().length > 0) {
-      return candidate;
-    }
+function readStoredSession() {
+  if (typeof window === "undefined") {
+    return { user: null, token: null };
   }
 
-  return fallback;
+  const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+  const user = safeJsonParse<User>(localStorage.getItem(USER_STORAGE_KEY));
+
+  if (!token || !user) {
+    return { user: null, token: null };
+  }
+
+  return { user, token };
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -152,9 +155,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const storedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
-    const storedUser = safeJsonParse<User>(
-      localStorage.getItem(USER_STORAGE_KEY),
-    );
+    const storedUser = readStoredSession().user;
 
     if (!storedToken) {
       clearSession();
@@ -201,7 +202,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [clearSession]);
 
   useEffect(() => {
-    void hydrateSession();
+    const timer = window.setTimeout(() => {
+      void hydrateSession();
+    }, 0);
+
+    return () => window.clearTimeout(timer);
   }, [hydrateSession]);
 
   const login = useCallback(async (identifier: string, password: string) => {
@@ -214,9 +219,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const payload = await response.json().catch(() => null);
 
     if (!response.ok) {
-      throw new Error(
-        extractErrorMessage(payload, "No se pudo iniciar sesión."),
-      );
+      const message =
+        payload && typeof payload === "object" && "detail" in payload
+          ? String((payload as Record<string, unknown>).detail)
+          : "No se pudo iniciar sesión.";
+      throw new Error(message);
     }
 
     const authResponse = payload as AuthResponse | null;
@@ -266,6 +273,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return nextUser;
     });
   }, []);
+
+  const register = useCallback(
+    async (email: string, password: string, role: string = "Médico") => {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        const message =
+          payload && typeof payload === "object" && "detail" in payload
+            ? String((payload as Record<string, unknown>).detail)
+            : "No se pudo crear el usuario.";
+        throw new Error(message);
+      }
+
+      const authResponse = payload as AuthResponse | null;
+      if (!authResponse?.access_token || !authResponse.user) {
+        throw new Error("La respuesta de autenticación no es válida.");
+      }
+
+      const nextUser = mapBackendUser(authResponse.user);
+
+      setToken(authResponse.access_token);
+      setUser(nextUser);
+      localStorage.setItem(TOKEN_STORAGE_KEY, authResponse.access_token);
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(nextUser));
+    },
+    [],
+  );
+
+  const logout = useCallback(() => {
+    clearSession();
+  }, [clearSession]);
+>>>>>>> agents/login-skip-authentication
 
   return (
     <AuthContext.Provider
