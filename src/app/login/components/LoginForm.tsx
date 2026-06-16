@@ -19,12 +19,15 @@ import {
   LOGIN_PASSWORD_LABEL,
   LOGIN_PASSWORD_PLACEHOLDER,
   LOGIN_HELP_TEXT,
+  LOGIN_REGISTER_LINK,
   ALERT_ERROR_TITLE,
 } from "@/constants/constants";
 
 /**
  * Handles credential input, authentication request, and login feedback states.
- * Used in X case: primary sign-in form for user access.
+ *
+ * @example
+ * <LoginForm />
  */
 export default function LoginForm() {
   const { login } = useAuth();
@@ -122,6 +125,18 @@ export default function LoginForm() {
           {LOGIN_BUTTON}
         </Button>
       </form>
+
+      <div className="text-center">
+        <Text as="p" size="sm" muted>
+          ¿No tienes cuenta?{" "}
+          <a
+            href="/register"
+            className="font-semibold text-primary-600 hover:text-primary-700 transition-colors"
+          >
+            {LOGIN_REGISTER_LINK}
+          </a>
+        </Text>
+      </div>
     </div>
   );
 }

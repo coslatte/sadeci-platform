@@ -29,4 +29,4 @@ export interface GlobalProps {
 }
 
 // Roles
-export type Role = "Administrador" | "Analista";
+export type Role = "Administrador" | "Analista" | "Médico";

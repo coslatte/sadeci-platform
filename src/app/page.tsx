@@ -1,18 +1,14 @@
 ﻿"use client";
 
-import { FiGithub, FiBox, FiBookOpen } from "react-icons/fi";
-import LinkCard from "@/components/molecules/LinkCard";
+import { FiBox } from "react-icons/fi";
 import { useAuth } from "@/lib/auth";
 import { Text } from "@/components/atoms/Text";
 import { DashboardInfoSection } from "@/app/components/DashboardInfoSection";
 import {
   HOME_DEFAULT_GREETING,
   HOME_WELCOME_SUBTITLE,
-  HOME_DOCUMENTATION_SECTION_TITLE,
-  HOME_DOCUMENTATION_SECTION_DESCRIPTION,
   ABOUT_TITLE,
   ABOUT_DESC,
-  PROJECT_LINKS,
 } from "@/constants/constants";
 
 export default function Home() {

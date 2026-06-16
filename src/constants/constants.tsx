@@ -11,14 +11,39 @@ export const LOGIN_DEFAULT_PASSWORD = "";
 
 export const LOGIN_PROMPT = "Inicie sesión con su usuario administrador";
 export const LOGIN_BUTTON = "Iniciar sesión";
+export const LOGIN_HELP_TEXT =
+  "El acceso depende del backend de saduci-core activo.";
 export const LOGIN_ERROR_MSG =
   "No se pudo iniciar sesión. Verifique sus credenciales.";
 export const LOGIN_EMAIL_LABEL = "Usuario o correo electrónico";
 export const LOGIN_EMAIL_PLACEHOLDER = "admin o admin@saduci.com";
 export const LOGIN_PASSWORD_LABEL = "Contraseña";
 export const LOGIN_PASSWORD_PLACEHOLDER = "••••••••";
-export const LOGIN_HELP_TEXT =
-  "El acceso depende del backend de saduci-core activo.";
+export const LOGIN_REGISTER_LINK = "Crear nuevo usuario";
+
+// Register
+export const REGISTER_PROMPT = "Crear nuevo usuario";
+export const REGISTER_BUTTON = "Crear usuario";
+export const REGISTER_ERROR_MSG =
+  "No se pudo crear el usuario. Intente de nuevo.";
+export const REGISTER_SUCCESS_MSG =
+  "Usuario creado exitosamente. Redirigiendo...";
+export const REGISTER_EMAIL_LABEL = "Correo electrónico";
+export const REGISTER_EMAIL_PLACEHOLDER = "usuario@ejemplo.com";
+export const REGISTER_PASSWORD_LABEL = "Contraseña";
+export const REGISTER_PASSWORD_PLACEHOLDER = "••••••••";
+export const REGISTER_CONFIRM_PASSWORD_LABEL = "Confirmar contraseña";
+export const REGISTER_CONFIRM_PASSWORD_PLACEHOLDER = "••••••••";
+export const REGISTER_ROLE_LABEL = "Seleccionar rol";
+export const REGISTER_ROLE_PLACEHOLDER = "Seleccione un rol";
+export const REGISTER_ROLE_MEDICO = "Médico";
+export const REGISTER_ROLE_ADMIN = "Administrador";
+export const REGISTER_PASSWORD_MISMATCH = "Las contraseñas no coinciden";
+export const REGISTER_PASSWORD_MIN_LENGTH =
+  "La contraseña debe tener al menos 8 caracteres";
+export const REGISTER_INVALID_EMAIL = "Correo electrónico inválido";
+export const REGISTER_ROLE_REQUIRED = "Debe seleccionar un rol";
+export const REGISTER_LOGIN_LINK = "¿Ya tienes cuenta? Inicia sesión";
 
 // Simulation page
 export const SIMULATION_PAGE_TITLE = "Simulación de Paciente UCI";
